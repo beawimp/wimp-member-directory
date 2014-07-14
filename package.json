@@ -1,0 +1,26 @@
+{
+  "name": "wimp-member-directory",
+  "title": "WIMP Member Directory",
+  "description": "Creates a Member Directory for WIMP!",
+  "version": "0.1.0",
+  "homepage": "http://beawimp.org/member-directory",
+  "author": {
+    "name": "Cole Geissinger",
+    "email": "cole@beawimp.org",
+    "url": "http://www.colegeissinger.com"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-concat": "~0.1.2",
+    "grunt-contrib-uglify": "~0.1.1",
+    "grunt-contrib-cssmin": "~0.6.0",
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-nodeunit": "~0.1.2",
+    "grunt-contrib-watch": "~0.2.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-compress": "~0.5.2",
+    "grunt-contrib-sass": "~0.2.2"
+  },
+  "keywords": []
+}
