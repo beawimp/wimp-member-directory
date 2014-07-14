@@ -14,6 +14,13 @@ class WMD_Member_Directory {
 		add_filter( 'cmb_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
 	}
 
+	/**
+	 * Registers our Meta Boxes
+	 *
+	 * @param array $meta_boxes The array of meta boxes that will be loaded through CMB
+	 *
+	 * @return array
+	 */
 	public static function add_meta_boxes( $meta_boxes ) {
 		$prefix = '_wmd_'; // Prefix for all fields
 
@@ -36,6 +43,11 @@ class WMD_Member_Directory {
 					'id'    => $prefix . 'portfolio_items',
 					'type'  => 'file_list',
 				),
+				array(
+					'name'  => 'Price Range',
+					'id'    => $prefix . 'price_rance',
+					'type'  => 'text',
+				)
 			),
 		);
 
