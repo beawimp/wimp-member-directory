@@ -35,13 +35,20 @@
  * https://github.com/10up/grunt-wp-plugin
  */
 
+// Deny any direct accessing of this file
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // Useful global constants
-define( 'WMD_VERSION',  '0.1.0' );
-define( 'WMD_URL',      plugin_dir_url( __FILE__ ) );
-define( 'WMD_PATH',     dirname( __FILE__ ) . '/' );
-define( 'WMD_ASSETS',   WMD_URL . 'assets/' );
-define( 'WMD_INCLUDES', WMD_PATH . 'includes/' );
-define( 'WMD_LIB',      WMD_PATH . 'includes/lib/' );
+define( 'WMD_VERSION',   '0.1.0'                    );
+define( 'WMD_URL',       plugin_dir_url( __FILE__ ) );
+define( 'WMD_PATH',      dirname( __FILE__ ) . '/'  );
+define( 'WMD_ASSETS',    WMD_URL . 'assets/'        );
+define( 'WMD_TEMPLATES', WMD_PATH . 'templates/'    );
+define( 'WMD_INCLUDES',  WMD_PATH . 'includes/'     );
+define( 'WMD_LIB',       WMD_PATH . 'includes/lib/' );
+define( 'WMD_ACTIVE',    true                       );
 
 // Includes
 include_once WMD_INCLUDES . 'class-wmd-utils.php';
@@ -51,14 +58,19 @@ include_once WMD_INCLUDES . 'class-wmd-member-directory.php';
 include_once WMD_PATH . 'post-types/class-wmd-post-types.php';
 include_once WMD_PATH . 'taxonomies/class-wmd-taxonomies.php';
 
-register_activation_hook(   __FILE__, array( 'WMD_Utils', 'wmd_activate'   ) );
-register_deactivation_hook( __FILE__, array( 'WMD_Utils', 'wmd_deactivate' ) );
+register_activation_hook(   __FILE__, array( 'WMD_Utils', 'activate'   ) );
+register_deactivation_hook( __FILE__, array( 'WMD_Utils', 'deactivate' ) );
 
 // Wireup actions
-add_action( 'init',                  array( 'WMD_Utils',      'wmd_init' ) );
-add_action( 'init',                  array( 'WMD_Post_Types', 'wmd_member_directory_init' ) );
-add_filter( 'post_updated_messages', array( 'WMD_Post_Types', 'wmd_member_directory_updated_messages' ) );
-add_action( 'init',                  array( 'WMD_Taxonomies', 'price_range_init' ) );
+add_action( 'init',                  array( 'WMD_Utils',      'init'                              ) );
+add_action( 'init',                  array( 'WMD_Post_Types', 'member_directory_init'             ) );
+add_filter( 'post_updated_messages', array( 'WMD_Post_Types', 'member_directory_updated_messages' ) );
+add_action( 'init',                  array( 'WMD_Taxonomies', 'price_init'                        ) );
+add_action( 'init',                  array( 'WMD_Taxonomies', 'location_init'                     ) );
+add_action( 'init',                  array( 'WMD_Taxonomies', 'industry_init'                     ) );
+add_action( 'init',                  array( 'WMD_Taxonomies', 'technology_init'                   ) );
+add_action( 'init',                  array( 'WMD_Taxonomies', 'type_init'                         ) );
+add_action( 'init',                  array( 'WMD_Taxonomies', 'level_init'                        ) );
 
 // Wireup filters
 

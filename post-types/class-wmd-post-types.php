@@ -1,12 +1,17 @@
 <?php
 
+// Deny any direct accessing of this file
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Class WMD_Post_Types
  *
  * Loads all the code needed for registering post types
  */
 class WMD_Post_Types {
-	public static function wmd_member_directory_init() {
+	public static function member_directory_init() {
 		register_post_type( 'member-directory', array(
 			'hierarchical'      => false,
 			'public'            => true,
@@ -41,7 +46,7 @@ class WMD_Post_Types {
 	 *
 	 * @return mixed
 	 */
-	public static function wmd_member_directory_updated_messages( $messages ) {
+	public static function member_directory_updated_messages( $messages ) {
 		global $post;
 
 		$permalink = get_permalink( $post );

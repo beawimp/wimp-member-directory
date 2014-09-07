@@ -1,5 +1,10 @@
 <?php
 
+// Deny any direct accessing of this file
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class WMD_Shortcodes {
 
 	public function __construct() {
