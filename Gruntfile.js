@@ -80,13 +80,15 @@ module.exports = function( grunt ) {
 					' */\n'
 			},
 			minify: {
-				expand: true,
-				
-				cwd: 'assets/css/',				
-				src: ['wimp_member_directory.css'],
-				
-				dest: 'assets/css/',
-				ext: '.min.css'
+				files: [{
+					expand : true,
+
+					cwd : 'assets/css/',
+					src : ['wimp-member-directory.css'],
+
+					dest : 'assets/css/',
+					ext  : '.min.css'
+				}]
 			}
 		},
 		watch:  {
