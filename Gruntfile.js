@@ -8,15 +8,15 @@ module.exports = function( grunt ) {
 				stripBanners: true,
 				banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
 					' * <%= pkg.homepage %>\n' +
-					' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-					' * Licensed GPLv2+' +
+					' * Copyright (c) <%= grunt.template.today("yyyy") %>;\n' +
+					' * Licensed GPLv2+\n' +
 					' */\n'
 			},
 			wimp_member_directory: {
 				src: [
-					'assets/js/src/wimp_member_directory.js'
+					'assets/js/src/wimp-member-directory.js'
 				],
-				dest: 'assets/js/wimp_member_directory.js'
+				dest: 'assets/js/wimp-member-directory.js'
 			}
 		},
 		jshint: {
@@ -40,18 +40,18 @@ module.exports = function( grunt ) {
 					exports: true,
 					module:  false
 				}
-			}		
+			}
 		},
 		uglify: {
 			all: {
 				files: {
-					'assets/js/wimp_member_directory.min.js': ['assets/js/wimp_member_directory.js']
+					'assets/js/wimp-member-directory.min.js': ['assets/js/wimp-member-directory.js']
 				},
 				options: {
 					banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
 						' * <%= pkg.homepage %>\n' +
-						' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-						' * Licensed GPLv2+' +
+						' * Copyright (c) <%= grunt.template.today("yyyy") %>;\n' +
+						' * Licensed GPLv2+\n' +
 						' */\n',
 					mangle: {
 						except: ['jQuery']
@@ -62,35 +62,49 @@ module.exports = function( grunt ) {
 		test:   {
 			files: ['assets/js/test/**/*.js']
 		},
-		
+
 		sass:   {
 			all: {
 				files: {
-					'assets/css/wimp_member_directory.css': 'assets/css/sass/wimp_member_directory.scss'
+					'assets/css/wimp-member-directory.css': 'assets/css/sass/wimp-member-directory.scss'
 				}
 			}
 		},
-		
+
 		cssmin: {
 			options: {
 				banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
 					' * <%= pkg.homepage %>\n' +
-					' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-					' * Licensed GPLv2+' +
+					' * Copyright (c) <%= grunt.template.today("yyyy") %>;\n' +
+					' * Licensed GPLv2+\n' +
 					' */\n'
 			},
 			minify: {
-				expand: true,
-				
-				cwd: 'assets/css/',				
-				src: ['wimp_member_directory.css'],
-				
-				dest: 'assets/css/',
-				ext: '.min.css'
+				files: [{
+					expand : true,
+
+					cwd : 'assets/css/',
+					src : ['wimp-member-directory.css'],
+
+					dest : 'assets/css/',
+					ext  : '.min.css'
+				}]
 			}
 		},
+
+		imagemin: {
+			dynamic: {
+				files : [{
+					expand : true,
+					cwd    : 'images/src/',
+					src    : ['**/*.{png,jpg,gif}'],
+					dest   : 'images/'
+				}]
+			}
+		},
+
 		watch:  {
-			
+
 			sass: {
 				files: ['assets/css/sass/*.scss'],
 				tasks: ['sass', 'cssmin'],
@@ -98,7 +112,7 @@ module.exports = function( grunt ) {
 					debounceDelay: 500
 				}
 			},
-			
+
 			scripts: {
 				files: ['assets/js/src/**/*.js', 'assets/js/vendor/**/*.js'],
 				tasks: ['jshint', 'concat', 'uglify'],
@@ -115,53 +129,63 @@ module.exports = function( grunt ) {
 			main: {
 				src:  [
 					'**',
+					'!**/*.md',
+					'!readme.txt',
 					'!node_modules/**',
 					'!release/**',
 					'!.git/**',
 					'!.sass-cache/**',
-					'!css/src/**',
-					'!js/src/**',
+					'!assets/css/sass/**',
+					'!assets/js/src/**',
+					'!images/src/**',
 					'!img/src/**',
 					'!Gruntfile.js',
 					'!package.json',
 					'!.gitignore',
-					'!.gitmodules'
+					'!.gitmodules',
+					'!assets/css/wimp-member-directory.css',
+					'!assets/js/wimp-member-directory.js'
 				],
 				dest: 'release/<%= pkg.version %>/'
-			}		
+			}
 		},
 		compress: {
 			main: {
 				options: {
 					mode: 'zip',
-					archive: './release/wimp_member_directory.<%= pkg.version %>.zip'
+					archive: './release/wimp-member-directory.<%= pkg.version %>.zip'
 				},
 				expand: true,
 				cwd: 'release/<%= pkg.version %>/',
 				src: ['**/*'],
-				dest: 'wimp_member_directory/'
-			}		
+				dest: 'wimp-member-directory/'
+			}
 		}
 	} );
-	
+
 	// Load other tasks
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	
-	grunt.loadNpmTasks('grunt-contrib-sass');
-	
-	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
+	grunt.loadNpmTasks( 'grunt-contrib-concat' );
+	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
+	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
+	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
+
+	grunt.loadNpmTasks( 'grunt-contrib-sass' );
+
+	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 	grunt.loadNpmTasks( 'grunt-contrib-copy' );
 	grunt.loadNpmTasks( 'grunt-contrib-compress' );
-	
-	// Default task.
-	
-	grunt.registerTask( 'default', ['jshint', 'concat', 'uglify', 'sass', 'cssmin'] );
-	
-	
+
+	// Default task
+	grunt.registerTask( 'default', ['jshint', 'concat', 'uglify', 'sass', 'cssmin', 'imagemin'] );
+
+	// Niche tasks
+	grunt.registerTask( 'js', ['jshint', 'concat', 'uglify'] );
+	grunt.registerTask( 'css', ['sass', 'cssmin'] );
+	grunt.registerTask( 'img', ['imagemin'] );
+
+	// Build task
 	grunt.registerTask( 'build', ['default', 'clean', 'copy', 'compress'] );
 
 	grunt.util.linefeed = '\n';

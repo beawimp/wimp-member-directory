@@ -7,13 +7,14 @@
   "author": {
     "name": "Cole Geissinger",
     "email": "cole@beawimp.org",
-    "url": "http://www.colegeissinger.com"
+    "url": "http://beawimp.org"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-concat": "~0.1.2",
     "grunt-contrib-uglify": "~0.1.1",
     "grunt-contrib-cssmin": "~0.6.0",
+	"grunt-contrib-imagemin": "^0.8.1",
     "grunt-contrib-jshint": "~0.1.1",
     "grunt-contrib-nodeunit": "~0.1.2",
     "grunt-contrib-watch": "~0.2.0",
