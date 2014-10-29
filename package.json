@@ -7,7 +7,7 @@
   "author": {
     "name": "Cole Geissinger",
     "email": "cole@beawimp.org",
-    "url": "http://www.colegeissinger.com"
+    "url": "http://beawimp.org"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
