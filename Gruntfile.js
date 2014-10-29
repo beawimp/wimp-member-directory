@@ -91,6 +91,18 @@ module.exports = function( grunt ) {
 				}]
 			}
 		},
+
+		imagemin: {
+			dynamic: {
+				files : [{
+					expand : true,
+					cwd    : 'images/src/',
+					src    : ['**/*.{png,jpg,gif}'],
+					dest   : 'images/'
+				}]
+			}
+		},
+
 		watch:  {
 			
 			sass: {
