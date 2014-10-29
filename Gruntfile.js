@@ -129,17 +129,22 @@ module.exports = function( grunt ) {
 			main: {
 				src:  [
 					'**',
+					'!**/*.md',
+					'!readme.txt',
 					'!node_modules/**',
 					'!release/**',
 					'!.git/**',
 					'!.sass-cache/**',
-					'!css/src/**',
-					'!js/src/**',
+					'!assets/css/sass/**',
+					'!assets/js/src/**',
+					'!images/src/**',
 					'!img/src/**',
 					'!Gruntfile.js',
 					'!package.json',
 					'!.gitignore',
-					'!.gitmodules'
+					'!.gitmodules',
+					'!assets/css/wimp-member-directory.css',
+					'!assets/js/wimp-member-directory.js'
 				],
 				dest: 'release/<%= pkg.version %>/'
 			}		
