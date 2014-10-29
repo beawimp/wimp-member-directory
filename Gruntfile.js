@@ -14,9 +14,9 @@ module.exports = function( grunt ) {
 			},
 			wimp_member_directory: {
 				src: [
-					'assets/js/src/wimp_member_directory.js'
+					'assets/js/src/wimp-member-directory.js'
 				],
-				dest: 'assets/js/wimp_member_directory.js'
+				dest: 'assets/js/wimp-member-directory.js'
 			}
 		},
 		jshint: {
@@ -45,7 +45,7 @@ module.exports = function( grunt ) {
 		uglify: {
 			all: {
 				files: {
-					'assets/js/wimp_member_directory.min.js': ['assets/js/wimp_member_directory.js']
+					'assets/js/wimp-member-directory.min.js': ['assets/js/wimp-member-directory.js']
 				},
 				options: {
 					banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
@@ -66,7 +66,7 @@ module.exports = function( grunt ) {
 		sass:   {
 			all: {
 				files: {
-					'assets/css/wimp_member_directory.css': 'assets/css/sass/wimp_member_directory.scss'
+					'assets/css/wimp-member-directory.css': 'assets/css/sass/wimp-member-directory.scss'
 				}
 			}
 		},
@@ -134,13 +134,13 @@ module.exports = function( grunt ) {
 			main: {
 				options: {
 					mode: 'zip',
-					archive: './release/wimp_member_directory.<%= pkg.version %>.zip'
+					archive: './release/wimp-member-directory.<%= pkg.version %>.zip'
 				},
 				expand: true,
 				cwd: 'release/<%= pkg.version %>/',
 				src: ['**/*'],
-				dest: 'wimp_member_directory/'
-			}		
+				dest: 'wimp-member-directory/'
+			}
 		}
 	} );
 	
