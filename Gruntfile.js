@@ -40,7 +40,7 @@ module.exports = function( grunt ) {
 					exports: true,
 					module:  false
 				}
-			}		
+			}
 		},
 		uglify: {
 			all: {
@@ -62,7 +62,7 @@ module.exports = function( grunt ) {
 		test:   {
 			files: ['assets/js/test/**/*.js']
 		},
-		
+
 		sass:   {
 			all: {
 				files: {
@@ -70,7 +70,7 @@ module.exports = function( grunt ) {
 				}
 			}
 		},
-		
+
 		cssmin: {
 			options: {
 				banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
@@ -104,7 +104,7 @@ module.exports = function( grunt ) {
 		},
 
 		watch:  {
-			
+
 			sass: {
 				files: ['assets/css/sass/*.scss'],
 				tasks: ['sass', 'cssmin'],
@@ -112,7 +112,7 @@ module.exports = function( grunt ) {
 					debounceDelay: 500
 				}
 			},
-			
+
 			scripts: {
 				files: ['assets/js/src/**/*.js', 'assets/js/vendor/**/*.js'],
 				tasks: ['jshint', 'concat', 'uglify'],
@@ -147,7 +147,7 @@ module.exports = function( grunt ) {
 					'!assets/js/wimp-member-directory.js'
 				],
 				dest: 'release/<%= pkg.version %>/'
-			}		
+			}
 		},
 		compress: {
 			main: {
@@ -162,7 +162,7 @@ module.exports = function( grunt ) {
 			}
 		}
 	} );
-	
+
 	// Load other tasks
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-concat' );
