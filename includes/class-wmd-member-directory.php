@@ -66,10 +66,10 @@ class WMD_Member_Directory {
 	public static function member_directory_templates( $template ) {
 
 		if ( get_query_var( 'member-directory' ) ) {
-			if ( ! is_single() ) {
-				self::locate_template( 'archive-member-directory.php', true );
-			} else {
+			if ( is_single() ) {
 				self::locate_template( 'single-member-directory.php', true );
+			} else {
+				self::locate_template( 'archive-member-directory.php', true );
 			}
 		}
 		return $template;
