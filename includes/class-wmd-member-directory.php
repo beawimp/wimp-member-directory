@@ -21,7 +21,7 @@ class WMD_Member_Directory {
 	 * Run our actions
 	 */
 	public function __construct() {
-		add_action( 'template_redirect', array( __CLASS__, 'template_redirect' ) );
+		add_filter( 'template_include',  array( __CLASS__, 'member_directory_templates' ) );
 		add_filter( 'cmb_meta_boxes',    array( __CLASS__, 'add_meta_boxes' ) );
 	}
 
@@ -63,11 +63,13 @@ class WMD_Member_Directory {
 	/**
 	 * Allows us to locate for the right template file to serve for the Member Directory post type
 	 */
-	public static function template_redirect() {
-		if ( is_post_type_archive( 'member-directory' ) && ! is_single() ) {
+	public static function member_directory_templates( $template ) {
+		global $post;
+		
+		if (( $post->post_type == 'member-directory') && ! is_single() ) {
 			self::locate_template( 'archive-member-directory.php', true );
 
-		} elseif ( is_post_type_archive( 'member-directory' ) && is_single() ) {
+		} elseif (( $post->post_type == 'member-directory' ) && is_single() ) {
 			self::locate_template( 'single-member-directory.php', true );
 		}
 	}
