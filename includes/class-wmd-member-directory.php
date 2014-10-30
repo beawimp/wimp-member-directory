@@ -64,14 +64,15 @@ class WMD_Member_Directory {
 	 * Allows us to locate for the right template file to serve for the Member Directory post type
 	 */
 	public static function member_directory_templates( $template ) {
-		global $post;
-		
-		if (( $post->post_type == 'member-directory') && ! is_single() ) {
-			self::locate_template( 'archive-member-directory.php', true );
 
-		} elseif (( $post->post_type == 'member-directory' ) && is_single() ) {
-			self::locate_template( 'single-member-directory.php', true );
+		if ( get_query_var( 'member-directory' ) ) {
+			if ( ! is_single() ) {
+				self::locate_template( 'archive-member-directory.php', true );
+			} else {
+				self::locate_template( 'single-member-directory.php', true );
+			}
 		}
+		return $template;
 	}
 
 	/**
