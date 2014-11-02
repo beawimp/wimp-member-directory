@@ -12,12 +12,22 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WMD_Taxonomies {
 	/**
+	 * Constants for the taxonomy names in the DB
+	 */
+	const PRICE = 'wmd-price';
+	const LOCATION = 'wmd-location';
+	const INDUSTRY = 'wmd-industry';
+	const TECHNOLOGY = 'wmd-technology';
+	const TYPE = 'wmd-type';
+	const LEVEL = 'wmd-level';
+	
+	/**
 	 * Registers the price taxonomy
 	 *
 	 * This taxonomy will hold both a high price and a low price for a single member directory
 	 */
 	public static function price_init() {
-		register_taxonomy( 'price', array( 'member-directory' ), array(
+		register_taxonomy( self::PRICE, array( 'member-directory' ), array(
 			'hierarchical'      => false,
 			'public'            => true,
 			'show_in_nav_menus' => true,
@@ -57,7 +67,7 @@ class WMD_Taxonomies {
 	 * Contains the specific location (State and City) and will be stored hierarchically.
 	 */
 	public static function location_init() {
-		register_taxonomy( 'location', array( 'member-directory' ), array(
+		register_taxonomy( self::LOCATION, array( 'member-directory' ), array(
 			'hierarchical'      => true,
 			'public'            => true,
 			'show_in_nav_menus' => true,
@@ -97,7 +107,7 @@ class WMD_Taxonomies {
 	 * Contains the type of industry the member directory entree is in
 	 */
 	public static function industry_init() {
-		register_taxonomy( 'industry', array( 'member-directory' ), array(
+		register_taxonomy( self::INDUSTRY, array( 'member-directory' ), array(
 			'hierarchical'      => false,
 			'public'            => true,
 			'show_in_nav_menus' => true,
@@ -137,7 +147,7 @@ class WMD_Taxonomies {
 	 * Allows the member directory to create and assign different technologies
 	 */
 	public static function technology_init() {
-		register_taxonomy( 'technology', array( 'member-directory' ), array(
+		register_taxonomy( self::TECHNOLOGY, array( 'member-directory' ), array(
 			'hierarchical'      => false,
 			'public'            => true,
 			'show_in_nav_menus' => true,
@@ -177,7 +187,7 @@ class WMD_Taxonomies {
 	 * Allows member directories to assign what type of work they normally perform
 	 */
 	public static function type_init() {
-		register_taxonomy( 'type', array( 'member-directory' ), array(
+		register_taxonomy( self::TYPE, array( 'member-directory' ), array(
 			'hierarchical'      => false,
 			'public'            => true,
 			'show_in_nav_menus' => true,
@@ -217,7 +227,7 @@ class WMD_Taxonomies {
 	 * Allows us to say what level of membership this member directory is paying for
 	 */
 	public static function level_init() {
-		register_taxonomy( 'level', array( 'member-directory' ), array(
+		register_taxonomy( self::LEVEL, array( 'member-directory' ), array(
 			'hierarchical'      => false,
 			'public'            => true,
 			'show_in_nav_menus' => true,
