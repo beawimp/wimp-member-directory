@@ -14,13 +14,13 @@ class WMD_Taxonomies {
 	/**
 	 * Constants for the taxonomy names in the DB
 	 */
-	const PRICE_LOW = 'wmd-price-low';
+	const PRICE_LOW  = 'wmd-price-low';
 	const PRICE_HIGH = 'wmd-price-high';
-	const LOCATION = 'wmd-location';
-	const INDUSTRY = 'wmd-industry';
+	const LOCATION   = 'wmd-location';
+	const INDUSTRY   = 'wmd-industry';
 	const TECHNOLOGY = 'wmd-technology';
-	const TYPE = 'wmd-type';
-	const LEVEL = 'wmd-level';
+	const TYPE       = 'wmd-type';
+	const LEVEL      = 'wmd-level';
 	
 	/**
 	 * Registers the price-low taxonomy
