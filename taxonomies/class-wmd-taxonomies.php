@@ -12,12 +12,23 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WMD_Taxonomies {
 	/**
-	 * Registers the price taxonomy
-	 *
-	 * This taxonomy will hold both a high price and a low price for a single member directory
+	 * Constants for the taxonomy names in the DB
 	 */
-	public static function price_init() {
-		register_taxonomy( 'price', array( 'member-directory' ), array(
+	const PRICE_LOW = 'wmd-price-low';
+	const PRICE_HIGH = 'wmd-price-high';
+	const LOCATION = 'wmd-location';
+	const INDUSTRY = 'wmd-industry';
+	const TECHNOLOGY = 'wmd-technology';
+	const TYPE = 'wmd-type';
+	const LEVEL = 'wmd-level';
+	
+	/**
+	 * Registers the price-low taxonomy
+	 *
+	 * This taxonomy will hold the low price for a single member directory
+	 */
+	public static function price_low_init() {
+		register_taxonomy( self::PRICE_LOW, array( 'member-directory' ), array(
 			'hierarchical'      => false,
 			'public'            => true,
 			'show_in_nav_menus' => true,
@@ -32,21 +43,61 @@ class WMD_Taxonomies {
 				'assign_terms'  => 'edit_posts'
 			),
 			'labels'            => array(
-				'name'                       => __( 'Prices', 'wimp' ),
-				'singular_name'              => _x( 'Price ', 'taxonomy general name', 'wimp' ),
-				'search_items'               => __( 'Search prices', 'wimp' ),
-				'popular_items'              => __( 'Popular prices', 'wimp' ),
-				'all_items'                  => __( 'All prices', 'wimp' ),
-				'parent_item'                => __( 'Parent price', 'wimp' ),
-				'parent_item_colon'          => __( 'Parent price:', 'wimp' ),
-				'edit_item'                  => __( 'Edit price', 'wimp' ),
-				'update_item'                => __( 'Update price', 'wimp' ),
-				'add_new_item'               => __( 'New price', 'wimp' ),
-				'new_item_name'              => __( 'New price', 'wimp' ),
-				'separate_items_with_commas' => __( 'Prices separated by comma', 'wimp' ),
-				'add_or_remove_items'        => __( 'Add or remove prices', 'wimp' ),
-				'choose_from_most_used'      => __( 'Choose from the most used prices', 'wimp' ),
-				'menu_name'                  => __( 'Prices', 'wimp' ),
+				'name'                       => __( 'Low Prices', 'wimp' ),
+				'singular_name'              => _x( 'Low Price ', 'taxonomy general name', 'wimp' ),
+				'search_items'               => __( 'Search low prices', 'wimp' ),
+				'popular_items'              => __( 'Popular low prices', 'wimp' ),
+				'all_items'                  => __( 'All low prices', 'wimp' ),
+				'parent_item'                => __( 'Parent low price', 'wimp' ),
+				'parent_item_colon'          => __( 'Parent low price:', 'wimp' ),
+				'edit_item'                  => __( 'Edit low price', 'wimp' ),
+				'update_item'                => __( 'Update low price', 'wimp' ),
+				'add_new_item'               => __( 'New low price', 'wimp' ),
+				'new_item_name'              => __( 'New low price', 'wimp' ),
+				'separate_items_with_commas' => __( 'Low prices separated by comma', 'wimp' ),
+				'add_or_remove_items'        => __( 'Add or remove low prices', 'wimp' ),
+				'choose_from_most_used'      => __( 'Choose from the most used low prices', 'wimp' ),
+				'menu_name'                  => __( 'Low Prices', 'wimp' ),
+			),
+		) );
+	}
+
+	/**
+	 * Registers the price-high taxonomy
+	 *
+	 * This taxonomy will hold the high price for a single member directory
+	 */
+	public static function price_high_init() {
+		register_taxonomy( self::PRICE_HIGH, array( 'member-directory' ), array(
+			'hierarchical'      => false,
+			'public'            => true,
+			'show_in_nav_menus' => true,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'query_var'         => true,
+			'rewrite'           => true,
+			'capabilities'      => array(
+				'manage_terms'  => 'edit_posts',
+				'edit_terms'    => 'edit_posts',
+				'delete_terms'  => 'edit_posts',
+				'assign_terms'  => 'edit_posts'
+			),
+			'labels'            => array(
+				'name'                       => __( 'High Prices', 'wimp' ),
+				'singular_name'              => _x( 'High Price ', 'taxonomy general name', 'wimp' ),
+				'search_items'               => __( 'Search high prices', 'wimp' ),
+				'popular_items'              => __( 'Popular high prices', 'wimp' ),
+				'all_items'                  => __( 'All high prices', 'wimp' ),
+				'parent_item'                => __( 'Parent high price', 'wimp' ),
+				'parent_item_colon'          => __( 'Parent high price:', 'wimp' ),
+				'edit_item'                  => __( 'Edit high price', 'wimp' ),
+				'update_item'                => __( 'Update hige price', 'wimp' ),
+				'add_new_item'               => __( 'New high price', 'wimp' ),
+				'new_item_name'              => __( 'New high price', 'wimp' ),
+				'separate_items_with_commas' => __( 'High prices separated by comma', 'wimp' ),
+				'add_or_remove_items'        => __( 'Add or remove high prices', 'wimp' ),
+				'choose_from_most_used'      => __( 'Choose from the most used high prices', 'wimp' ),
+				'menu_name'                  => __( 'High Prices', 'wimp' ),
 			),
 		) );
 	}
@@ -57,7 +108,7 @@ class WMD_Taxonomies {
 	 * Contains the specific location (State and City) and will be stored hierarchically.
 	 */
 	public static function location_init() {
-		register_taxonomy( 'location', array( 'member-directory' ), array(
+		register_taxonomy( self::LOCATION, array( 'member-directory' ), array(
 			'hierarchical'      => true,
 			'public'            => true,
 			'show_in_nav_menus' => true,
@@ -97,7 +148,7 @@ class WMD_Taxonomies {
 	 * Contains the type of industry the member directory entree is in
 	 */
 	public static function industry_init() {
-		register_taxonomy( 'industry', array( 'member-directory' ), array(
+		register_taxonomy( self::INDUSTRY, array( 'member-directory' ), array(
 			'hierarchical'      => false,
 			'public'            => true,
 			'show_in_nav_menus' => true,
@@ -137,7 +188,7 @@ class WMD_Taxonomies {
 	 * Allows the member directory to create and assign different technologies
 	 */
 	public static function technology_init() {
-		register_taxonomy( 'technology', array( 'member-directory' ), array(
+		register_taxonomy( self::TECHNOLOGY, array( 'member-directory' ), array(
 			'hierarchical'      => false,
 			'public'            => true,
 			'show_in_nav_menus' => true,
@@ -177,7 +228,7 @@ class WMD_Taxonomies {
 	 * Allows member directories to assign what type of work they normally perform
 	 */
 	public static function type_init() {
-		register_taxonomy( 'type', array( 'member-directory' ), array(
+		register_taxonomy( self::TYPE, array( 'member-directory' ), array(
 			'hierarchical'      => false,
 			'public'            => true,
 			'show_in_nav_menus' => true,
@@ -217,7 +268,7 @@ class WMD_Taxonomies {
 	 * Allows us to say what level of membership this member directory is paying for
 	 */
 	public static function level_init() {
-		register_taxonomy( 'level', array( 'member-directory' ), array(
+		register_taxonomy( self::LEVEL, array( 'member-directory' ), array(
 			'hierarchical'      => false,
 			'public'            => true,
 			'show_in_nav_menus' => true,
