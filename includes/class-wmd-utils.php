@@ -16,6 +16,7 @@ class WMD_Utils {
 		load_plugin_textdomain( 'wmd', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 		// Load our post types and taxonomies
+		WMD_Post_Types::member_directory_init();
 
 		// Load our cmb framework
 		self::init_cmb();
