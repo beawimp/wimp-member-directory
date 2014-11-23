@@ -17,7 +17,7 @@ class WMD_Post_Types {
 			'public'            => true,
 			'show_in_nav_menus' => true,
 			'show_ui'           => true,
-			'supports'          => array( 'title', 'editor' ),
+			'supports'          => array( 'title', 'editor', 'author' ),
 			'has_archive'       => true,
 			'query_var'         => true,
 			'rewrite'           => true,
