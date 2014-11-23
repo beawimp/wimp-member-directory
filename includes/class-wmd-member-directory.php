@@ -21,7 +21,7 @@ class WMD_Member_Directory {
 	 * Run our actions
 	 */
 	public function __construct() {
-		add_action( 'template_redirect', array( __CLASS__, 'template_redirect' ) );
+		add_action( 'template_include', array( __CLASS__, 'template_redirect' ) );
 		add_filter( 'cmb_meta_boxes',    array( __CLASS__, 'add_meta_boxes' ) );
 	}
 
