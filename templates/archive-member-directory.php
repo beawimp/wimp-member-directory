@@ -14,27 +14,40 @@ get_header(); ?>
 		<?php if ( have_posts() ) : ?>
 
 			<header class="page-header">
-				<h1 class="page-title">Member Directory</h1>
+				<h1 class="page-title">Member Directory: Find A WIMP</h1>
 			</header><!-- .page-header -->
 
-			<?php /* Start the Loop */ ?>
 			<?php while ( have_posts() ) : the_post(); ?>
+				<?php $listing = wmd_get_listing(); ?>
+				<section
+					id="member-<?php echo esc_attr( $listing->member_id ); ?>"
+					class="wimp-member member-<?php echo esc_attr( $listing->member_id ); ?>">
 
+					<header>
+						<?php $logo = wp_get_attachment_image_src( $listing->logo_id, 'wmd_logo' ); ?>
+						<img src="<?php echo esc_url( $logo[0] ); ?>"
+						     width="<?php echo esc_attr( $logo[1] ); ?>"
+						     height="<?php echo esc_attr( $logo[2] ); ?>"
+						     alt="<?php echo esc_attr( $listing->title ); ?>" />
+
+						<aside class="member-meta">
+							<ul>
+								<li><?php wmd_format_prices( $listing->prices ); ?></li>
+								<li><?php wmd_format_location( $listing->locations ); ?></li>
+							</ul>
+						</aside>
+					</header>
+
+					<article class="listing-wrapper">
+
+					</article>
+
+				</section>
 				<?php
-				/* Include the Post-Format-specific template for the content.
-				 * If you want to overload this in a child theme then include a file
-				 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-				 */
-				the_content();
+//				var_dump( $post );
 				?>
 
 			<?php endwhile; ?>
-
-			<?php //wimp_content_nav( 'nav-below' ); ?>
-
-		<?php else : ?>
-
-			<?php //get_template_part( 'no-results', 'archive' ); ?>
 
 		<?php endif; ?>
 
