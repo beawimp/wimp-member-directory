@@ -96,6 +96,11 @@ function wmd_format_prices( $prices ) {
 	echo esc_html( $value );
 }
 
+/**
+ * Formats an array of location terms into a read-able format
+ *
+ * @param array $locations The array of location term objects
+ */
 function wmd_format_location( $locations ) {
 	if ( ! is_array( $locations ) ) {
 		return '';
@@ -208,4 +213,20 @@ function wmd_format_state( $input, $format = '' ) {
 	}
 
 	return '';
+}
+
+
+function wmd_display_portfolio( $items ) {
+	if ( empty( $items ) ) {
+		return '';
+	}
+	?>
+	<div class="flexslider">
+		<ul class="slides">
+			<?php foreach ( $items as $key => $value ) : ?>
+				<li><img src="<?php echo esc_url( $value ); ?>" /></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+	<?php
 }

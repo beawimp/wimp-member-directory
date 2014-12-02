@@ -39,9 +39,9 @@ get_header(); ?>
 					</header>
 
 					<article class="listing-wrapper">
-
+						<?php wmd_display_portfolio( $listing->portfolio ); ?>
 					</article>
-
+					
 				</section>
 				<?php
 //				var_dump( $post );
