@@ -45,3 +45,10 @@
 @function divide-by-base( $value ) {
 	@return $value / $base-font-size;
 }
+
+// Provide an easy way to create configurable "columns"
+// Basically, pass in the width in percentage you want to set..
+@mixin columnize( $value ) {
+	float:left;
+	width:#{$value + '%'};
+}
