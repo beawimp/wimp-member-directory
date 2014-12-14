@@ -41,6 +41,7 @@
 }
 
 // Allow us to handle the math needed to get the right font-size for REMs
+// Pass in values as pixels
 @function divide-by-base( $value ) {
 	@return $value / $base-font-size;
 }
