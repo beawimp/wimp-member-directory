@@ -23,19 +23,29 @@ get_header(); ?>
 					id="member-<?php echo esc_attr( $listing->member_id ); ?>"
 					class="wimp-member member-<?php echo esc_attr( $listing->member_id ); ?>">
 
-					<header>
-						<?php $logo = wp_get_attachment_image_src( $listing->logo_id, 'wmd_logo' ); ?>
-						<img src="<?php echo esc_url( $logo[0] ); ?>"
-						     width="<?php echo esc_attr( $logo[1] ); ?>"
-						     height="<?php echo esc_attr( $logo[2] ); ?>"
-						     alt="<?php echo esc_attr( $listing->title ); ?>" />
+					<header class="listing-header">
 
-						<aside class="member-meta">
+						<div class="listing-name">
+							<?php if ( ! empty( $listing->logo_id ) ) : ?>
+								<?php $logo = wp_get_attachment_image_src( $listing->logo_id, 'wmd_logo' ); ?>
+								<img src="<?php echo esc_url( $logo[0] ); ?>"
+								     width="<?php echo esc_attr( $logo[1] ); ?>"
+								     height="<?php echo esc_attr( $logo[2] ); ?>"
+								     alt="<?php echo esc_attr( $listing->title ); ?>" />
+							<?php else : ?>
+								<h2 class="listing-text-logo">
+									<?php echo esc_html( $listing->title ); ?>
+								</h2>
+							<?php endif; ?>
+						</div>
+
+						<div class="member-meta">
 							<ul>
 								<li><?php wmd_format_prices( $listing->prices ); ?></li>
 								<li><?php wmd_format_location( $listing->locations ); ?></li>
 							</ul>
-						</aside>
+						</div>
+
 					</header>
 
 					<article class="listing-wrapper">
