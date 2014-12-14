@@ -6,6 +6,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class WMD_Utils {
+
+	/**
+	 * Configurations that need to be run after theme setup
+	 */
+	public static function after_setup() {
+		// Defines the image size for the logo on a listing
+		add_image_size( 'wmd_logo', 531, 95 );
+
+		// Sets the image size for portfolio images with cropping set
+		add_image_size( 'wmd_portfolio_gallery', 697, 358, true );
+	}
+
 	/**
 	 * Default initialization for the plugin:
 	 * - Registers the default textdomain.
@@ -16,6 +28,7 @@ class WMD_Utils {
 		load_plugin_textdomain( 'wmd', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 		// Load our post types and taxonomies
+		WMD_Post_Types::member_directory_init();
 
 		// Load our cmb framework
 		self::init_cmb();

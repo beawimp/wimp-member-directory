@@ -21,43 +21,43 @@ class WMD_Member_Directory {
 	 * Run our actions
 	 */
 	public function __construct() {
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_resources' ) );
+
 		add_filter( 'template_include',  array( __CLASS__, 'member_directory_templates' ) );
-		add_filter( 'cmb_meta_boxes',    array( __CLASS__, 'add_meta_boxes' ) );
+		add_filter( 'cmb_meta_boxes',     array( __CLASS__, 'add_meta_boxes' ) );
 	}
 
 	/**
-	 * Registers our Meta Boxes
-	 *
-	 * @param array $meta_boxes The array of meta boxes that will be loaded through CMB
-	 *
-	 * @return array
+	 * Load any JavaScript or CSS we need to run the plugin
 	 */
-	public static function add_meta_boxes( $meta_boxes ) {
-		$prefix = '_wmd_'; // Prefix for all fields
+	public static function enqueue_resources() {
+		$min = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
-		$meta_boxes['member-directory-data'] = array(
-			'id'         => 'member-directory-data',
-			'title'      => 'Details',
-			'pages'      => array( 'member-directory' ),
-			'context'    => 'normal',
-			'priority'   => 'high',
-			'show_names' => true, // Show field names on the left
-			'fields'     => array(
-				array(
-					'name'  => 'Company Logo',
-					'id'    => $prefix . 'company_logo',
-					'type'  => 'file',
-					'allow' => array( 'url', 'attachment' ),
-				),
-				array(
-					'name'  => 'Portfolio',
-					'id'    => $prefix . 'portfolio_items',
-					'type'  => 'file_list',
-				),
-			),
+		// We don't need Duru Sans enqueued because the main WIMP theme already does.
+		// We'll leave this code here just in case..
+		// wp_enqueue_style( 'wmd-fonts',
+		// 	 'http://fonts.googleapis.com/css?family=Duru+Sans',
+		//	 null,
+		//	 WMD_VERSION
+		// );
+		wp_enqueue_style( 'wmd-styles',
+			WMD_ASSETS . "css/wimp-member-directory{$min}.css",
+			null,
+			WMD_VERSION
 		);
 
-		return $meta_boxes;
+		wp_enqueue_script( 'wmd-flexslider-js',
+			WMD_ASSETS . 'js/vendor/jquery.flexslider-min.js',
+			array( 'jquery' ),
+			'2.2.2',
+			true
+		);
+		wp_enqueue_script( 'wmd-js',
+			WMD_ASSETS . "js/wimp-member-directory{$min}.js",
+			array( 'wmd-flexslider-js' ),
+			WMD_VERSION,
+			true
+		);
 	}
 
 	/**
@@ -119,6 +119,46 @@ class WMD_Member_Directory {
 		}
 
 		return $path;
+	}
+
+	/**
+	 * Registers our Meta Boxes
+	 *
+	 * @param array $meta_boxes The array of meta boxes that will be loaded through CMB
+	 *
+	 * @return array
+	 */
+	public static function add_meta_boxes( $meta_boxes ) {
+		$prefix = '_wmd_'; // Prefix for all fields
+
+		$meta_boxes['member-directory-data'] = array(
+			'id'         => 'member-directory-data',
+			'title'      => 'Details',
+			'pages'      => array( 'member-directory' ),
+			'context'    => 'normal',
+			'priority'   => 'high',
+			'show_names' => true, // Show field names on the left
+			'fields'     => array(
+				array(
+					'name'  => 'Company Logo',
+					'id'    => $prefix . 'company_logo',
+					'type'  => 'file',
+					'allow' => array( 'url', 'attachment' ),
+				),
+				array(
+					'name'  => 'Portfolio',
+					'id'    => $prefix . 'portfolio_items',
+					'type'  => 'file_list',
+				),
+				array(
+					'name'  => 'Website URL',
+					'id'    => $prefix . 'url',
+					'type'  => 'text_url',
+				)
+			),
+		);
+
+		return $meta_boxes;
 	}
 }
 $wmd_member_directory = new WMD_Member_Directory();
