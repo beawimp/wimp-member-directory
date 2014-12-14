@@ -24,7 +24,9 @@ var WMD;
 		},
 
 		load : function() {
-			$( '.flexslider' ).flexslider();
+			$( '.flexslider' ).flexslider({
+				'controlNav' : false
+			});
 		}
 	};
 
