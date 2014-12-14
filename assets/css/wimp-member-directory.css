@@ -13,7 +13,8 @@
   background: white;
   border: 1px solid #828588;
   padding: 13px;
-  color: #242628; }
+  color: #242628;
+  margin-bottom: 13px; }
 
 .listing-header {
   margin-bottom: 7px; }
@@ -57,6 +58,34 @@
   .directory-archive-meta td:first-child {
     margin-right: 1.22249em;
     display: block; }
+
+.listing-cta:after {
+  content: "";
+  display: table;
+  clear: both; }
+.listing-cta a {
+  float: left;
+  width: 47.92%;
+  background-image: -webkit-linear-gradient(top, #555555 0%, #333333 100%);
+  background-image: -o-linear-gradient(top, #555555 0%, #333333 100%);
+  background-image: linear-gradient(to bottom, #555555 0%, #333333 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF555555', endColorstr='#FF333333', GradientType=0);
+  font-size: 22.4px;
+  font-size: 1.4rem;
+  margin: 10px 0 0;
+  border-radius: 3px;
+  padding: 16px;
+  color: white;
+  text-align: center;
+  text-shadow: 1px 1px 0px rgba(35, 31, 32, 0.35);
+  text-transform: uppercase; }
+  .listing-cta a:hover {
+    color: white; }
+  .listing-cta a:first-child {
+    margin-right: 2.07824%; }
+  .listing-cta a:last-child {
+    margin-left: 2.07824%; }
 
 /*
  * jQuery FlexSlider v2.2.0
