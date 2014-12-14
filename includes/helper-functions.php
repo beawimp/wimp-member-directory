@@ -289,10 +289,17 @@ function wmd_format_terms( $listing, $type = null, $return = false ) {
 		return '';
 	}
 
-	$terms  = wmd_list_terms( $listing );
-	$output = '';
+	$terms        = wmd_list_terms( $listing );
+	$html_default = array(
+		'before-meta' => '<tr>',
+		'after-meta'  => '</tr>',
+		'before-list' => '<td>',
+		'after-list'  => '</td>',
+	);
+	$html         = apply_filters( 'wmd_meta_html', $html_default );
+	$output       = '';
 
-	$output .= apply_filters( 'wmd_before_listing_meta', '' );
+	$output .= sprintf( '%s', wp_kses_post( $html['before-meta'] ) );
 
 	foreach ( $terms as $name => $term ) {
 		// Only apply the term type if it is in our array.
@@ -301,14 +308,18 @@ function wmd_format_terms( $listing, $type = null, $return = false ) {
 			continue;
 		}
 
-		$output .= apply_filters( 'wmd_before_tax_listing', '' );
+		$output .= sprintf( '%s', wp_kses_post( $html['before-list'] ) );
 
-		$output .= '<strong>' . esc_html( wmd_convert_tax_name( $name ) ) . '</strong>: ';
+		$output .= '<strong>' . esc_html( wmd_convert_tax_name( $name ) ) . ':</strong>';
+
+		$output .= sprintf( '%s', wp_kses_post( $html['after-list'] ) );
 
 		$end = end( $term );
 
 		// Create a comma separated list of the terms attached to our taxonomy
 		foreach ( $term as $term_id => $t ) {
+			$output .= sprintf( '%s', wp_kses_post( $html['before-list'] ) );
+
 			$output .= '<a href="' . esc_url( get_term_link( $t ) ) . '">'
 			           . esc_html( $t->name ) . '</a>';
 
@@ -316,12 +327,12 @@ function wmd_format_terms( $listing, $type = null, $return = false ) {
 			if ( $end->term_id !== $t->term_id ) {
 				$output .= ', ';
 			}
-		}
 
-		$output .= apply_filters( 'wmd_after_tax_listing', '' );
+			$output .= sprintf( '%s', wp_kses_post( $html['after-list'] ) );
+		}
 	}
 
-	$output .= apply_filters( 'wmd_after_listing_meta', '' );
+	$output .= sprintf( '%s', wp_kses_post( $html['after-meta'] ) );
 
 	// We may need to return our string instead of echoing it.
 	if ( $return ) {

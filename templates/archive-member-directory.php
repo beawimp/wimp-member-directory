@@ -54,11 +54,19 @@ get_header(); ?>
 
 					<aside class="directory-archive-meta">
 						<div class="column">
-							<?php wmd_format_terms( $listing, 'industries' ); ?>
-							<?php wmd_format_terms( $listing, 'types' ); ?>
+							<table>
+								<tbody>
+									<?php wmd_format_terms( $listing, 'industries' ); ?>
+									<?php wmd_format_terms( $listing, 'types' ); ?>
+								</tbody>
+							</table>
 						</div>
 						<div class="column">
-							<?php wmd_format_terms( $listing, 'technologies' ); ?>
+							<table>
+								<tbody>
+									<?php wmd_format_terms( $listing, 'technologies' ); ?>
+								</tbody>
+							</table>
 						</div>
 					</aside>
 
