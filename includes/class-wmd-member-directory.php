@@ -22,8 +22,8 @@ class WMD_Member_Directory {
 	 */
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_resources' ) );
-		add_action( 'template_include',   array( __CLASS__, 'template_redirect' ) );
 
+		add_filter( 'template_include',  array( __CLASS__, 'member_directory_templates' ) );
 		add_filter( 'cmb_meta_boxes',     array( __CLASS__, 'add_meta_boxes' ) );
 	}
 
@@ -63,13 +63,13 @@ class WMD_Member_Directory {
 	/**
 	 * Allows us to locate for the right template file to serve for the Member Directory post type
 	 */
-	public static function template_redirect() {
-		if ( is_post_type_archive( 'member-directory' ) && ! is_single() ) {
-			self::locate_template( 'archive-member-directory.php', true );
-
-		} elseif ( is_post_type_archive( 'member-directory' ) && is_single() ) {
-			self::locate_template( 'single-member-directory.php', true );
+	public static function member_directory_templates( $template ) {
+		if ( get_query_var( 'member-directory' ) && is_single() ) {
+			$template = self::locate_template( 'single-member-directory.php', true );
+		} elseif ( is_post_type_archive( 'member-directory' ) ) {
+			$template = self::locate_template( 'archive-member-directory.php', true );
 		}
+		return $template;
 	}
 
 	/**
@@ -96,31 +96,26 @@ class WMD_Member_Directory {
 
 			// Remove any trailing slashes if they exist
 			$template_path  = '/' . trailingslashit( self::$template_dir ) . sanitize_file_name( untrailingslashit( $template_name ) );
-			$store  = get_template_directory() . $template_path;
-			$store2 = get_stylesheet_directory() . $template_path;
-			$store3 = WMD_TEMPLATES . sanitize_file_name( untrailingslashit( $template_name ) );
+			$stylesheet_template_path = get_stylesheet_directory() . $template_path;
+			$theme_template_path  = get_template_directory() . $template_path;
+			$plugin_template_path = WMD_TEMPLATES . sanitize_file_name( untrailingslashit( $template_name ) );
 
 			// Check if child theme has template
-			if ( file_exists( get_stylesheet_directory() . $template_path ) ) {
-				$path = get_stylesheet_directory() . $template_path;
+			if ( file_exists( $stylesheet_template_path ) ) {
+				$path = $stylesheet_template_path;
 				break;
 
 			// Check if parent theme has template
-			} elseif ( file_exists( get_template_directory() . $template_path ) ) {
-				$path = get_template_directory() . $template_path;
+			} elseif ( file_exists( $theme_template_path ) ) {
+				$path = $theme_template_path;
 				break;
 
 			// Check if plugin has it
-			} elseif ( file_exists( WMD_TEMPLATES . sanitize_file_name( untrailingslashit( $template_name ) ) ) ) {
-				$path = WMD_TEMPLATES . sanitize_file_name( untrailingslashit( $template_name ) );
+			} elseif ( file_exists( $plugin_template_path ) ) {
+				$path = $plugin_template_path;
 				break;
 
 			}
-		}
-
-		// See if we have anything to load
-		if ( ! empty( $path ) && true == $load ) {
-			load_template( $path, $require_once );
 		}
 
 		return $path;
