@@ -33,6 +33,13 @@ class WMD_Member_Directory {
 	public static function enqueue_resources() {
 		$min = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
+		// We don't need Duru Sans enqueued because the main WIMP theme already does.
+		// We'll leave this code here just in case..
+		// wp_enqueue_style( 'wmd-fonts',
+		// 	 'http://fonts.googleapis.com/css?family=Duru+Sans',
+		//	 null,
+		//	 WMD_VERSION
+		// );
 		wp_enqueue_style( 'wmd-styles',
 			WMD_ASSETS . "css/wimp-member-directory{$min}.css",
 			null,

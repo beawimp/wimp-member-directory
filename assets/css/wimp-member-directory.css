@@ -6,6 +6,33 @@
  * Copyright (c) 2014 Cole Geissinger
  * Licensed under the GPLv2+ license.
  */
+.wimp-member-listing {
+  font-size: 24px;
+  font-size: 1.5rem;
+  font-family: "Duru Sans", sans-serif;
+  background: white;
+  border: 1px solid #828588;
+  padding: 13px;
+  color: #242628; }
+
+.listing-header:after {
+  content: "";
+  display: table;
+  clear: both; }
+.listing-header .listing-name, .listing-header .member-meta {
+  float: left;
+  width: 50%; }
+.listing-header .member-meta {
+  text-align: right; }
+  .listing-header .member-meta ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+  .listing-header .member-meta .wmd-cost {
+    font-weight: bold;
+    font-size: 24px;
+    font-size: 1.5rem; }
+
 /*
  * jQuery FlexSlider v2.2.0
  * http://www.woothemes.com/flexslider/

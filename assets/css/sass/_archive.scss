@@ -1,0 +1,27 @@
+.wimp-member-listing {
+	@include rem-fallback( 'font-size', divide-by-base( 15 ) );
+	font-family: $base-font;
+	background: $white;
+	border: 1px solid #828588;
+	padding:13px;
+	color:#242628;
+}
+.listing-header {
+	@include clearfix();
+	.listing-name, .member-meta {
+		float: left;
+		width: 50%;
+	}
+	.member-meta {
+		text-align: right;
+		ul {
+			list-style: none;
+			margin:0;
+			padding:0;
+		}
+		.wmd-cost {
+			font-weight: bold;
+			@include rem-fallback( 'font-size', divide-by-base( 15 ) );
+		}
+	}
+}

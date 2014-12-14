@@ -21,7 +21,7 @@ get_header(); ?>
 				<?php $listing = wmd_get_listing(); ?>
 				<section
 					id="member-<?php echo esc_attr( $listing->member_id ); ?>"
-					class="wimp-member member-<?php echo esc_attr( $listing->member_id ); ?>">
+					class="wimp-member-listing member-<?php echo esc_attr( $listing->member_id ); ?>">
 
 					<header class="listing-header">
 
@@ -41,7 +41,7 @@ get_header(); ?>
 
 						<div class="member-meta">
 							<ul>
-								<li><?php wmd_format_prices( $listing->prices ); ?></li>
+								<li class="wmd-cost"><?php wmd_format_prices( $listing->prices ); ?></li>
 								<li><?php wmd_format_location( $listing->locations ); ?></li>
 							</ul>
 						</div>
