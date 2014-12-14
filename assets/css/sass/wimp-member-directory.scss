@@ -6,4 +6,9 @@
  * Licensed under the GPLv2+ license.
  */
 
+@import "variables";
+@import "mixins";
+
+@import "global";
+@import "archive";
 @import "vendor/flexslider";
