@@ -272,8 +272,8 @@
 		overflow: hidden;
 		opacity: 0;
 		cursor: pointer;
-		color: rgba(0,0,0,0.8);
-		text-shadow: 1px 1px 0 rgba( 255, 255, 255, 0.3 );
+		color: rgba( 255, 255, 255, 0.3 );
+		text-shadow: 1px 1px 0 rgba( 0, 0, 0, 0.5 );
 
 		@include transition( 0.3s, ease-in-out );
 
@@ -281,6 +281,7 @@
 
 			font-family: "flexslider-icon";
 			font-size: 40px;
+			line-height: 40px;
 			display: inline-block;
 			content: '\f001';
 
@@ -290,6 +291,10 @@
 
 			content: '\f002';
 
+		}
+
+		&:hover, &:focus {
+			color: rgba( 255, 255, 255, 0.75 ) !important;
 		}
 
 	}
