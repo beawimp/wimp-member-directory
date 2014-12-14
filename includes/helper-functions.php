@@ -309,16 +309,13 @@ function wmd_format_terms( $listing, $type = null, $return = false ) {
 		}
 
 		$output .= sprintf( '%s', wp_kses_post( $html['before-list'] ) );
-
 		$output .= '<strong>' . esc_html( wmd_convert_tax_name( $name ) ) . ':</strong>';
-
 		$output .= sprintf( '%s', wp_kses_post( $html['after-list'] ) );
 
+		$output .= sprintf( '%s', wp_kses_post( $html['before-list'] ) );
 		$end = end( $term );
-
 		// Create a comma separated list of the terms attached to our taxonomy
 		foreach ( $term as $term_id => $t ) {
-			$output .= sprintf( '%s', wp_kses_post( $html['before-list'] ) );
 
 			$output .= '<a href="' . esc_url( get_term_link( $t ) ) . '">'
 			           . esc_html( $t->name ) . '</a>';
@@ -327,9 +324,8 @@ function wmd_format_terms( $listing, $type = null, $return = false ) {
 			if ( $end->term_id !== $t->term_id ) {
 				$output .= ', ';
 			}
-
-			$output .= sprintf( '%s', wp_kses_post( $html['after-list'] ) );
 		}
+		$output .= sprintf( '%s', wp_kses_post( $html['after-list'] ) );
 	}
 
 	$output .= sprintf( '%s', wp_kses_post( $html['after-meta'] ) );

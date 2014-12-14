@@ -42,8 +42,20 @@
 
 // Allow us to handle the math needed to get the right font-size for REMs
 // Pass in values as pixels
-@function divide-by-base( $value ) {
-	@return $value / $base-font-size;
+@function divide-by-base( $value, $base: null ) {
+	@if ( $base == null ) {
+		$base: $base-font-size;
+	}
+
+	@return $value / $base;
+}
+
+// Get the proper calculated value for a property
+// Allows us to get the percentage or em/rem value.
+@mixin calc-value-by( $property, $value, $base: null, $type: '%' ) {
+	$val: ( $value / $base ) * 100;
+
+	#{$property}: #{$val + $type};
 }
 
 // Provide an easy way to create configurable "columns"
@@ -51,4 +63,13 @@
 @mixin columnize( $value ) {
 	float:left;
 	width:#{$value + '%'};
+}
+
+// Remove the margin and padding of an unordered list and remove the list styling.
+@mixin reset-url() {
+	ul {
+		list-style: none;
+		margin:0;
+		padding:0;
+	}
 }
