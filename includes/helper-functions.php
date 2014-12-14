@@ -89,7 +89,7 @@ function wmd_format_prices( $prices ) {
 	$end   = end( $prices );
 
 	foreach ( $prices as $price ) {
-		$value .= '$' . (int) $price->slug;
+		$value .= '$' . esc_html( number_format( $price->name ) );
 
 		if ( $price !== $end ) {
 			$value .= ' - ';
