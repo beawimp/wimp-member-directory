@@ -8,12 +8,15 @@
 }
 .listing-header {
 	@include clearfix();
+	margin-bottom:7px;
 	.listing-name, .member-meta {
 		float: left;
 		width: 50%;
 	}
 	.member-meta {
 		text-align: right;
+		position:relative;
+		top:28px;
 		ul {
 			list-style: none;
 			margin:0;
