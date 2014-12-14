@@ -41,11 +41,22 @@ get_header(); ?>
 					<article class="listing-wrapper">
 						<?php wmd_display_portfolio( $listing->portfolio ); ?>
 					</article>
-					
+
+					<aside class="directory-archive-meta">
+						<div class="column">
+							<?php wmd_format_terms( $listing, 'industries' ); ?>
+							<?php wmd_format_terms( $listing, 'types' ); ?>
+						</div>
+						<div class="column">
+							<?php wmd_format_terms( $listing, 'technologies' ); ?>
+						</div>
+					</aside>
+
+					<section class="listing-cta">
+						<a href="<?php the_permalink(); ?>">View Details</a>
+						<a href="<?php echo esc_url( $listing->url ); ?>">Visit Website</a>
+					</section>
 				</section>
-				<?php
-//				var_dump( $post );
-				?>
 
 			<?php endwhile; ?>
 

@@ -32,6 +32,7 @@ function wmd_get_listing( $post = null, $output = OBJECT ) {
 	// Fetch the company logo
 	$logo_id      = get_post_meta( $post->ID, '_wmd_company_logo_id', true );
 	$portfolio    = get_post_meta( $post->ID, '_wmd_portfolio_items', true );
+	$url          = get_post_meta( $post->ID, '_wmd_url', true );
 	$prices       = get_the_terms( $post->ID, 'price' );
 	$locations    = get_the_terms( $post->ID, 'location' );
 	$industries   = get_the_terms( $post->ID, 'industry' );
@@ -46,6 +47,7 @@ function wmd_get_listing( $post = null, $output = OBJECT ) {
 		'slug'              => $post->post_name,
 		'logo_id'           => ( ! empty( $logo_id ) ? (int) $logo_id : '' ),
 		'portfolio'         => $portfolio,
+		'url'               => $url,
 		'prices'            => $prices,
 		'locations'         => $locations,
 		'industries'        => $industries,
@@ -215,7 +217,11 @@ function wmd_format_state( $input, $format = '' ) {
 	return '';
 }
 
-
+/**
+ * Displays the portfolio slider
+ *
+ * @param array $items An array of portfolio items
+ */
 function wmd_display_portfolio( $items ) {
 	if ( empty( $items ) ) {
 		return '';
@@ -229,4 +235,122 @@ function wmd_display_portfolio( $items ) {
 		</ul>
 	</div>
 	<?php
+}
+
+/**
+ * Extracts the main member directory terms from the listing object
+ *
+ * @param object $listing The member listing object
+ *
+ * @return array $data An array of term objects for a specific listing object
+ */
+function wmd_list_terms( $listing ) {
+	if ( ! is_object( $listing ) ) {
+		return '';
+	}
+
+	if ( ! isset( $listing->industries, $listing->types, $listing->technologies ) ) {
+		return false;
+	}
+
+	$allowed_fields = array(
+		'industries',
+		'types',
+		'technologies',
+	);
+	$data = array();
+
+	foreach ( $listing as $term => $values ) {
+		if ( ! in_array( $term, $allowed_fields ) ) {
+			continue;
+		}
+
+		$data[ $term ] = $values;
+	}
+
+	return $data;
+}
+
+/**
+ * Applies the standard formatting of a listings meta data
+ * Requires a listing object (@see wmd_get_listing()), if no type is passed, we'll output all.
+ *
+ * Pass taxonomy names through $type to return only the terms for that taxonomy.
+ *
+ * @param object $listing The listing object
+ * @param string $type    The name of a listing taxonomy
+ * @param bool   $return  Allows us to return or echo the results
+ *
+ * @return string|bool
+ */
+function wmd_format_terms( $listing, $type = null, $return = false ) {
+	if ( empty( $listing ) || ! is_object( $listing ) ) {
+		return '';
+	}
+
+	$terms  = wmd_list_terms( $listing );
+	$output = '';
+
+	$output .= apply_filters( 'wmd_before_listing_meta', '' );
+
+	foreach ( $terms as $name => $term ) {
+		// Only apply the term type if it is in our array.
+		// If we pass an empty array, we'll just output everything.
+		if ( $name !== $type ) {
+			continue;
+		}
+
+		$output .= apply_filters( 'wmd_before_tax_listing', '' );
+
+		$output .= '<strong>' . esc_html( wmd_convert_tax_name( $name ) ) . '</strong>: ';
+
+		$end = end( $term );
+
+		// Create a comma separated list of the terms attached to our taxonomy
+		foreach ( $term as $term_id => $t ) {
+			$output .= '<a href="' . esc_url( get_term_link( $t ) ) . '">'
+			           . esc_html( $t->name ) . '</a>';
+
+			// Only append a comma if we are not on the last item in the array
+			if ( $end->term_id !== $t->term_id ) {
+				$output .= ', ';
+			}
+		}
+
+		$output .= apply_filters( 'wmd_after_tax_listing', '' );
+	}
+
+	$output .= apply_filters( 'wmd_after_listing_meta', '' );
+
+	// We may need to return our string instead of echoing it.
+	if ( $return ) {
+		return $output;
+	}
+
+	echo $output;
+}
+
+/**
+ * Converts the default Taxonomy names into something more front-end readable.
+ *
+ * @param string $tax The name of the taxonomy we want to modify
+ *
+ * @return string $output
+ */
+function wmd_convert_tax_name( $tax ) {
+	switch ( $tax ) {
+		case 'industries':
+			$output = 'Industry';
+			break;
+		case 'types':
+			$output = 'Type';
+			break;
+		case 'technologies':
+			$output = 'Technology';
+			break;
+		default:
+			$output = '';
+	}
+
+	return $output;
 }

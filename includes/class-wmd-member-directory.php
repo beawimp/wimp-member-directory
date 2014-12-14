@@ -148,6 +148,11 @@ class WMD_Member_Directory {
 					'id'    => $prefix . 'portfolio_items',
 					'type'  => 'file_list',
 				),
+				array(
+					'name'  => 'Website URL',
+					'id'    => $prefix . 'url',
+					'type'  => 'text_url',
+				)
 			),
 		);
 
