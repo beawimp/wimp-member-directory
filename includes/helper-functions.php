@@ -32,14 +32,6 @@ function wmd_get_listing( $post = null, $output = OBJECT ) {
 	// Fetch the company logo
 	$logo         = get_post_meta( $post->ID, '_wmd_company_logo', true );
 	$logo_id      = get_post_meta( $post->ID, '_wmd_company_logo_id', true );
-	$portfolio    = get_post_meta( $post->ID, '_wmd_portfolio_items', true );
-	$url          = get_post_meta( $post->ID, '_wmd_url', true );
-	$prices       = get_the_terms( $post->ID, 'price' );
-	$locations    = get_the_terms( $post->ID, 'location' );
-	$industries   = get_the_terms( $post->ID, 'industry' );
-	$technologies = get_the_terms( $post->ID, 'technology' );
-	$types        = get_the_terms( $post->ID, 'type' );
-	$member_level = get_the_terms( $post->ID, 'level' );
 
 	$data = array(
 		'ID'                => (int) $post->ID,
@@ -47,14 +39,15 @@ function wmd_get_listing( $post = null, $output = OBJECT ) {
 		'title'             => $post->post_title,
 		'slug'              => $post->post_name,
 		'logo_id'           => ( ! empty( $logo ) ? (int) $logo_id : 0 ),
-		'portfolio'         => $portfolio,
-		'url'               => $url,
-		'prices'            => $prices,
-		'locations'         => $locations,
-		'industries'        => $industries,
-		'types'             => $types,
-		'member_level'      => $member_level,
-		'technologies'      => $technologies,
+		'portfolio'         => get_post_meta( $post->ID, '_wmd_portfolio_items', true ),
+		'url'               => get_post_meta( $post->ID, '_wmd_url', true ),
+		'low_price'         => get_the_terms( $post->ID, 'wmd-price-low' ),
+		'high_price'        => get_the_terms( $post->ID, 'wmd-price-high' ),
+		'locations'         => get_the_terms( $post->ID, 'wmd-location' ),
+		'industries'        => get_the_terms( $post->ID, 'wmd-industry' ),
+		'technologies'      => get_the_terms( $post->ID, 'wmd-technology' ),
+		'types'             => get_the_terms( $post->ID, 'wmd-type' ),
+		'member_level'      => get_the_terms( $post->ID, 'wmd-level' ),
 		'post_date'         => $post->post_date,
 		'post_date_gmt'     => $post->post_date_gmt,
 		'post_modified'     => $post->post_modified,
@@ -71,32 +64,22 @@ function wmd_get_listing( $post = null, $output = OBJECT ) {
 }
 
 /**
- * Formats an array of Price objects to be lowest to highest
+ * Pairs up the low and high price values into a single string
  *
- * @param array $prices An array of term objects
+ * @param int $low  The low price
+ * @param int $high The high price
  */
-function wmd_format_prices( $prices ) {
-	if ( ! is_array( $prices ) ) {
-		return '';
+function wmd_format_prices( $low, $high ) {
+	if ( ! $low || ! $high || ! is_array( $low ) || ! is_array( $high ) ) {
+		echo 'Prices not listed';
+
+		return false;
 	}
 
-	// Sort the array lowest to height
-	usort( $prices, function( $a, $b ) {
-		return strcmp( $b->slug, $a->slug );
-	} );
+	$output  = '$' . number_format( intval( array_shift( $low )->name ) );
+	$output .= '-$' . number_format( intval( array_shift( $high )->name ) );
 
-	$value = '';
-	$end   = end( $prices );
-
-	foreach ( $prices as $price ) {
-		$value .= '$' . esc_html( number_format( $price->name ) );
-
-		if ( $price !== $end ) {
-			$value .= ' - ';
-		}
-	}
-
-	echo esc_html( $value );
+	echo esc_html( $output );
 }
 
 /**
@@ -105,8 +88,10 @@ function wmd_format_prices( $prices ) {
  * @param array $locations The array of location term objects
  */
 function wmd_format_location( $locations ) {
-	if ( ! is_array( $locations ) ) {
-		return '';
+	if ( ! $locations || ! is_array( $locations ) ) {
+		echo 'Unknown Location';
+
+		return false;
 	}
 
 	$city  = '';
@@ -225,7 +210,7 @@ function wmd_format_state( $input, $format = '' ) {
  */
 function wmd_display_portfolio( $items ) {
 	if ( empty( $items ) ) {
-		return '';
+		return false;
 	}
 	?>
 	<div class="flexslider">
@@ -247,7 +232,7 @@ function wmd_display_portfolio( $items ) {
  */
 function wmd_list_terms( $listing ) {
 	if ( ! is_object( $listing ) ) {
-		return '';
+		return false;
 	}
 
 	if ( ! isset( $listing->industries, $listing->types, $listing->technologies ) ) {
@@ -304,7 +289,7 @@ function wmd_format_terms( $listing, $type = null, $return = false ) {
 	foreach ( $terms as $name => $term ) {
 		// Only apply the term type if it is in our array.
 		// If we pass an empty array, we'll just output everything.
-		if ( $name !== $type ) {
+		if ( $name !== $type || ! $term ) {
 			continue;
 		}
 

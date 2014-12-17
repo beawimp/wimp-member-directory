@@ -41,7 +41,7 @@ get_header(); ?>
 
 						<div class="member-meta">
 							<ul>
-								<li class="wmd-cost"><?php wmd_format_prices( $listing->prices ); ?></li>
+								<li class="wmd-cost"><?php wmd_format_prices( $listing->low_price, $listing->high_price ); ?></li>
 								<li><?php wmd_format_location( $listing->locations ); ?></li>
 							</ul>
 						</div>
