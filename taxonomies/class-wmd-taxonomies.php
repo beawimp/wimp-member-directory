@@ -115,7 +115,9 @@ class WMD_Taxonomies {
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'rewrite'           => true,
+			'rewrite'           => array(
+				'slug' => 'location',
+			),
 			'capabilities'      => array(
 				'manage_terms'  => 'edit_posts',
 				'edit_terms'    => 'edit_posts',
@@ -155,7 +157,9 @@ class WMD_Taxonomies {
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'rewrite'           => true,
+			'rewrite'           => array(
+				'slug' => 'industry',
+			),
 			'capabilities'      => array(
 				'manage_terms'  => 'edit_posts',
 				'edit_terms'    => 'edit_posts',
@@ -195,7 +199,9 @@ class WMD_Taxonomies {
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'rewrite'           => true,
+			'rewrite'           => array(
+				'slug' => 'technology',
+			),
 			'capabilities'      => array(
 				'manage_terms'  => 'edit_posts',
 				'edit_terms'    => 'edit_posts',
@@ -235,7 +241,9 @@ class WMD_Taxonomies {
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'rewrite'           => true,
+			'rewrite'           => array(
+				'slug' => 'type',
+			),
 			'capabilities'      => array(
 				'manage_terms'  => 'edit_posts',
 				'edit_terms'    => 'edit_posts',
