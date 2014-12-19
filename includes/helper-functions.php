@@ -38,6 +38,7 @@ function wmd_get_listing( $post = null, $output = OBJECT ) {
 		'member_id'         => (int) $post->post_author,
 		'title'             => $post->post_title,
 		'slug'              => $post->post_name,
+		'content'           => wptexturize( wpautop( $post->post_content ) ),
 		'logo_id'           => ( ! empty( $logo ) ? (int) $logo_id : 0 ),
 		'portfolio'         => get_post_meta( $post->ID, '_wmd_portfolio_items', true ),
 		'url'               => get_post_meta( $post->ID, '_wmd_url', true ),

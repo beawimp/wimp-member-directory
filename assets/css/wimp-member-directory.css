@@ -87,6 +87,16 @@
   .listing-cta a:last-child {
     margin-left: 2.07824%; }
 
+.wimp-member-listing {
+  border: none; }
+
+.listing-header .listing-name {
+  text-align: center; }
+.listing-header .member-meta {
+  text-align: left;
+  padding: 0 20px;
+  top: 0; }
+
 /*
  * jQuery FlexSlider v2.2.0
  * http://www.woothemes.com/flexslider/
