@@ -1,0 +1,84 @@
+// Apply a clearfix to a parent element without needing to
+// bloat our HTML pi8with more classes.
+@mixin clearfix {
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+// Bring REM support with fallback to any CSS property
+// EX @include rem-fallback( margin, 10, 20, 30, 40 );
+@function strip-unit( $num ) {
+	@return $num / ( $num * 0 + 1 );
+}
+@mixin rem-fallback( $property, $values... ) {
+	$max: length( $values );
+	$pxValues: '';
+	$remValues: '';
+
+	@for $i from 1 through $max {
+		$value: strip-unit( nth( $values, $i ) );
+		$pxValues: #{$pxValues + $value * 16}px;
+
+		@if $i < $max {
+			$pxValues: #{$pxValues + " "};
+		}
+	}
+
+	@for $i from 1 through $max {
+		$value: strip-unit( nth( $values, $i ) );
+		$remValues: #{$remValues + $value}rem;
+
+		@if $i < $max {
+			$remValues: #{$remValues + " "};
+		}
+	}
+
+	#{$property}: $pxValues;
+	#{$property}: $remValues;
+}
+
+// Allow us to handle the math needed to get the right font-size for REMs
+// Pass in values as pixels
+@function divide-by-base( $value, $base: null ) {
+	@if ( $base == null ) {
+		$base: $base-font-size;
+	}
+
+	@return $value / $base;
+}
+
+// Get the proper calculated value for a property
+// Allows us to get the percentage or em/rem value.
+@mixin calc-value-by( $property, $value, $base: null, $type: '%' ) {
+	$val: ( $value / $base ) * 100;
+
+	#{$property}: #{$val + $type};
+}
+
+// Provide an easy way to create configurable "columns"
+// Basically, pass in the width in percentage you want to set..
+@mixin columnize( $value ) {
+	float:left;
+	width:#{$value + '%'};
+}
+
+// Remove the margin and padding of an unordered list and remove the list styling.
+@mixin reset-url() {
+	ul {
+		list-style: none;
+		margin:0;
+		padding:0;
+	}
+}
+
+// Creates a vertical gradient! WAT
+@mixin gradient-vertical( $start-color: #555, $end-color: #333, $start-percent: 0%, $end-percent: 100% ) {
+	background-image: -webkit-linear-gradient(top, $start-color $start-percent, $end-color $end-percent);  // Safari 5.1-6, Chrome 10+
+	background-image: -o-linear-gradient(top, $start-color $start-percent, $end-color $end-percent);  // Opera 12
+	background-image: linear-gradient(to bottom, $start-color $start-percent, $end-color $end-percent); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($start-color)}', endColorstr='#{ie-hex-str($end-color)}', GradientType=0); // IE9 and down
+}

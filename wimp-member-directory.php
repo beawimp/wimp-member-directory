@@ -54,6 +54,7 @@ define( 'WMD_ACTIVE',    true                       );
 include_once WMD_INCLUDES . 'class-wmd-utils.php';
 include_once WMD_INCLUDES . 'shortcodes.php';
 include_once WMD_INCLUDES . 'class-wmd-member-directory.php';
+include_once WMD_INCLUDES . 'helper-functions.php';
 
 include_once WMD_PATH . 'post-types/class-wmd-post-types.php';
 include_once WMD_PATH . 'taxonomies/class-wmd-taxonomies.php';
@@ -72,6 +73,7 @@ add_action( 'init',                  array( 'WMD_Taxonomies', 'industry_init'   
 add_action( 'init',                  array( 'WMD_Taxonomies', 'technology_init'                   ) );
 add_action( 'init',                  array( 'WMD_Taxonomies', 'type_init'                         ) );
 add_action( 'init',                  array( 'WMD_Taxonomies', 'level_init'                        ) );
+add_action( 'after_setup_theme',     array( 'WMD_Utils',      'after_setup',                      ) );
 
 // Wireup filters
 
