@@ -38,6 +38,7 @@ function wmd_get_listing( $post = null, $output = OBJECT ) {
 		'member_id'         => (int) $post->post_author,
 		'title'             => $post->post_title,
 		'slug'              => $post->post_name,
+		'content'           => wptexturize( wpautop( $post->post_content ) ),
 		'logo_id'           => ( ! empty( $logo ) ? (int) $logo_id : 0 ),
 		'portfolio'         => get_post_meta( $post->ID, '_wmd_portfolio_items', true ),
 		'url'               => get_post_meta( $post->ID, '_wmd_url', true ),
@@ -207,20 +208,41 @@ function wmd_format_state( $input, $format = '' ) {
  * Displays the portfolio slider
  *
  * @param array $items An array of portfolio items
+ *
+ * @return bool
  */
-function wmd_display_portfolio( $items ) {
-	if ( empty( $items ) ) {
+function wmd_display_portfolio( $items = array(), $type = 'slide' ) {
+	if ( ! is_array( $items ) || empty( $items ) ) {
 		return false;
 	}
-	?>
-	<div class="flexslider">
-		<ul class="slides">
-			<?php foreach ( $items as $key => $value ) : ?>
-				<li><img src="<?php echo esc_url( $value ); ?>" /></li>
+
+	if ( 'slide' === $type ) :
+		?>
+		<div class="flexslider">
+			<ul class="slides">
+				<?php foreach ( $items as $key => $value ) : ?>
+					<li><img src="<?php echo esc_url( $value ); ?>" /></li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+		<?php
+	else :
+		?>
+		<ul id="portfolio-list">
+			<?php foreach ( $items as $key => $value ) :
+				$image = wp_prepare_attachment_for_js( $key ); ?>
+				<li>
+					<img src="<?php echo esc_url( $value ); ?>" alt="<?php echo esc_attr( $image['title'] ); ?>" />
+					<?php
+					if ( ! empty( $image['caption'] ) ) {
+						echo '<p>' . wp_kses_post( $image['caption'] ) . '</p>';
+					}
+					?>
+				</li>
 			<?php endforeach; ?>
 		</ul>
-	</div>
-	<?php
+		<?php
+	endif;
 }
 
 /**
@@ -346,4 +368,39 @@ function wmd_convert_tax_name( $tax ) {
 	}
 
 	return $output;
+}
+
+/**
+ * Produces a miniature member profile with a rounded avatar and name and website URL.
+ *
+ * @param null   $id       The member ID
+ * @param string $site_url The member's website URL.
+ */
+function wmd_display_member( $id = null, $site_url = '' ) {
+	if ( ! isset( $id ) ) {
+		return;
+	}
+	?>
+	<aside id="member-mini-profile">
+		<div class="member-avatar">
+			<?php echo bp_core_fetch_avatar( array(
+				'item_id' => (int) $id,
+				'type'    => 'full',
+			) ); ?>
+		</div>
+		<div class="member-profile">
+			<p>Contact: <a href="<?php echo esc_url( bp_core_get_user_domain( $id ) ); ?>">
+				<?php echo esc_html( bp_core_get_user_displayname( $id ) ); ?>
+			</a>
+
+			<?php
+				if ( ! empty( $site_url ) ) :
+					echo '<br /><a href="' . esc_url( $site_url ) . '">' . esc_url( $site_url ) . '</a>';
+				endif;
+			?>
+			</p>
+
+		</div>
+	</aside>
+	<?php
 }
