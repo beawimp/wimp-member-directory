@@ -34,15 +34,27 @@ get_header(); ?>
 						</div>
 						<div class="member-meta">
 							<h2><?php echo esc_html( $listing->title ); ?></h2>
+							<p class="prices"><?php wmd_format_prices( $listing->low_price, $listing->high_price ); ?></p>
 							<p class="location">Located in: <?php wmd_format_location( $listing->locations ); ?></p>
 							<?php echo $listing->content; ?>
 
 							<p><?php wmd_format_terms( $listing, 'types' ); ?><br />
 							<?php wmd_format_terms( $listing, 'technologies' ); ?><br />
 							<?php wmd_format_terms( $listing, 'industries' ); ?></p>
+
+							<?php wmd_display_member( $listing->member_id, $listing->url ); ?>
 						</div>
 					</header>
 
+					<section class="listing-cta">
+						<a href="<?php the_permalink(); ?>">View Details</a>
+						<a href="<?php echo esc_url( $listing->url ); ?>">Visit Website</a>
+					</section>
+
+				</section>
+
+				<section id="portfolio">
+					<?php wmd_display_portfolio( $listing->portfolio, 'list' ); ?>
 				</section>
 
 			<?php endwhile; // end of the loop. ?>

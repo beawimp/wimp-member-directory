@@ -1,5 +1,6 @@
 .wimp-member-listing {
 	border: none;
+	padding:13px 0;
 }
 
 .listing-header {
@@ -10,5 +11,31 @@
 		text-align: left;
 		padding:0 20px;
 		top:0;
+		color:#594f4a;
+		p {
+			@include rem-fallback( 'font-size', divide-by-base( 14 ) );
+		}
+	}
+}
+.member-avatar {
+	@include columnize( 20 );
+	img {
+		border-radius:37px;
+	}
+}
+.member-profile {
+	@include columnize( 77.2972973 );
+	@include calc-value-by( 'margin-left', 10, 370, '%' ); // 10px / 370px = 2.7027027%
+}
+#portfolio-list {
+	padding: 0;
+	margin:0;
+	li {
+		list-style: none;
+		p {
+			@include rem-fallback( 'font-size', divide-by-base( 14 ) );
+			margin:10px 0;
+			color:#594f4a;
+		}
 	}
 }

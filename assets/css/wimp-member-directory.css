@@ -88,14 +88,41 @@
     margin-left: 2.07824%; }
 
 .wimp-member-listing {
-  border: none; }
+  border: none;
+  padding: 13px 0; }
 
 .listing-header .listing-name {
   text-align: center; }
 .listing-header .member-meta {
   text-align: left;
   padding: 0 20px;
-  top: 0; }
+  top: 0;
+  color: #594f4a; }
+  .listing-header .member-meta p {
+    font-size: 22.4px;
+    font-size: 1.4rem; }
+
+.member-avatar {
+  float: left;
+  width: 20%; }
+  .member-avatar img {
+    border-radius: 37px; }
+
+.member-profile {
+  float: left;
+  width: 77.2973%;
+  margin-left: 2.7027%; }
+
+#portfolio-list {
+  padding: 0;
+  margin: 0; }
+  #portfolio-list li {
+    list-style: none; }
+    #portfolio-list li p {
+      font-size: 22.4px;
+      font-size: 1.4rem;
+      margin: 10px 0;
+      color: #594f4a; }
 
 /*
  * jQuery FlexSlider v2.2.0
