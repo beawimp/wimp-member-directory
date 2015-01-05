@@ -48,4 +48,14 @@ class WMD_Utils {
 			require_once( 'lib/cmb/init.php' );
 		}
 	}
+
+	/**
+	 * Override the the redirect when PMPro detects we don't have a valid user.
+	 * Let's push them to the sign up page instead of the lousy membership signup page.
+	 *
+	 * @return string
+	 */
+	public static function pmpro_no_user_redirect() {
+		return esc_url_raw( home_url( '/members/sign-up/' ) );
+	}
 }
