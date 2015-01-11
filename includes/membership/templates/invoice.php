@@ -110,12 +110,12 @@ if ( $pmpro_invoice ) {
 	$invoices = $wpdb->get_results( "SELECT *, UNIX_TIMESTAMP(timestamp) as timestamp FROM $wpdb->pmpro_membership_orders WHERE user_id = '$current_user->ID' ORDER BY timestamp DESC" );
 	if ( $invoices ) {
 		?>
-		<table id="pmpro_invoices_table" class="pmpro_invoice" width="100%" cellpadding="0" cellspacing="0" border="0">
+		<table id="pmpro_invoices_table" class="pmpro_invoice wmd-custom-style" width="100%" cellpadding="0" cellspacing="0" border="0">
 			<thead>
 			<tr>
-				<th><?php esc_html_e( 'Date', 'pmpro' ); ?></th>
-				<th><?php esc_html_e( 'Invoice #', 'pmpro' ); ?></th>
-				<th><?php esc_html_e( 'Total Billed', 'pmpro' ); ?></th>
+				<th><strong><?php esc_html_e( 'Date', 'pmpro' ); ?></strong></th>
+				<th><strong><?php esc_html_e( 'Invoice #', 'pmpro' ); ?></strong></th>
+				<th><strong><?php esc_html_e( 'Total Billed', 'pmpro' ); ?></strong></th>
 				<th>&nbsp;</th>
 			</tr>
 			</thead>
@@ -124,13 +124,13 @@ if ( $pmpro_invoice ) {
 			foreach ( $invoices as $invoice ) {
 				?>
 				<tr>
-					<td><?php echo esc_html( date( get_option( "date_format" ), $invoice->timestamp ) ); ?></td>
+					<td><?php echo esc_html( date( get_option( 'date_format' ), $invoice->timestamp ) ); ?></td>
 					<td>
-						<a href="<?php echo esc_url( pmpro_url( 'invoice', '?invoice=' . urlencode( $invoice->code ) ) ); ?>"><?php echo esc_html( $invoice->code ); ?></a>
+						<a href="<?php echo esc_url( wmd_get_membership_url( 'invoice', '?invoice=' . urlencode( $invoice->code ) ) ); ?>"><?php echo esc_html( $invoice->code ); ?></a>
 					</td>
 					<td><?php echo esc_html( pmpro_formatPrice( $invoice->total ) ); ?></td>
 					<td>
-						<a href="<?php echo esc_url( pmpro_url( 'invoice', '?invoice=' . urlencode( $invoice->code ) ) ); ?>"><?php esc_html_e( 'View Invoice', 'pmpro' ); ?></a>
+						<a href="<?php echo esc_url( wmd_get_membership_url( 'invoice', '?invoice=' . urlencode( $invoice->code ) ) ); ?>"><?php esc_html_e( 'View Invoice', 'pmpro' ); ?></a>
 					</td>
 				</tr>
 			<?php
@@ -146,13 +146,10 @@ if ( $pmpro_invoice ) {
 	}
 }
 ?>
-<nav id="nav-below" class="navigation" role="navigation">
-	<div class="nav-next alignright">
-		<a href="<?php echo esc_url( wmd_get_membership_url() ); ?>"><?php esc_html_e( 'View Your Membership Account &rarr;', 'pmpro' ); ?></a>
-	</div>
+<nav id="nav-below invoice-nav" class="navigation" role="navigation">
 	<?php if ( $pmpro_invoice ) { ?>
 		<div class="nav-prev alignleft">
-			<a href="<?php echo esc_url( pmpro_url( 'invoice' ) ); ?>"><?php esc_html_e( '&larr; View All Invoices', 'pmpro' ); ?></a>
+			<a href="<?php echo esc_url( wmd_get_membership_url( 'invoice' ) ); ?>"><?php esc_html_e( '&larr; View All Invoices', 'pmpro' ); ?></a>
 		</div>
 	<?php } ?>
 </nav>

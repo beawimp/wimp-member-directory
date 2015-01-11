@@ -21,8 +21,14 @@ class WMD_Member_Directory {
 	 * Run our actions
 	 */
 	public function __construct() {
-		add_action( 'template_redirect', array( __CLASS__, 'template_redirect' ) );
-		add_filter( 'cmb_meta_boxes',    array( __CLASS__, 'add_meta_boxes' ) );
+		add_action( 'template_redirect',  array( __CLASS__, 'template_redirect' ) );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueued_resources' ) );
+		add_filter( 'cmb_meta_boxes',     array( __CLASS__, 'add_meta_boxes' ) );
+	}
+
+	public static function enqueued_resources() {
+		$min = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+		wp_enqueue_style( 'wmd_styles', WMD_ASSETS . "css/wimp-member-directory{$min}.css", null, WMD_VERSION );
 	}
 
 	/**

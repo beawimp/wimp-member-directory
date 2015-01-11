@@ -4,11 +4,30 @@ function wmd_membership_slugs() {
 	$bp_pages = array(
 		'wimp_plus',
 		'billing',
-		'cancel',
-		'levels',
+		'invoice',
 	);
 
 	return $bp_pages;
+}
+
+/**
+ * A helper function to allow us to process the $_SERVER['request_uri'] and extract the base
+ * name of the URL request.
+ *
+ * @param string $request The URL being requested from the server
+ *
+ * @return string
+ */
+function wmd_process_request_uri( $request ) {
+	$has_querystring = strtok( $request, '?' );
+
+	if ( $has_querystring ) {
+		$base = basename( $has_querystring );
+	} else {
+		$base = basename( $url );
+	}
+
+	return $base;
 }
 
 /**
@@ -17,7 +36,9 @@ function wmd_membership_slugs() {
  * @return bool
  */
 function wmd_is_bp_component() {
-	return in_array( basename( $_SERVER['REQUEST_URI'] ), wmd_membership_slugs() );
+	$base = wmd_process_request_uri( $_SERVER['REQUEST_URI'] );
+
+	return in_array( $base, wmd_membership_slugs() );
 }
 
 /**
@@ -48,11 +69,13 @@ function wimp_membership_shortcodes() {
 
 	// Run the appropriate preheader function
 	foreach ( $pmpro_pages as $pmpro_page_name => $pmpro_page_id ) {
-		$current_page = basename( $_SERVER['REQUEST_URI'] );
+		$current_page = wmd_process_request_uri( $_SERVER['REQUEST_URI'] );
+
 		if ( 'wimp_plus' === $current_page ) {
 			// We need an easy way to load the account shortcode and templates when we check the request URI
 			$current_page = 'account';
 		}
+
 		if ( wmd_is_bp_component() && $pmpro_page_name === $current_page ) {
 
 			// Pre-header
@@ -96,20 +119,3 @@ if ( wmd_is_bp_component() ) {
 	remove_action( 'wp', 'pmpro_wp', 1 );
 	add_action( 'wp', 'wimp_membership_shortcodes', 1 );
 }
-
-/**
- * Overrides the default template for the invoices shortcode
- *
- * @param string $content
- *
- * @return string
- */
-function wimp_membership_invoices_shortcode( $content ) {
-	ob_start();
-	include( WMD_INCLUDES . 'membership/templates/invoice.php' );
-	$temp_content = ob_get_contents();
-	ob_end_clean();
-
-	return $temp_content;
-}
-add_filter( 'pmpro_pages_shortcode_invoice', 'wimp_membership_invoices_shortcode' );

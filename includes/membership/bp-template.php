@@ -24,13 +24,18 @@ function bp_get_wimp_membership_slug() {
 	return apply_filters( 'bp_get_wimp_membership_slug', $slug );
 }
 
-function wmd_get_membership_url( $slug = '' ) {
+function wmd_get_membership_url( $slug = '', $prefix = '' ) {
 	global $bp;
 
 	// To ensure our URL is correctly formatted we'll need to apply a forward slash before it
 	if ( ! empty( $slug ) ) {
-		$slug = '/' . $slug;
+		$slug = trailingslashit( '/' . $slug );
 	}
 
-	return trailingslashit( bp_loggedin_user_domain() . $bp->wimp_membership->slug . $slug );
+	// Append a prefix to the URL
+	if ( ! empty( $prefix ) ) {
+		$slug = $slug . $prefix;
+	}
+
+	return bp_loggedin_user_domain() . $bp->wimp_membership->slug . $slug;
 }

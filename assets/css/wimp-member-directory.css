@@ -1,7 +1,11 @@
-/**
- * WIMP Member Directory
- * http://beawimp.org/member-directory
- *
- * Copyright (c) 2014 Cole Geissinger
- * Licensed under the GPLv2+ license.
- */
+.wmd-custom-style {
+  margin-bottom: 20px; }
+  .wmd-custom-style thead tr {
+    border-bottom: 1px solid #333; }
+  .wmd-custom-style thead th {
+    padding-bottom: 5px; }
+  .wmd-custom-style tbody tr:first-child td {
+    padding: 5px 0; }
+
+.invoice-nav {
+  margin-top: 20px; }

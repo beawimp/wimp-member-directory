@@ -19,6 +19,7 @@ if ( isset( $_REQUEST['msg'] ) ) {
 
 //if no user, redirect to levels page
 if ( empty( $current_user->ID ) ) {
+	// It is recommended we utilize the filter instead of hard-coding this.
 	$redirect = apply_filters( 'pmpro_account_preheader_no_user_redirect', pmpro_url( 'levels' ) );
 	if ( $redirect ) {
 		wp_redirect( $redirect );
@@ -26,7 +27,7 @@ if ( empty( $current_user->ID ) ) {
 	}
 }
 
-//if no membership level, redirect to levels page
+// if no membership level, redirect to levels page
 if ( ! empty( $current_user->membership_level->ID ) ) {
 	$is_wimp_plus_member = true;
 
