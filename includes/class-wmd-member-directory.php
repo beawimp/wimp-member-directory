@@ -46,6 +46,7 @@ class WMD_Member_Directory {
 			WMD_VERSION
 		);
 
+		wp_enqueue_media();
 		wp_enqueue_script( 'wmd-flexslider-js',
 			WMD_ASSETS . 'js/vendor/jquery.flexslider-min.js',
 			array( 'jquery' ),
@@ -54,7 +55,7 @@ class WMD_Member_Directory {
 		);
 		wp_enqueue_script( 'wmd-js',
 			WMD_ASSETS . "js/wimp-member-directory{$min}.js",
-			array( 'wmd-flexslider-js' ),
+			array(),
 			WMD_VERSION,
 			true
 		);

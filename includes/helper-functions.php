@@ -6,27 +6,57 @@
  */
 
 /**
+ * Fetches a listing based on user ID
+ *
+ * @param null $user_id
+ *
+ * @return array|bool|object
+ */
+function wmd_get_listing_by_user_id( $user_id = null ) {
+	if ( ! isset( $user_id ) ) {
+		return false;
+	}
+
+	$args = array(
+		'post_type' => 'member-directory',
+		'author' => (int) $user_id,
+		'no_found_rows' => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => false,
+	);
+	$listing_query = new WP_Query( $args );
+
+	if ( 1 !== $listing_query->post_count ) {
+		return false;
+	}
+
+	$listing = wmd_get_listing( $listing_query->post );
+
+	return $listing;
+}
+
+/**
  * Processes a post object or post ID into a member directory object.
  *
- * @param object|int $post   The post object or post ID
+ * @param obj|int $post   The post object or post ID
  * @param string     $output Accepts OBJECT or ARRAY
  *
  * @return array|object|bool
  */
-function wmd_get_listing( $post = null, $output = OBJECT ) {
-	// Check if we passed a post ID
-	if ( is_int( $post ) ) {
-		$post = get_post( $post );
-	} elseif ( ! isset( $post ) || ! is_object( $post ) || empty( $post ) ) {
-		global $post;
+function wmd_get_listing( $_post = null, $output = OBJECT ) {
+	if ( empty( $_post ) && isset( $GLOBALS['post'] ) ) {
+		$post = $GLOBALS['post'];
+	}
 
-		// It's possible the global $post object isn't rendered...
-		if ( empty( $post ) || ! isset( $post->ID ) ) {
+	if ( ! isset( $post ) ) {
+		if ( is_a( $_post, 'WP_Post' ) ) {
+			$post = $_post;
+		} elseif ( is_int( $_post ) ) {
+			$post = get_post( $_post );
+		} else {
+			// If all else fails, return empty.
 			return false;
 		}
-	} else {
-		// If all else fails, return empty.
-		return false;
 	}
 
 	// Fetch the company logo
@@ -69,6 +99,8 @@ function wmd_get_listing( $post = null, $output = OBJECT ) {
  *
  * @param int $low  The low price
  * @param int $high The high price
+ *
+ * @return void
  */
 function wmd_format_prices( $low, $high ) {
 	if ( ! $low || ! $high || ! is_array( $low ) || ! is_array( $high ) ) {
@@ -87,6 +119,8 @@ function wmd_format_prices( $low, $high ) {
  * Formats an array of location terms into a read-able format
  *
  * @param array $locations The array of location term objects
+ *
+ * @return void
  */
 function wmd_format_location( $locations ) {
 	if ( ! $locations || ! is_array( $locations ) ) {
@@ -403,4 +437,68 @@ function wmd_display_member( $id = null, $site_url = '' ) {
 		</div>
 	</aside>
 	<?php
+}
+
+/**
+ * Allows us to recursively search a multidimensional array for a matching value.
+ * If the item being looped/searched contains an object, we'll convert those values
+ *
+ * @param string $needle   The value to search for
+ * @param array  $haystack The array we want to search against
+ * @param bool   $strict   Force an exact match
+ *
+ * @return bool
+ */
+function wmd_in_array_r( $needle, $haystack, $strict = false ) {
+	foreach ( $haystack as $item ) {
+		if ( is_object( $item ) ) {
+			$item = get_object_vars( $item );
+		}
+
+		if ( ( $strict ? $item === $needle : $item == $needle ) || ( is_array( $item ) && wmd_in_array_r( $needle, $item, $strict ) ) ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * A custom version of WordPress' checked() function to allow us to
+ * check against an multidimensional array with objects.
+ *
+ * @param string $current The current item we are searcing for
+ * @param string $checked The array of items that are checked
+ *
+ * @return void
+ */
+function wmd_checked( $current, $checked ) {
+	echo ( wmd_in_array_r( $current, $checked ) ? ' checked="checked"' : '' );
+}
+
+function wmd_process_location_fields( $locations ) {
+	if ( empty( $locations ) ) {
+		return 'Could not process location. Please contact cole@beawimp.org';
+	}
+
+	if ( 2 !== count( $locations ) ) {
+		return 'City or State not found. Please contact cole@beawimp.org';
+	}
+
+	$state = null;
+	$city  = null;
+
+	// Find the parent
+	foreach ( $locations as $loc ) {
+		if ( 0 === $loc->parent ) {
+			$state = $loc;
+		} else {
+			$city = $loc;
+		}
+	}
+
+	$output = '<input type="text" name="wmd[state]" class="state" placeholder="State" value="' . esc_attr( $state->name ) . '" />,
+<input type="text" name="wmd[city]" class="city" placeholder="City" value="' . esc_attr( $city->name ) .'" />';
+
+	return $output;
 }
