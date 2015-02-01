@@ -16,6 +16,7 @@ var WMD;
 	var document = window.document,
 		wp       = window.wp,
 		cached   = {},
+		wmdFrame,
 		$wmdField;
 
 	WMD = {
@@ -40,6 +41,44 @@ var WMD;
 
 				WMD.media( $( e.target ) );
 			});
+		},
+
+		media : function( $el ) {
+			// If the frame already exists, reopen it.
+			if ( typeof( wmdFrame ) !== 'undefined' ) {
+				wmdFrame.close();
+			}
+
+			wmdFrame = wp.media.frames.customHeader = wp.media({
+				title: 'Upload image to your Directory Listing',
+				library: {
+					type: 'image'
+				},
+				button: {
+					text: 'Insert Image'
+				},
+				multiple: false
+			});
+
+
+			// Callback for the selected image
+			wmdFrame.on( 'select', function() {
+				var attachment = wmdFrame.state().get( 'selection' ).first().toJSON(),
+					$val1 = $el.prev(),
+					id = $val1.attr( 'id' );
+
+				if ( 'logo-id' === id ) {
+					var $val2 = $val1.prev();
+
+					$val1.val( attachment.id );
+					$val2.val( attachment.url );
+				} else {
+					$val1.val( attachment.url );
+				}
+			});
+
+			// Open the frame.
+			wmdFrame.open();
 		},
 
 		editListing : function() {
