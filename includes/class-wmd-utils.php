@@ -73,4 +73,8 @@ class WMD_Utils {
 	public static function pmpro_no_user_redirect() {
 		return esc_url_raw( home_url( '/members/sign-up/' ) );
 	}
+
+	public static function is_member() {
+
+	}
 }

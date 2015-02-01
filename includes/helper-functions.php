@@ -60,8 +60,9 @@ function wmd_get_listing( $_post = null, $output = OBJECT ) {
 	}
 
 	// Fetch the company logo
-	$logo         = get_post_meta( $post->ID, '_wmd_company_logo', true );
-	$logo_id      = get_post_meta( $post->ID, '_wmd_company_logo_id', true );
+	$prefix  = 'wmd_';
+	$logo    = get_post_meta( $post->ID, $prefix . 'company_logo', true );
+	$logo_id = get_post_meta( $post->ID, $prefix . 'company_logo_id', true );
 
 	$data = array(
 		'ID'                => (int) $post->ID,
@@ -70,8 +71,8 @@ function wmd_get_listing( $_post = null, $output = OBJECT ) {
 		'slug'              => $post->post_name,
 		'content'           => wptexturize( wpautop( $post->post_content ) ),
 		'logo_id'           => ( ! empty( $logo ) ? (int) $logo_id : 0 ),
-		'portfolio'         => get_post_meta( $post->ID, '_wmd_portfolio_items', true ),
-		'url'               => get_post_meta( $post->ID, '_wmd_url', true ),
+		'portfolio'         => get_post_meta( $post->ID, $prefix . 'portfolio_items', true ),
+		'url'               => get_post_meta( $post->ID, $prefix . 'url', true ),
 		'low_price'         => get_the_terms( $post->ID, WMD_Taxonomies::PRICE_LOW ),
 		'high_price'        => get_the_terms( $post->ID, WMD_Taxonomies::PRICE_HIGH ),
 		'locations'         => get_the_terms( $post->ID, WMD_Taxonomies::LOCATION ),
@@ -497,8 +498,8 @@ function wmd_process_location_fields( $locations ) {
 		}
 	}
 
-	$output = '<input type="text" name="wmd[state]" class="state" placeholder="State" value="' . esc_attr( $state->name ) . '" />,
-<input type="text" name="wmd[city]" class="city" placeholder="City" value="' . esc_attr( $city->name ) .'" />';
+	$output = '<input type="text" name="wmd[state]" class="state" id="state" placeholder="State" value="' . esc_attr( $state->name ) . '" data-save />,
+<input type="text" name="wmd[city]" class="city" id="city" placeholder="City" value="' . esc_attr( $city->name ) .'" data-save />';
 
 	return $output;
 }

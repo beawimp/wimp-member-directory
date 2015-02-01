@@ -26,8 +26,12 @@
 		border:1px solid #E5E5E5;
 	}
 
-	.media-upload input[type="text"], input[type="url"]#url, .add-new {
+	.media-upload input[type="text"], input[type="url"]#url {
 		width:88%;
+	}
+	.add-new {
+		width:77.8%;
+		margin-right:5px;
 	}
 	.wmd-media-btn {
 		font-size:15px;
@@ -40,9 +44,6 @@
 			width:43.5%;
 		}
 	}
-	.add-new {
-		display:none;
-	}
 	div > label:first-child {
 		font-size:16px;
 		margin-top:30px;
@@ -53,5 +54,22 @@
 	}
 	#saving-listing {
 		display:none;
+	}
+	.wmd-notification {
+		display:none;
+		padding:4px;
+		margin-top:10px;
+		border:1px solid transparent;
+		border-radius:4px;
+		&.wmd-error {
+			color:#a94442;
+			background-color:#f2dede;
+			border-color:#ebccd1;
+		}
+		&.wmd-success {
+			color:#3c763d;
+			background-color:#dff0d8;
+			border-color:#d639c6;
+		}
 	}
 }
