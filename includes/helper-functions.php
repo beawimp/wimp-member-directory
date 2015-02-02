@@ -75,7 +75,8 @@ function wmd_get_listing( $_post = null, $output = OBJECT ) {
 		'url'               => get_post_meta( $post->ID, $prefix . 'url', true ),
 		'low_price'         => get_the_terms( $post->ID, WMD_Taxonomies::PRICE_LOW ),
 		'high_price'        => get_the_terms( $post->ID, WMD_Taxonomies::PRICE_HIGH ),
-		'locations'         => get_the_terms( $post->ID, WMD_Taxonomies::LOCATION ),
+		'state'             => get_the_terms( $post->ID, WMD_Taxonomies::STATE ),
+		'city'              => get_the_terms( $post->ID, WMD_Taxonomies::CITY ),
 		'industries'        => get_the_terms( $post->ID, WMD_Taxonomies::INDUSTRY ),
 		'technologies'      => get_the_terms( $post->ID, WMD_Taxonomies::TECHNOLOGY ),
 		'types'             => get_the_terms( $post->ID, WMD_Taxonomies::TYPE ),
@@ -121,28 +122,11 @@ function wmd_format_prices( $low, $high ) {
  *
  * @param array $locations The array of location term objects
  *
- * @return void
+ * @return bool
  */
-function wmd_format_location( $locations ) {
-	if ( ! $locations || ! is_array( $locations ) ) {
-		echo 'Unknown Location';
-
+function wmd_format_location( $state, $city ) {
+	if ( ! empty( $state ) || ! empty( $state ) ) {
 		return false;
-	}
-
-	$city  = '';
-	$state = '';
-
-	foreach ( $locations as $location ) {
-		if ( 0 === $location->parent ) {
-			$state = $location->name;
-		} elseif ( 0 < $location->parent ) {
-			$city = $location->name;
-		}
-	}
-
-	if ( empty( $state ) || empty( $city ) ) {
-		return '';
 	}
 
 	echo esc_html( $city . ', ' . wmd_format_state( $state, 'abbr' ) );
@@ -475,31 +459,4 @@ function wmd_in_array_r( $needle, $haystack, $strict = false ) {
  */
 function wmd_checked( $current, $checked ) {
 	echo ( wmd_in_array_r( $current, $checked ) ? ' checked="checked"' : '' );
-}
-
-function wmd_process_location_fields( $locations ) {
-	if ( empty( $locations ) ) {
-		return 'Could not process location. Please contact cole@beawimp.org';
-	}
-
-	if ( 2 !== count( $locations ) ) {
-		return 'City or State not found. Please contact cole@beawimp.org';
-	}
-
-	$state = null;
-	$city  = null;
-
-	// Find the parent
-	foreach ( $locations as $loc ) {
-		if ( 0 === $loc->parent ) {
-			$state = $loc;
-		} else {
-			$city = $loc;
-		}
-	}
-
-	$output = '<input type="text" name="wmd[state]" class="state" id="state" placeholder="State" value="' . esc_attr( $state->name ) . '" data-save />,
-<input type="text" name="wmd[city]" class="city" id="city" placeholder="City" value="' . esc_attr( $city->name ) .'" data-save />';
-
-	return $output;
 }

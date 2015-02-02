@@ -37,11 +37,10 @@
 		font-size:15px;
 	}
 	.two-column-form {
-		input[type="number"] {
+		select {
 			width:42.5%;
-		}
-		input[type="text"] {
-			width:43.5%;
+			margin-bottom:10px;
+			height:30px;
 		}
 	}
 	div > label:first-child {

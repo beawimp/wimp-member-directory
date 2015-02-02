@@ -59,7 +59,8 @@ function wmd_get_listing_form( $data ) {
 		'url'          => '',
 		'low_price'    => 0,
 		'high_price'   => 0,
-		'locations'    => array(),
+		'state'        => '',
+		'city'         => '',
 		'industries'   => array(),
 		'technologies' => array(),
 		'types'        => array(),
@@ -118,12 +119,37 @@ function wmd_get_listing_form( $data ) {
 		<div>
 			<label>Location</label>
 			<div class="two-column-form">
-				<?php if ( empty( $data['locations'] ) ) : ?>
-					<input type="text" name="wmd[state]" id="state" class="state" placeholder="State" data-save />,
-					<input type="text" name="wmd[city]" id="city" class="city" placeholder="City" data-save />
-				<?php else : ?>
-					<?php echo wmd_process_location_fields( $data['locations'] ); ?>
-				<?php endif; ?>
+				<?php
+//				var_dump($data);
+				$states = get_terms( WMD_Taxonomies::STATE, array(
+					'hide_empty' => false,
+				) );
+				$cities = get_terms( WMD_Taxonomies::CITY, array(
+					'hide_empty' => false,
+				) );
+				?>
+				<select name="wmd[state]" id="state" data-save>
+					<option value="0">Select A State</option>
+					<?php foreach ( $states as $state ) :
+						$current = ( isset( $data['state'][0] ) ) ? $data['state'][0]->name : ''; ?>
+						<option value="<?php echo esc_attr( $state->term_id ); ?>"
+							<?php selected( $current, $state->name ); ?>>
+							<?php echo esc_html( $state->name ); ?>
+						</option>
+					<?php endforeach; ?>
+				</select>,
+				<select name="wmd[city]" id="city" data-save>
+					<option value="0">Select A City</option>
+					<?php foreach ( $cities as $city ) :
+						$current = ( isset( $data['city'][0] ) ) ? $data['city'][0]->name : ''; ?>
+						<option value="<?php echo esc_attr( $city->term_id ); ?>"
+							<?php selected( $current, $city->name ); ?>>
+							<?php echo esc_html( $city->name ); ?>
+						</option>
+					<?php endforeach; ?>
+				</select>
+				<input type="text" name="wmd[city][new]" placeholder="Add New City" data-type="<?php echo esc_attr( WMD_Taxonomies::CITY ); ?>" class="add-new" />
+				<button class="button add-new-tax" id="add-city">Add New</button>
 			</div>
 		</div>
 		<div>

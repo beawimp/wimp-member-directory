@@ -125,12 +125,11 @@ class WMD_Member_Directory {
 
 		$status = self::update_listing( $post_id, $_POST['data'] );
 
-		var_dump($status);
-//		if ( $status ) {
-//			wp_send_json_success( 'Member Listing Saved!' );
-//		} else {
-//			wp_send_json_error( 'An error occurred! Please try again.' );
-//		}
+		if ( $status ) {
+			wp_send_json_success( 'Member Listing Saved!' );
+		} else {
+			wp_send_json_error( 'An error occurred! Please try again.' );
+		}
 	}
 
 	protected static function update_listing( $post_id = null, $data ) {
@@ -154,37 +153,76 @@ class WMD_Member_Directory {
 			'ping_status'    => false,
 		);
 
-//		if ( isset( $post_id ) ) {
-//			$post_data['ID'] = (int) $post_id;
-//			$post_id = wp_update_post( $post_data );
-//		} else {
-//			$post_id = wp_insert_post( $post_data );
-//		}
+		if ( isset( $post_id ) ) {
+			$post_data['ID'] = (int) $post_id;
+			$post_id = wp_update_post( $post_data );
+		} else {
+			$post_id = wp_insert_post( $post_data );
+		}
 
 		// Make sure we have a post actually saved.
-//		if ( 0 === $post_id ) {
-//			return false;
-//		}
+		if ( 0 === $post_id ) {
+			return false;
+		}
 
 		// Save the logo
 		update_post_meta( $post_id, $prefix . 'company_logo', esc_url( $data['logo'] ) );
 		update_post_meta( $post_id, $prefix . 'company_logo_id', absint( $data['logo-id'] ) );
 
 		// Save the portfolio items
-//		update_post_meta( $post_id, $prefix . '')
+		update_post_meta( $post_id, $prefix . 'portfolio_items', self::sanitize_array( $data['portfolio'], 'url' ) );
 
-		$post_meta = array(
-			'logo'      => esc_url( $data['logo'] ),
-			'portfolio' => self::sanitize_array( $data['portfolio'], 'url' ),
-			'url'       => esc_url( $data['url'] ),
+		// Save the url
+		update_post_meta( $post_id, $prefix . 'url', esc_url( $data['url'] ) );
+
+		// Save taxonomies
+		$taxonomies = array(
+			'price-low'  => WMD_Taxonomies::PRICE_LOW,
+			'price-high' => WMD_Taxonomies::PRICE_HIGH,
+			'state'      => WMD_Taxonomies::STATE,
+			'city'       => WMD_Taxonomies::CITY,
+			'industry'   => WMD_Taxonomies::INDUSTRY,
+			'tech'       => WMD_Taxonomies::TECHNOLOGY,
+			'type'       => WMD_Taxonomies::TYPE,
+			'level'      => WMD_Taxonomies::LEVEL,
 		);
-//		$updated = update_post_meta( $post_id, 'wmd-listing-meta', $post_meta );
 
-//		if ( ! $updated ) {
-//			return false;
-//		} else {
-//			return true;
-//		}
+		foreach ( $taxonomies as $key => $tax ) {
+			if ( 'location' === $key ) {
+				// Figure out if we need to create or update an existing state term
+				if ( ! term_exists( $data['state'], $tax ) ) {
+					$state_id = wp_insert_term( sanitize_text_field( $data['state'] ), $tax )['term_id'];
+				} else {
+					$state_id = get_term_by( 'slug', $data['state'], $tax )->term_id;
+				}
+
+				// Figure out if we need to create or update an existing city term
+				if ( ! term_exists( $data['city'], $tax, $state_id ) ) {
+					$city_id = wp_insert_term( sanitize_text_field( $data['city'] ), $tax, array(
+						'parent' => (int) $state_id,
+					) )['term_id'];
+				} else {
+					$city_id = get_term_by( 'slug', $data['city'], $tax )->term_id;
+				}
+
+				$location = array(
+					$state_id,
+					$city_id,
+				);
+				wp_set_object_terms( $post_id, $location, $tax );
+			} elseif ( 'level' === $key ) {
+				// For phase 1 we will not have different levels.
+				wp_set_object_terms( $post_id, 'large', $tax );
+			} elseif ( 'price-low' === $key || 'price-high' === $key ) {
+				wp_set_object_terms( $post_id, self::sanitize_array( $data[ $key ] ), $tax );
+			} elseif ( 'state' === $key || 'city' === $key ) {
+				wp_set_object_terms( $post_id, absint( $data[ $key ] ), $tax );
+			} else {
+				wp_set_object_terms( $post_id, self::sanitize_array( $data[ $key ], 'int' ), $tax );
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -195,12 +233,15 @@ class WMD_Member_Directory {
 	 *
 	 * @return array
 	 */
-	protected static function sanitize_array( $array, $type ) {
+	protected static function sanitize_array( $array, $type = '' ) {
 		$clean = array();
 		foreach ( (array) $array as $key => $val ) {
 			switch ( $type ) {
 				case 'url':
 					$clean[ sanitize_key( $key ) ] = esc_url( $val );
+					break;
+				case 'int':
+					$clean[ sanitize_key( $key ) ] = absint( $val );
 					break;
 				default:
 					$clean[ sanitize_key( $key ) ] = sanitize_text_field( $val );

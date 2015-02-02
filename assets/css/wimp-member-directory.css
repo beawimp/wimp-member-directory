@@ -388,10 +388,10 @@
   margin-right: 5px; }
 #buddypress #wmd-listings .wmd-media-btn {
   font-size: 15px; }
-#buddypress #wmd-listings .two-column-form input[type="number"] {
-  width: 42.5%; }
-#buddypress #wmd-listings .two-column-form input[type="text"] {
-  width: 43.5%; }
+#buddypress #wmd-listings .two-column-form select {
+  width: 42.5%;
+  margin-bottom: 10px;
+  height: 30px; }
 #buddypress #wmd-listings div > label:first-child {
   font-size: 16px;
   margin-top: 30px; }

@@ -68,7 +68,8 @@ add_action( 'init',                  array( 'WMD_Post_Types', 'member_directory_
 add_filter( 'post_updated_messages', array( 'WMD_Post_Types', 'member_directory_updated_messages' ) );
 add_action( 'init',                  array( 'WMD_Taxonomies', 'price_low_init'                    ) );
 add_action( 'init',                  array( 'WMD_Taxonomies', 'price_high_init'                   ) );
-add_action( 'init',                  array( 'WMD_Taxonomies', 'location_init'                     ) );
+add_action( 'init',                  array( 'WMD_Taxonomies', 'state_init'                        ) );
+add_action( 'init',                  array( 'WMD_Taxonomies', 'city_init'                         ) );
 add_action( 'init',                  array( 'WMD_Taxonomies', 'industry_init'                     ) );
 add_action( 'init',                  array( 'WMD_Taxonomies', 'technology_init'                   ) );
 add_action( 'init',                  array( 'WMD_Taxonomies', 'type_init'                         ) );

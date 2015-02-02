@@ -69,7 +69,7 @@ var WMD;
 				var attachment = wmdFrame.state().get( 'selection' ).first().toJSON(),
 					$val1 = $el.prev(),
 					id = $val1.attr( 'id' );
-				console.log(id);
+
 				if ( 'logo-id' === id ) {
 					var $val2 = $val1.prev();
 
@@ -97,6 +97,10 @@ var WMD;
 					term : $wmdField.val(),
 					tax : $wmdField.attr( 'data-type' )
 				};
+
+				if ( 'add-city' === $SELF.attr( 'id' ) ) {
+					data.isCity = true;
+				}
 
 				WMD.ajax( 'wmd_save_listing_tax', nonce, data );
 			});
@@ -155,6 +159,7 @@ var WMD;
 		},
 
 		ajax : function( action, nonce, data ) {
+
 			wp.ajax.send( action, {
 				success: WMD.ajaxSuccess,
 				error: WMD.ajaxError,
@@ -166,6 +171,16 @@ var WMD;
 		},
 
 		ajaxSuccess : function( data ) {
+			var id = $wmdField.next().attr( 'id' );
+
+			if ( 'add-city' === id ) {
+				WMD.ajaxCitySuccess( data );
+			} else {
+				WMD.ajaxTaxSuccess( data );
+			}
+		},
+
+		ajaxTaxSuccess : function( data ) {
 			var html = '<label for="' + data.term_id + '">' +
 					'<input type="checkbox" ' +
 						'name="wmd[' + data.taxonomy + '][' + data.term_id + ']" ' +
@@ -176,6 +191,14 @@ var WMD;
 				'</label>';
 
 			$wmdField.val( '' ).prev().after( html );
+		},
+
+		ajaxCitySuccess : function( data ) {
+			var html = '<option value="' + data.term_id + '" selected="selected">' +
+					data.name +
+				'</option>';
+
+			$wmdField.val( '' ).prev().append( html );
 		},
 
 		ajaxError : function( data ) {
