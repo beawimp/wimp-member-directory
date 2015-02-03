@@ -49,7 +49,7 @@ class WMD_Member_Directory {
 		);
 
 		wp_enqueue_media();
-		if ( is_single() && 'member-directory' === get_post_type() ) {
+		if ( is_post_type_archive( 'member-directory' ) ) {
 			wp_enqueue_script( 'wmd-flexslider-js',
 				WMD_ASSETS . 'js/vendor/jquery.flexslider-min.js',
 				array( 'jquery' ),

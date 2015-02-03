@@ -141,8 +141,6 @@ var WMD;
 				data['content'] = tinyMCE.get( 'content' ).getContent();
 				data['id']      = $SELF.find( '#id' ).val();
 
-				console.log( data['content'] );
-
 				for ( var i = 0; i < inputs.length; i++ ) {
 					var el = inputs[ i ];
 
@@ -272,7 +270,7 @@ var WMD;
 		},
 
 		load : function() {
-			if ( $.isFunction( window.flexslider ) ) {
+			if ( $.flexslider ) {
 				$( '.flexslider' ).flexslider( {
 					'controlNav' : false
 				} );
