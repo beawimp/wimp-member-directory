@@ -18,7 +18,8 @@ var WMD;
 
 	var document = window.document,
 		wp       = window.wp,
-		cached   = {},
+		tinymce  = window.tinymce,
+		postSave = false,
 		wmdFrame,
 		$wmdField;
 
@@ -75,6 +76,17 @@ var WMD;
 
 					$val1.val( attachment.id );
 					$val2.val( attachment.url );
+				} else if ( 'portfolio' === $val1.attr( 'data-type' ) ) {
+					var attachmentID = attachment.id,
+						name = 'wmd[portfolio][' + attachmentID + ']',
+						tmpl = $( document.getElementById( 'portfolio-tmpl' ) ).html();
+
+					$val1.attr({
+						'name' : name,
+						'data-id' : attachmentID
+					}).val( attachment.url );
+
+					$el.parent().after( tmpl );
 				} else {
 					$val1.val( attachment.url );
 				}
@@ -110,26 +122,37 @@ var WMD;
 			$( document.getElementById( 'wmd-listings' ) ).submit( function( e ) {
 				e.preventDefault();
 
-				var $SELF  = $( this ),
-					nonce  = $( document.getElementById( 'wmd-listing-nonce' ) ).val(),
-					inputs = this.elements,
-					data   = {
+				var $SELF    = $( this ),
+					nonce    = $( document.getElementById( 'wmd-listing-nonce' ) ).val(),
+					inputs   = this.elements,
+					count    = 1,
+					data     = {
 						industry: {},
 						tech: {},
 						type: {},
 						portfolio: {}
 					},
-					count = 1,
 					lastType;
 
-				data['content'] = $SELF.find( '#content' ).val();
-				data['id'] = $SELF.find( '#id' ).val();
+				// Store that we are currently saving the listing
+				tinyMCE.triggerSave();
+				postSave = true;
+
+				data['content'] = tinyMCE.get( 'content' ).getContent();
+				data['id']      = $SELF.find( '#id' ).val();
+
+				console.log( data['content'] );
 
 				for ( var i = 0; i < inputs.length; i++ ) {
 					var el = inputs[ i ];
 
 					if ( el.hasAttribute( 'data-save' ) ) {
 						if ( WMD.isInt( el.id ) ) {
+							// This is a checkbox. If it is not checked, skip it.
+							if ( ! el.checked ) {
+								continue;
+							}
+
 							var type = el.name.match( /wmd\[(.*)\]\[[0-9]{1,10}\]/ );
 
 							data[ type[1] ][ count ] = el.value;
@@ -171,12 +194,18 @@ var WMD;
 		},
 
 		ajaxSuccess : function( data ) {
-			var id = $wmdField.next().attr( 'id' );
+			// Check if we are processing a taxonomy ajax request
+			if ( ! postSave ) {
+				var id = $wmdField.next().attr( 'id' );
 
-			if ( 'add-city' === id ) {
-				WMD.ajaxCitySuccess( data );
+				if ( 'add-city' === id ) {
+					WMD.ajaxCitySuccess( data );
+				} else {
+					WMD.ajaxTaxSuccess( data );
+				}
 			} else {
-				WMD.ajaxTaxSuccess( data );
+				// Default Ajax post save
+				WMD.postNotifications( 'success', data );
 			}
 		},
 
@@ -191,9 +220,12 @@ var WMD;
 				'</label>';
 
 			$wmdField.val( '' ).prev().after( html );
+
+			WMD.listingTaxNotification( 'success', '' );
 		},
 
 		ajaxCitySuccess : function( data ) {
+			console.log(data);
 			var html = '<option value="' + data.term_id + '" selected="selected">' +
 					data.name +
 				'</option>';
@@ -201,8 +233,24 @@ var WMD;
 			$wmdField.val( '' ).prev().append( html );
 		},
 
+
+
+		postNotifications : function( type, message ) {
+			var html = '<div class="wmd-notification wmd-' + type + '">' + message + '</div>',
+				$wrapper = $( document.getElementById( 'wmd-notifications' ) );
+
+			$wrapper.empty().html( html );
+
+			$( document.getElementsByClassName( 'wmd-notification' ) ).fadeIn();
+		},
+
 		ajaxError : function( data ) {
-			WMD.listingTaxNotification( 'error', data );
+			// Check if we are processing a taxonomy ajax request
+			if ( ! postSave ) {
+				WMD.listingTaxNotification( 'error', data );
+			} else {
+				WMD.postNotifications( 'error', data );
+			}
 		},
 
 		listingTaxNotification : function( type, message ) {
@@ -224,9 +272,11 @@ var WMD;
 		},
 
 		load : function() {
-			$( '.flexslider' ).flexslider({
-				'controlNav' : false
-			});
+			if ( $.isFunction( window.flexslider ) ) {
+				$( '.flexslider' ).flexslider( {
+					'controlNav' : false
+				} );
+			}
 		}
 	};
 

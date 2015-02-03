@@ -91,7 +91,7 @@ function wmd_get_listing_form( $data ) {
 			<label for="logo">Logo</label>
 			<div class="media-upload">
 				<?php $logo = ( 0 !== $data['logo_id'] ) ? wp_get_attachment_image_src( $data['logo_id'], 'full' ) : array(); ?>
-				<input type="text" name="wmd[logo]" id="logo" value="<?php echo esc_attr( $logo[0] ); ?>" data-save />
+				<input type="text" name="wmd[logo]" id="logo" value="<?php echo ( isset( $logo[0] ) ) ? esc_attr( $logo[0] ) : ''; ?>" data-save />
 				<input name="logo-id" type="hidden" id="logo-id" value="<?php echo absint( $data['logo_id'] ); ?>" data-save />
 				<input type="button" value="Add Image" class="wmd-media-btn button" id="upload-image" />
 			</div>
@@ -99,28 +99,40 @@ function wmd_get_listing_form( $data ) {
 		<div>
 			<label>Portfolio</label>
 			<div class="media-upload">
-				<?php foreach ( $data['portfolio'] as $id => $image ) : ?>
-					<input type="text" name="wmd[portfolio][<?php echo esc_attr( $id ); ?>]" value="<?php echo esc_attr( $image ); ?>" data-id="<?php echo esc_attr( $id ); ?>" data-save />
+				<?php
+				if ( ! empty( $data['portfolio'] ) ) :
+					foreach ( $data['portfolio'] as $id => $image ) : ?>
+						<div class="portfolio-wrapper">
+							<input type="text" name="wmd[portfolio][<?php echo esc_attr( $id ); ?>]" value="<?php echo esc_attr( $image ); ?>" data-id="<?php echo esc_attr( $id ); ?>" data-type="portfolio" data-save />
+							<input type="button" value="Add Image" class="wmd-media-btn button upload-portfolio" />
+						</div>
+					<?php endforeach;
+				endif; ?>
+				<div class="portfolio-wrapper">
+					<input type="text" name="wmd[portfolio][0]" value="" data-id="0" data-type="portfolio" data-save />
 					<input type="button" value="Add Image" class="wmd-media-btn button upload-portfolio" />
-				<?php endforeach; ?>
+				</div>
 			</div>
 		</div>
 		<div>
 			<label for="url">Website URL</label>
-			<input type="url" name="wmd[url]" id="url" value="<?php echo esc_url( $data['url'] ); ?>" data-save />
+			<input type="url" name="wmd[url]" id="url" value="<?php echo esc_url( $data['url'] ); ?>" placeholder="http://www.domain.com" data-save />
 		</div>
 		<div>
 			<label>Price Range</label>
 			<div class="two-column-form">
-				<input type="number" name="wmd[low_price]" id="price-low" class="price-low" value="<?php echo esc_attr( $data['low_price'][0]->slug ); ?>" data-save /> to
-				<input type="number" name="wmd[high_price]" id="price-high" class="price-high" value="<?php echo esc_attr( $data['high_price'][0]->slug ); ?>" data-save />
+				<?php
+				$price_low = ( isset( $data['low_price'][0]->slug ) ) ? $data['low_price'][0]->slug : '';
+				$price_high = ( isset( $data['high_price'][0]->slug ) ) ? $data['high_price'][0]->slug : '';
+				?>
+				<input type="number" name="wmd[low_price]" id="price-low" class="price-low" value="<?php echo esc_attr( $price_low ); ?>" placeholder="0" data-save /> to
+				<input type="number" name="wmd[high_price]" id="price-high" class="price-high" value="<?php echo esc_attr( $price_high ); ?>" placeholder="0" data-save />
 			</div>
 		</div>
 		<div>
 			<label>Location</label>
 			<div class="two-column-form">
 				<?php
-//				var_dump($data);
 				$states = get_terms( WMD_Taxonomies::STATE, array(
 					'hide_empty' => false,
 				) );
@@ -220,7 +232,14 @@ function wmd_get_listing_form( $data ) {
 			<div id="saving-listing">
 				<img src="<?php echo esc_url( WMD_URL . 'images/loading.gif' ); ?>" alt="Saving Listing..." width="20" height="20" /> Saving...
 			</div>
+			<div id="wmd-notifications"></div>
 		</div>
 	</form>
+	<script type="text/template" id="portfolio-tmpl">
+		<div class="portfolio-wrapper">
+			<input type="text" name="wmd[portfolio][0]" value="" data-id="0" data-type="portfolio" data-save />
+			<input type="button" value="Add Image" class="wmd-media-btn button upload-portfolio" />
+		</div>
+	</script>
 	<?php
 }

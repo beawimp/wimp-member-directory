@@ -26,6 +26,9 @@
 		border:1px solid #E5E5E5;
 	}
 
+	.portfolio-wrapper {
+		margin-bottom:10px;
+	}
 	.media-upload input[type="text"], input[type="url"]#url {
 		width:88%;
 	}
@@ -68,7 +71,7 @@
 		&.wmd-success {
 			color:#3c763d;
 			background-color:#dff0d8;
-			border-color:#d639c6;
+			border-color:#3c763d;
 		}
 	}
 }

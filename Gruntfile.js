@@ -40,7 +40,8 @@ module.exports = function( grunt ) {
 					exports: true,
 					module:  false,
 					jQuery:  false,
-					console: false
+					console: false,
+					tinyMCE: false
 				}
 			}
 		},

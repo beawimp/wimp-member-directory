@@ -49,12 +49,14 @@ class WMD_Member_Directory {
 		);
 
 		wp_enqueue_media();
-		wp_enqueue_script( 'wmd-flexslider-js',
-			WMD_ASSETS . 'js/vendor/jquery.flexslider-min.js',
-			array( 'jquery' ),
-			'2.2.2',
-			true
-		);
+		if ( is_single() && 'member-directory' === get_post_type() ) {
+			wp_enqueue_script( 'wmd-flexslider-js',
+				WMD_ASSETS . 'js/vendor/jquery.flexslider-min.js',
+				array( 'jquery' ),
+				'2.2.2',
+				true
+			);
+		}
 		wp_enqueue_script( 'wmd-js',
 			WMD_ASSETS . "js/wimp-member-directory{$min}.js",
 			array(),
@@ -170,6 +172,7 @@ class WMD_Member_Directory {
 		update_post_meta( $post_id, $prefix . 'company_logo_id', absint( $data['logo-id'] ) );
 
 		// Save the portfolio items
+		unset( $data['portfolio'][0] ); // Remove the empty portfolio item from the array.
 		update_post_meta( $post_id, $prefix . 'portfolio_items', self::sanitize_array( $data['portfolio'], 'url' ) );
 
 		// Save the url
