@@ -15,8 +15,13 @@ function bp_wimp_listing_screen_title() {
 }
 
 function bp_wimp_listing_screen_content() {
-	// Fetch the currently viewed user ID and fetch the listing based on that.
-	$data = wmd_get_listing_by_user_id( bp_displayed_user_id() );
+	if ( ! wmd_is_wimp_plus_member() ) {
+		echo '<h2>WIMP+ Membership Required!</h2>';
+		echo '<p>Please <a href="' . esc_url( wmd_get_membership_url() ) . '">sign-up for a WIMP+ membership</a> to create your own Member Listing!</p>';
+	} else {
+		// Fetch the currently viewed user ID and fetch the listing based on that.
+		$data = wmd_get_listing_by_user_id( bp_displayed_user_id() );
 
-	echo wmd_get_listing_form( $data );
+		echo wmd_get_listing_form( $data );
+	}
 }
