@@ -68,7 +68,8 @@ add_action( 'init',                  array( 'WMD_Post_Types', 'member_directory_
 add_filter( 'post_updated_messages', array( 'WMD_Post_Types', 'member_directory_updated_messages' ) );
 add_action( 'init',                  array( 'WMD_Taxonomies', 'price_low_init'                    ) );
 add_action( 'init',                  array( 'WMD_Taxonomies', 'price_high_init'                   ) );
-add_action( 'init',                  array( 'WMD_Taxonomies', 'location_init'                     ) );
+add_action( 'init',                  array( 'WMD_Taxonomies', 'state_init'                        ) );
+add_action( 'init',                  array( 'WMD_Taxonomies', 'city_init'                         ) );
 add_action( 'init',                  array( 'WMD_Taxonomies', 'industry_init'                     ) );
 add_action( 'init',                  array( 'WMD_Taxonomies', 'technology_init'                   ) );
 add_action( 'init',                  array( 'WMD_Taxonomies', 'type_init'                         ) );
@@ -86,6 +87,17 @@ function wmd_bp_membership_component_init() {
 	}
 }
 add_action( 'bp_include', 'wmd_bp_membership_component_init' );
+
+/**
+ * Load our BuddyPress Listing Manager component if BP is installed
+ */
+function wmd_bp_listing_manager_component_init() {
+	// Because our loader file uses BP_Component, it requires BP 1.5 or greater.
+	if ( version_compare( BP_VERSION, '1.3', '>' ) ) {
+		require( WMD_INCLUDES . '/listing-manager/bp-listing-manager-loader.php' );
+	}
+}
+add_action( 'bp_include', 'wmd_bp_listing_manager_component_init' );
 
 // Wireup filters
 add_filter( 'pmpro_account_preheader_no_user_redirect', array( 'WMD_Utils', 'pmpro_no_user_redirect' ) );
