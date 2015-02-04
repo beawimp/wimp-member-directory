@@ -29,6 +29,10 @@
 	.portfolio-wrapper {
 		margin-bottom:10px;
 	}
+	.description p {
+		@include rem-fallback( 'font-size', divide-by-base( 12 ) );
+		margin-bottom:5px;
+	}
 	.media-upload input[type="text"], input[type="url"]#url {
 		width:88%;
 	}

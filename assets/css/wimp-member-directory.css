@@ -383,6 +383,10 @@
   border: 1px solid #E5E5E5; }
 #buddypress #wmd-listings .portfolio-wrapper {
   margin-bottom: 10px; }
+#buddypress #wmd-listings .description p {
+  font-size: 19.2px;
+  font-size: 1.2rem;
+  margin-bottom: 5px; }
 #buddypress #wmd-listings .media-upload input[type="text"], #buddypress #wmd-listings input[type="url"]#url {
   width: 88%; }
 #buddypress #wmd-listings .add-new {
