@@ -270,6 +270,7 @@ var WMD;
 		},
 
 		load : function() {
+			// Make sure flexslider is loaded
 			if ( $.flexslider ) {
 				$( '.flexslider' ).flexslider( {
 					'controlNav' : false
