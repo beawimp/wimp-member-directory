@@ -39,3 +39,22 @@ function wmd_get_membership_url( $slug = '', $prefix = '' ) {
 
 	return bp_loggedin_user_domain() . $bp->wimp_membership->slug . $slug;
 }
+
+/**
+ * Allows us to check with PMPro if the current user is a paid member
+ *
+ * @uses pmpro_getMembershipLevelForUser()
+ *
+ * @return bool
+ */
+function wmd_is_wimp_plus_member() {
+	$is_member = pmpro_getMembershipLevelForUser( get_current_user_id() );
+
+	if ( is_object( $is_member ) ) {
+		$bool = true;
+	} else {
+		$bool = false;
+	}
+
+	return (bool) $bool;
+}

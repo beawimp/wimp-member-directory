@@ -138,7 +138,7 @@ if ( ! $current_user->membership_level->ID ) {
 					}
 					?>
 					<li>
-						<a href="<?php echo esc_url( pmpro_url( 'invoice', '?invoice=' . $invoice->code ) ); ?>"><?php echo esc_html( date_i18n( get_option( 'date_format' ), $invoice->timestamp ) ); ?> (<?php echo esc_html( pmpro_formatPrice( $invoice->total ) ); ?>)</a>
+						<a href="<?php echo esc_url( wmd_get_membership_url( 'invoice', '?invoice=' . $invoice->code ) ); ?>"><?php echo esc_html( date_i18n( get_option( 'date_format' ), $invoice->timestamp ) ); ?> (<?php echo esc_html( pmpro_formatPrice( $invoice->total ) ); ?>)</a>
 					</li>
 				<?php
 				}
@@ -146,7 +146,7 @@ if ( ! $current_user->membership_level->ID ) {
 			</ul>
 			<?php if ( $count == 6 ) { ?>
 				<p>
-					<a href="<?php echo esc_url( pmpro_url( 'invoice' ) ); ?>"><?php esc_html_e( 'View All Invoices', 'pmpro' ); ?></a>
+					<a href="<?php echo esc_url( wmd_get_membership_url( 'invoice' ) ); ?>"><?php esc_html_e( 'View All Invoices', 'pmpro' ); ?></a>
 				</p>
 			<?php } ?>
 		</div> <!-- end pmpro_account-billing -->
@@ -160,7 +160,7 @@ if ( ! $current_user->membership_level->ID ) {
 			?>
 			<?php if ( 1 < count( $pmpro_levels ) && ! defined( 'PMPRO_DEFAULT_LEVEL' ) ) { ?>
 				<li>
-					<a href="<?php echo esc_url( pmpro_url( 'levels' ) ); ?>"><?php esc_html_e( 'Change Membership Level', 'pmpro' ); ?></a>
+					<a href="<?php echo esc_url( wmd_get_membership_url( 'levels' ) ); ?>"><?php esc_html_e( 'Change Membership Level', 'pmpro' ); ?></a>
 				</li>
 			<?php } ?>
 			<li>

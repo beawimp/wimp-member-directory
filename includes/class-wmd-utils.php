@@ -19,6 +19,9 @@ class WMD_Utils {
 
 		// Sets the image size for portfolio images with cropping set
 		add_image_size( 'wmd_portfolio_gallery', 697, 358, true );
+
+		// Remove the login redirect forced by PMPro
+		remove_filter( 'login_redirect', 'pmpro_login_redirect', 10, 3 );
 	}
 
 	/**
@@ -72,5 +75,9 @@ class WMD_Utils {
 	 */
 	public static function pmpro_no_user_redirect() {
 		return esc_url_raw( home_url( '/members/sign-up/' ) );
+	}
+
+	public static function is_member() {
+
 	}
 }

@@ -16,12 +16,13 @@ class WMD_Taxonomies {
 	 */
 	const PRICE_LOW  = 'wmd-price-low';
 	const PRICE_HIGH = 'wmd-price-high';
-	const LOCATION   = 'wmd-location';
+	const STATE      = 'wmd-state';
+	const CITY       = 'wmd-city';
 	const INDUSTRY   = 'wmd-industry';
 	const TECHNOLOGY = 'wmd-technology';
 	const TYPE       = 'wmd-type';
 	const LEVEL      = 'wmd-level';
-	
+
 	/**
 	 * Registers the price-low taxonomy
 	 *
@@ -103,12 +104,12 @@ class WMD_Taxonomies {
 	}
 
 	/**
-	 * Registers the location taxonomy
+	 * Registers the state taxonomy
 	 *
-	 * Contains the specific location (State and City) and will be stored hierarchically.
+	 * Contains the state the listing will exist in
 	 */
-	public static function location_init() {
-		register_taxonomy( self::LOCATION, array( 'member-directory' ), array(
+	public static function state_init() {
+		register_taxonomy( self::STATE, array( 'member-directory' ), array(
 			'hierarchical'      => true,
 			'public'            => true,
 			'show_in_nav_menus' => true,
@@ -116,7 +117,7 @@ class WMD_Taxonomies {
 			'show_admin_column' => true,
 			'query_var'         => true,
 			'rewrite'           => array(
-				'slug' => 'location',
+				'slug' => 'state',
 			),
 			'capabilities'      => array(
 				'manage_terms'  => 'edit_posts',
@@ -125,21 +126,63 @@ class WMD_Taxonomies {
 				'assign_terms'  => 'edit_posts'
 			),
 			'labels'            => array(
-				'name'                       => __( 'Locations', 'wimp-member-directory' ),
-				'singular_name'              => _x( 'Locations', 'taxonomy general name', 'wimp-member-directory' ),
-				'search_items'               => __( 'Search Locations', 'wimp-member-directory' ),
-				'popular_items'              => __( 'Popular Locations', 'wimp-member-directory' ),
-				'all_items'                  => __( 'All Locations', 'wimp-member-directory' ),
-				'parent_item'                => __( 'Parent Locations', 'wimp-member-directory' ),
-				'parent_item_colon'          => __( 'Parent Locations:', 'wimp-member-directory' ),
-				'edit_item'                  => __( 'Edit Locations', 'wimp-member-directory' ),
-				'update_item'                => __( 'Update Locations', 'wimp-member-directory' ),
-				'add_new_item'               => __( 'New Locations', 'wimp-member-directory' ),
-				'new_item_name'              => __( 'New Locations', 'wimp-member-directory' ),
-				'separate_items_with_commas' => __( 'Locations separated by comma', 'wimp-member-directory' ),
-				'add_or_remove_items'        => __( 'Add or remove Locations', 'wimp-member-directory' ),
-				'choose_from_most_used'      => __( 'Choose from the most used Locations', 'wimp-member-directory' ),
-				'menu_name'                  => __( 'Locations', 'wimp-member-directory' ),
+				'name'                       => __( 'State', 'wimp-member-directory' ),
+				'singular_name'              => _x( 'State', 'taxonomy general name', 'wimp-member-directory' ),
+				'search_items'               => __( 'Search States', 'wimp-member-directory' ),
+				'popular_items'              => __( 'Popular States', 'wimp-member-directory' ),
+				'all_items'                  => __( 'All States', 'wimp-member-directory' ),
+				'parent_item'                => __( 'Parent State', 'wimp-member-directory' ),
+				'parent_item_colon'          => __( 'Parent State:', 'wimp-member-directory' ),
+				'edit_item'                  => __( 'Edit State', 'wimp-member-directory' ),
+				'update_item'                => __( 'Update State', 'wimp-member-directory' ),
+				'add_new_item'               => __( 'New State', 'wimp-member-directory' ),
+				'new_item_name'              => __( 'New State', 'wimp-member-directory' ),
+				'separate_items_with_commas' => __( 'State separated by comma', 'wimp-member-directory' ),
+				'add_or_remove_items'        => __( 'Add or remove States', 'wimp-member-directory' ),
+				'choose_from_most_used'      => __( 'Choose from the most used States', 'wimp-member-directory' ),
+				'menu_name'                  => __( 'State', 'wimp-member-directory' ),
+			),
+		) );
+	}
+
+	/**
+	 * Registers the city taxonomy
+	 *
+	 * Contains the city the listing will exist in
+	 */
+	public static function city_init() {
+		register_taxonomy( self::CITY, array( 'member-directory' ), array(
+			'hierarchical'      => true,
+			'public'            => true,
+			'show_in_nav_menus' => true,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'query_var'         => true,
+			'rewrite'           => array(
+				'slug' => 'state',
+			),
+			'capabilities'      => array(
+				'manage_terms'  => 'edit_posts',
+				'edit_terms'    => 'edit_posts',
+				'delete_terms'  => 'edit_posts',
+				'assign_terms'  => 'edit_posts'
+			),
+			'labels'            => array(
+				'name'                       => __( 'Cities', 'wimp-member-directory' ),
+				'singular_name'              => _x( 'City', 'taxonomy general name', 'wimp-member-directory' ),
+				'search_items'               => __( 'Search Cities', 'wimp-member-directory' ),
+				'popular_items'              => __( 'Popular Cities', 'wimp-member-directory' ),
+				'all_items'                  => __( 'All Cities', 'wimp-member-directory' ),
+				'parent_item'                => __( 'Parent Cities', 'wimp-member-directory' ),
+				'parent_item_colon'          => __( 'Parent Cities:', 'wimp-member-directory' ),
+				'edit_item'                  => __( 'Edit City', 'wimp-member-directory' ),
+				'update_item'                => __( 'Update City', 'wimp-member-directory' ),
+				'add_new_item'               => __( 'New City', 'wimp-member-directory' ),
+				'new_item_name'              => __( 'New City', 'wimp-member-directory' ),
+				'separate_items_with_commas' => __( 'Cities separated by comma', 'wimp-member-directory' ),
+				'add_or_remove_items'        => __( 'Add or remove Cities', 'wimp-member-directory' ),
+				'choose_from_most_used'      => __( 'Choose from the most used Cities', 'wimp-member-directory' ),
+				'menu_name'                  => __( 'City', 'wimp-member-directory' ),
 			),
 		) );
 	}
