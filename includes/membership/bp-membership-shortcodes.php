@@ -119,3 +119,13 @@ if ( wmd_is_bp_component() ) {
 	remove_action( 'wp', 'pmpro_wp', 1 );
 	add_action( 'wp', 'wimp_membership_shortcodes', 1 );
 }
+
+function wmd_pages_confirmation() {
+	ob_start();
+	include( WMD_INCLUDES . '/membership/templates/confirmation.php' );
+	$temp_content = ob_get_contents();
+	ob_end_clean();
+
+	return $temp_content;
+}
+add_filter( 'pmpro_pages_shortcode_confirmation', 'wmd_pages_confirmation' );
