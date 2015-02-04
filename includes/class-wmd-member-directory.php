@@ -194,7 +194,7 @@ class WMD_Member_Directory {
 			if ( 'location' === $key ) {
 				// Figure out if we need to create or update an existing state term
 				if ( ! term_exists( $data['state'], $tax ) ) {
-					$state_id = wp_insert_term( sanitize_text_field( $data['state'] ), $tax )['term_id'];
+					$state_id = wp_insert_term( sanitize_text_field( $data['state'] ), $tax );
 				} else {
 					$state_id = get_term_by( 'slug', $data['state'], $tax )->term_id;
 				}
