@@ -98,6 +98,9 @@ function wmd_get_listing_form( $data ) {
 		</div>
 		<div>
 			<label>Portfolio</label>
+			<div class="description">
+				<p>Pro Tip: Any captions you add to images will display on your listing!</p>
+			</div>
 			<div class="media-upload">
 				<?php
 				if ( ! empty( $data['portfolio'] ) ) :
