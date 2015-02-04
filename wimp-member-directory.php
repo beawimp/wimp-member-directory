@@ -84,20 +84,10 @@ function wmd_bp_membership_component_init() {
 	if ( version_compare( BP_VERSION, '1.3', '>' ) ) {
 		require( WMD_INCLUDES . '/membership/bp-membership-loader.php' );
 		require( WMD_INCLUDES . '/membership/bp-membership-shortcodes.php' );
-	}
-}
-add_action( 'bp_include', 'wmd_bp_membership_component_init' );
-
-/**
- * Load our BuddyPress Listing Manager component if BP is installed
- */
-function wmd_bp_listing_manager_component_init() {
-	// Because our loader file uses BP_Component, it requires BP 1.5 or greater.
-	if ( version_compare( BP_VERSION, '1.3', '>' ) ) {
 		require( WMD_INCLUDES . '/listing-manager/bp-listing-manager-loader.php' );
 	}
 }
-add_action( 'bp_include', 'wmd_bp_listing_manager_component_init' );
+add_action( 'bp_include', 'wmd_bp_membership_component_init' );
 
 // Wireup filters
 add_filter( 'pmpro_account_preheader_no_user_redirect', array( 'WMD_Utils', 'pmpro_no_user_redirect' ) );
