@@ -229,9 +229,9 @@ var WMD;
 		},
 
 
-
 		postNotifications : function( type, message ) {
-			var html = '<div class="wmd-notification wmd-' + type + '">' + message + '</div>',
+			var html = '<div class="wmd-notification wmd-' + type + '">' + message +
+				' <a href="/membership-account/view-my-listing/">View Your Listing.</a></div',
 				$wrapper = $( document.getElementById( 'wmd-notifications' ) );
 
 			$wrapper.empty().html( html );

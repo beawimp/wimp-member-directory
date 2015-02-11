@@ -203,7 +203,7 @@ class WMD_Member_Directory {
 				if ( ! term_exists( $data['city'], $tax, $state_id ) ) {
 					$city_id = wp_insert_term( sanitize_text_field( $data['city'] ), $tax, array(
 						'parent' => (int) $state_id,
-					) )['term_id'];
+					) );
 				} else {
 					$city_id = get_term_by( 'slug', $data['city'], $tax )->term_id;
 				}
