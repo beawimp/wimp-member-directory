@@ -29,6 +29,25 @@ var WMD;
 			WMD.uploadPortfolio();
 			WMD.editListing();
 			WMD.saveListing();
+
+			// Initialize select2
+			if ( $.fn.select2 ) {
+				$( '.state-selection' ).select2({
+					placeholder: 'Select a state'
+				});
+				$( '.city-selection' ).select2({
+					placeholder: 'Select a city'
+				});
+				$( '.industry-selection' ).select2({
+					placeholder: 'What industries do you work with?'
+				});
+				$( '.tech-selection' ).select2({
+					placeholder: 'What technologies do you use?'
+				});
+				$( '.services-selection' ).select2({
+					placeholder: 'What services do you provide?'
+				});
+			}
 		},
 
 		uploadLogo : function() {
