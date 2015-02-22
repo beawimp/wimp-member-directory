@@ -67,7 +67,7 @@ function wmd_get_listing_form( $data ) {
 	);
 	$data = wp_parse_args( $data, $defaults );
 	?>
-	<form action="<?php echo esc_url( home_url() . $_SERVER['REQUEST_URI'] ); ?>" method="post" id="wmd-listings" class="standard-form base">
+	<form action="<?php echo esc_url( home_url() . $_SERVER['REQUEST_URI'] ); ?>" method="post" id="wmd-listings" class="standard-form base" xmlns="http://www.w3.org/1999/html">
 		<?php wp_nonce_field( 'create-edit-listing', 'wmd-listing-nonce', true ); ?>
 		<input name="wmd[post-id]" value="<?php echo esc_attr( $data['ID'] ); ?>" id="id" type="hidden" save-data />
 		<div>
@@ -83,7 +83,6 @@ function wmd_get_listing_form( $data ) {
 				'textarea_name'    => 'wmd[content]',
 				'teeny'            => true,
 				'drag_drop_upload' => true,
-
 			) );
 			?>
 		</div>
@@ -116,6 +115,7 @@ function wmd_get_listing_form( $data ) {
 					<input type="button" value="Add Image" class="wmd-media-btn button upload-portfolio" />
 				</div>
 			</div>
+			<?php unset( $id, $image ); ?>
 		</div>
 		<div>
 			<label for="url">Website URL</label>
@@ -131,6 +131,7 @@ function wmd_get_listing_form( $data ) {
 				<input type="number" name="wmd[low_price]" id="price-low" class="price-low" value="<?php echo esc_attr( $price_low ); ?>" placeholder="0" data-save /> to
 				<input type="number" name="wmd[high_price]" id="price-high" class="price-high" value="<?php echo esc_attr( $price_high ); ?>" placeholder="0" data-save />
 			</div>
+			<?php unset( $price_low, $price_high ); ?>
 		</div>
 		<div>
 			<label>Location</label>
@@ -143,7 +144,7 @@ function wmd_get_listing_form( $data ) {
 					'hide_empty' => false,
 				) );
 				?>
-				<select name="wmd[state]" id="state" data-save>
+				<select name="wmd[state]" id="state" class="state-selection" data-save>
 					<option value="0">Select A State</option>
 					<?php foreach ( $states as $state ) :
 						$current = ( isset( $data['state'][0] ) ) ? $data['state'][0]->name : ''; ?>
@@ -153,8 +154,7 @@ function wmd_get_listing_form( $data ) {
 						</option>
 					<?php endforeach; ?>
 				</select>,
-				<select name="wmd[city]" id="city" data-save>
-					<option value="0">Select A City</option>
+				<select name="wmd[city]" id="city" class="city-selection" data-save>
 					<?php foreach ( $cities as $city ) :
 						$current = ( isset( $data['city'][0] ) ) ? $data['city'][0]->name : ''; ?>
 						<option value="<?php echo esc_attr( $city->term_id ); ?>"
@@ -166,6 +166,7 @@ function wmd_get_listing_form( $data ) {
 				<input type="text" name="wmd[city][new]" placeholder="Add New City" data-type="<?php echo esc_attr( WMD_Taxonomies::CITY ); ?>" class="add-new" />
 				<button class="button add-new-tax" id="add-city">Add New</button>
 			</div>
+			<?php unset( $cities, $city, $state, $states, $current ); ?>
 		</div>
 		<div>
 			<label for="industry">Industries</label>
@@ -174,19 +175,18 @@ function wmd_get_listing_form( $data ) {
 				'hide_empty' => false,
 			) );
 			?>
-			<?php foreach ( $industries as $industry ) : ?>
-				<label for="<?php echo esc_attr( $industry->term_id ); ?>">
-					<input type="checkbox"
-					       name="wmd[industry][<?php echo esc_attr( $industry->term_id ); ?>]"
-					       value="<?php echo esc_attr( $industry->term_id ); ?>"
-					       id="<?php echo esc_attr( $industry->term_id ); ?>"
-					       data-save
-						   <?php wmd_checked( $industry->term_id, $data['industries'] ); ?>>
-					<?php echo esc_html( $industry->name ); ?>
-				</label>
-			<?php endforeach; unset( $industries ); ?>
-			<input type="text" name="wmd[industry][new]" placeholder="Add New Industry" data-type="<?php echo esc_attr( WMD_Taxonomies::INDUSTRY ); ?>" class="add-new" />
-			<button class="button add-new-tax">Add New</button>
+			<select multiple="multiple" class="industry-selection" name="wmd[industry][]" id="industry" data-save>
+				<?php foreach ( $industries as $industry ) : ?>
+					<option value="<?php echo esc_attr( $industry->term_id ); ?>"
+						<?php wmd_selected( $industry->term_id, $data['industries'] ); ?>>
+						<?php echo esc_html( $industry->name ); ?>
+					</option>
+				<?php endforeach; unset( $industries ); ?>
+			</select>
+			<?php if ( is_super_admin() ) : ?>
+				<input type="text" name="wmd[industry][new]" placeholder="Add New Industry" data-type="<?php echo esc_attr( WMD_Taxonomies::INDUSTRY ); ?>" class="add-new" />
+				<button class="button add-new-tax">Add New</button>
+			<?php endif; ?>
 		</div>
 		<div>
 			<label for="technologies">Technologies</label>
@@ -195,19 +195,18 @@ function wmd_get_listing_form( $data ) {
 				'hide_empty' => false,
 			) );
 			?>
-			<?php foreach ( $technologies as $tech ) : ?>
-				<label for="<?php echo esc_attr( $tech->term_id ); ?>">
-					<input type="checkbox"
-					       name="wmd[tech][<?php echo esc_attr( $tech->term_id ); ?>]"
-					       value="<?php echo esc_attr( $tech->term_id ); ?>"
-					       id="<?php echo esc_attr( $tech->term_id ); ?>"
-					       data-save
-						   <?php wmd_checked( $tech->term_id, $data['technologies'] ); ?>>
-					<?php echo esc_html( $tech->name ); ?>
-				</label>
-			<?php endforeach; unset( $technologies ); ?>
-			<input type="text" name="wmd[tech][new]" placeholder="Add New Technology" data-type="<?php echo esc_attr( WMD_Taxonomies::TECHNOLOGY ); ?>" class="add-new" />
-			<button class="button add-new-tax">Add New</button>
+			<select multiple="multiple" class="tech-selection" name="wmd[tech][]" id="techonologies" data-save>
+				<?php foreach ( $technologies as $tech ) : ?>
+					<option value="<?php echo esc_attr( $tech->term_id ); ?>"
+						<?php wmd_selected( $tech->term_id, $data['technologies'] ); ?>>
+						<?php echo esc_html( $tech->name ); ?>
+					</option>
+				<?php endforeach; unset( $technologies ); ?>
+			</select>
+			<?php if ( is_super_admin() ) : ?>
+				<input type="text" name="wmd[tech][new]" placeholder="Add New Technology" data-type="<?php echo esc_attr( WMD_Taxonomies::TECHNOLOGY ); ?>" class="add-new" />
+				<button class="button add-new-tax">Add New</button>
+			<?php endif; ?>
 		</div>
 		<div>
 			<label for="services">Services</label>
@@ -216,19 +215,18 @@ function wmd_get_listing_form( $data ) {
 				'hide_empty' => false,
 			) );
 			?>
-			<?php foreach ( $types as $type ) : ?>
-				<label for="<?php echo esc_attr( $type->term_id ); ?>">
-					<input type="checkbox"
-					       name="wmd[type][<?php echo esc_attr( $type->term_id ); ?>]"
-					       value="<?php echo esc_attr( $type->term_id ); ?>"
-					       id="<?php echo esc_attr( $type->term_id ); ?>"
-					       data-save
-						   <?php wmd_checked( $type->term_id, $data['types'] ); ?>>
-					<?php echo esc_html( $type->name ); ?>
-				</label>
-			<?php endforeach; unset( $types ); ?>
-			<input type="text" name="wmd[type][new]" placeholder="Add New Service" data-type="<?php echo esc_attr( WMD_Taxonomies::TYPE ); ?>" class="add-new" />
-			<button class="button add-new-tax">Add New</button>
+			<select multiple="multiple" class="services-selection" name="wmd[types][]" id="services" data-save>
+				<?php foreach ( $types as $type ) : ?>
+					<option value="<?php echo esc_attr( $type->term_id ); ?>"
+						<?php wmd_selected( $type->term_id, $data['types'] ); ?>>
+						<?php echo esc_html( $type->name ); ?>
+					</option>
+				<?php endforeach; unset( $type ); ?>
+			</select>
+			<?php if ( is_super_admin() ) : ?>
+				<input type="text" name="wmd[type][new]" placeholder="Add New Service" data-type="<?php echo esc_attr( WMD_Taxonomies::TYPE ); ?>" class="add-new" />
+				<button class="button add-new-tax">Add New</button>
+			<?php endif; ?>
 		</div>
 		<div>
 			<input type="submit" value="Save Listing" id="submit-listing" />

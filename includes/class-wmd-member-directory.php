@@ -48,7 +48,6 @@ class WMD_Member_Directory {
 			WMD_VERSION
 		);
 
-		wp_enqueue_media();
 		if ( is_post_type_archive( 'member-directory' ) ) {
 			wp_enqueue_script( 'wmd-flexslider-js',
 				WMD_ASSETS . 'js/vendor/jquery.flexslider-min.js',
@@ -57,6 +56,23 @@ class WMD_Member_Directory {
 				true
 			);
 		}
+
+		// Load Select2 for just the listing manager.
+		if ( 'listing_manager' === bp_current_component() ) {
+			wp_enqueue_media();
+			wp_enqueue_style( 'wmd-select2-style',
+				'//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css',
+				null,
+				'4.0.0b3'
+			);
+			wp_enqueue_script( 'wmd-select2-js',
+				'//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js',
+				array( 'jquery' ),
+				'4.0.0b3',
+				true
+			);
+		}
+
 		wp_enqueue_script( 'wmd-js',
 			WMD_ASSETS . "js/wimp-member-directory{$min}.js",
 			array(),
@@ -194,7 +210,7 @@ class WMD_Member_Directory {
 			if ( 'location' === $key ) {
 				// Figure out if we need to create or update an existing state term
 				if ( ! term_exists( $data['state'], $tax ) ) {
-					$state_id = wp_insert_term( sanitize_text_field( $data['state'] ), $tax )['term_id'];
+					$state_id = wp_insert_term( sanitize_text_field( $data['state'] ), $tax );
 				} else {
 					$state_id = get_term_by( 'slug', $data['state'], $tax )->term_id;
 				}
@@ -203,7 +219,7 @@ class WMD_Member_Directory {
 				if ( ! term_exists( $data['city'], $tax, $state_id ) ) {
 					$city_id = wp_insert_term( sanitize_text_field( $data['city'] ), $tax, array(
 						'parent' => (int) $state_id,
-					) )['term_id'];
+					) );
 				} else {
 					$city_id = get_term_by( 'slug', $data['city'], $tax )->term_id;
 				}

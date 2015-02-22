@@ -449,14 +449,14 @@ function wmd_in_array_r( $needle, $haystack, $strict = false ) {
 }
 
 /**
- * A custom version of WordPress' checked() function to allow us to
+ * A custom version of WordPress' selected() function to allow us to
  * check against an multidimensional array with objects.
  *
- * @param string $current The current item we are searcing for
+ * @param string $current The current item we are searching for
  * @param string $checked The array of items that are checked
  *
  * @return void
  */
-function wmd_checked( $current, $checked ) {
-	echo ( wmd_in_array_r( $current, $checked ) ? ' checked="checked"' : '' );
+function wmd_selected( $current, $checked ) {
+	echo ( wmd_in_array_r( $current, $checked ) ? ' selected="selected"' : '' );
 }

@@ -3,6 +3,22 @@
 }
 
 #buddypress #wmd-listings {
+	.select2-container {
+		width:88% !important;
+		margin-bottom:10px;
+		height:30px;
+		input[type="search"] {
+			border:none;
+			background:transparent;
+			padding:0;
+		}
+	}
+	.select2-selection {
+		display:block;
+		color:#888;
+		border:1px solid #ccc;
+		background:#fafafa;
+	}
 	a.button {
 		padding:1px 6px !important;
 	}
@@ -37,17 +53,17 @@
 		width:88%;
 	}
 	.add-new {
+		display:inline-block;
 		width:77.8%;
 		margin-right:5px;
 	}
 	.wmd-media-btn {
+		display:inline-block;
 		font-size:15px;
 	}
 	.two-column-form {
-		select {
-			width:42.5%;
-			margin-bottom:10px;
-			height:30px;
+		.select2-container {
+			width:43.4% !important;
 		}
 	}
 	div > label:first-child {

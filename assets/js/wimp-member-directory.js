@@ -29,6 +29,25 @@ var WMD;
 			WMD.uploadPortfolio();
 			WMD.editListing();
 			WMD.saveListing();
+
+			// Initialize select2
+			if ( $.fn.select2 ) {
+				$( '.state-selection' ).select2({
+					placeholder: 'Select a state'
+				});
+				$( '.city-selection' ).select2({
+					placeholder: 'Select a city'
+				});
+				$( '.industry-selection' ).select2({
+					placeholder: 'What industries do you work with?'
+				});
+				$( '.tech-selection' ).select2({
+					placeholder: 'What technologies do you use?'
+				});
+				$( '.services-selection' ).select2({
+					placeholder: 'What services do you provide?'
+				});
+			}
 		},
 
 		uploadLogo : function() {
@@ -208,14 +227,9 @@ var WMD;
 		},
 
 		ajaxTaxSuccess : function( data ) {
-			var html = '<label for="' + data.term_id + '">' +
-					'<input type="checkbox" ' +
-						'name="wmd[' + data.taxonomy + '][' + data.term_id + ']" ' +
-						'value="' + data.name + '" ' +
-						'id="' + data.term_id + '" ' +
-						'checked="checked" /> ' +
-					data.name +
-				'</label>';
+			var html = '<option value="' + data.term_id + '">' +
+						data.name +
+					'</option>';
 
 			$wmdField.val( '' ).prev().after( html );
 
@@ -232,9 +246,9 @@ var WMD;
 		},
 
 
-
 		postNotifications : function( type, message ) {
-			var html = '<div class="wmd-notification wmd-' + type + '">' + message + '</div>',
+			var html = '<div class="wmd-notification wmd-' + type + '">' + message +
+				' <a href="/membership-account/view-my-listing/">View Your Listing.</a></div',
 				$wrapper = $( document.getElementById( 'wmd-notifications' ) );
 
 			$wrapper.empty().html( html );
