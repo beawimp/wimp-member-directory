@@ -67,7 +67,7 @@ function wmd_get_listing_form( $data ) {
 	);
 	$data = wp_parse_args( $data, $defaults );
 	?>
-	<form action="<?php echo esc_url( home_url() . $_SERVER['REQUEST_URI'] ); ?>" method="post" id="wmd-listings" class="standard-form base">
+	<form action="<?php echo esc_url( home_url() . $_SERVER['REQUEST_URI'] ); ?>" method="post" id="wmd-listings" class="standard-form base" xmlns="http://www.w3.org/1999/html">
 		<?php wp_nonce_field( 'create-edit-listing', 'wmd-listing-nonce', true ); ?>
 		<input name="wmd[post-id]" value="<?php echo esc_attr( $data['ID'] ); ?>" id="id" type="hidden" save-data />
 		<div>
@@ -83,7 +83,6 @@ function wmd_get_listing_form( $data ) {
 				'textarea_name'    => 'wmd[content]',
 				'teeny'            => true,
 				'drag_drop_upload' => true,
-
 			) );
 			?>
 		</div>
@@ -116,6 +115,7 @@ function wmd_get_listing_form( $data ) {
 					<input type="button" value="Add Image" class="wmd-media-btn button upload-portfolio" />
 				</div>
 			</div>
+			<?php unset( $id, $image ); ?>
 		</div>
 		<div>
 			<label for="url">Website URL</label>
@@ -131,6 +131,7 @@ function wmd_get_listing_form( $data ) {
 				<input type="number" name="wmd[low_price]" id="price-low" class="price-low" value="<?php echo esc_attr( $price_low ); ?>" placeholder="0" data-save /> to
 				<input type="number" name="wmd[high_price]" id="price-high" class="price-high" value="<?php echo esc_attr( $price_high ); ?>" placeholder="0" data-save />
 			</div>
+			<?php unset( $price_low, $price_high ); ?>
 		</div>
 		<div>
 			<label>Location</label>
@@ -165,6 +166,7 @@ function wmd_get_listing_form( $data ) {
 				<input type="text" name="wmd[city][new]" placeholder="Add New City" data-type="<?php echo esc_attr( WMD_Taxonomies::CITY ); ?>" class="add-new" />
 				<button class="button add-new-tax" id="add-city">Add New</button>
 			</div>
+			<?php unset( $cities, $city, $state, $states, $current ); ?>
 		</div>
 		<div>
 			<label for="industry">Industries</label>
