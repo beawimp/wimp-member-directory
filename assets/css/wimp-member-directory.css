@@ -248,7 +248,7 @@
   font-size: 24px;
   font-size: 1.5rem;
   font-family: "Duru Sans", sans-serif;
-  background: white;
+  background: #fff;
   border: 1px solid #828588;
   padding: 13px;
   color: #242628;
@@ -304,9 +304,9 @@
 .listing-cta a {
   float: left;
   width: 47.92%;
-  background-image: -webkit-linear-gradient(top, #555555 0%, #333333 100%);
-  background-image: -o-linear-gradient(top, #555555 0%, #333333 100%);
-  background-image: linear-gradient(to bottom, #555555 0%, #333333 100%);
+  background-image: -webkit-linear-gradient(top, #555 0%, #333 100%);
+  background-image: -o-linear-gradient(top, #555 0%, #333 100%);
+  background-image: linear-gradient(to bottom, #555 0%, #333 100%);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF555555', endColorstr='#FF333333', GradientType=0);
   font-size: 22.4px;
@@ -314,12 +314,12 @@
   margin: 10px 0 0;
   border-radius: 3px;
   padding: 16px;
-  color: white;
+  color: #fff;
   text-align: center;
   text-shadow: 1px 1px 0px rgba(35, 31, 32, 0.35);
   text-transform: uppercase; }
   .listing-cta a:hover {
-    color: white; }
+    color: #fff; }
   .listing-cta a:first-child {
     margin-right: 2.07824%; }
   .listing-cta a:last-child {
@@ -365,6 +365,19 @@
 #buddypress div.item-list-tabs ul li a {
   padding: 5px 9px; }
 
+#buddypress #wmd-listings .select2-container {
+  width: 88% !important;
+  margin-bottom: 10px;
+  height: 30px; }
+  #buddypress #wmd-listings .select2-container input[type="search"] {
+    border: none;
+    background: transparent;
+    padding: 0; }
+#buddypress #wmd-listings .select2-selection {
+  display: block;
+  color: #888;
+  border: 1px solid #ccc;
+  background: #fafafa; }
 #buddypress #wmd-listings a.button {
   padding: 1px 6px !important; }
 #buddypress #wmd-listings button {
@@ -390,14 +403,14 @@
 #buddypress #wmd-listings .media-upload input[type="text"], #buddypress #wmd-listings input[type="url"]#url {
   width: 88%; }
 #buddypress #wmd-listings .add-new {
+  display: inline-block;
   width: 77.8%;
   margin-right: 5px; }
 #buddypress #wmd-listings .wmd-media-btn {
+  display: inline-block;
   font-size: 15px; }
-#buddypress #wmd-listings .two-column-form select {
-  width: 42.5%;
-  margin-bottom: 10px;
-  height: 30px; }
+#buddypress #wmd-listings .two-column-form .select2-container {
+  width: 43.4% !important; }
 #buddypress #wmd-listings div > label:first-child {
   font-size: 16px;
   margin-top: 30px; }
@@ -431,3 +444,5 @@
 
 .invoice-nav {
   margin-top: 20px; }
+
+/*# sourceMappingURL=wimp-member-directory.css.map */
