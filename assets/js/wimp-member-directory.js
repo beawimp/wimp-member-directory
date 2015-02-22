@@ -227,14 +227,9 @@ var WMD;
 		},
 
 		ajaxTaxSuccess : function( data ) {
-			var html = '<label for="' + data.term_id + '">' +
-					'<input type="checkbox" ' +
-						'name="wmd[' + data.taxonomy + '][' + data.term_id + ']" ' +
-						'value="' + data.name + '" ' +
-						'id="' + data.term_id + '" ' +
-						'checked="checked" /> ' +
-					data.name +
-				'</label>';
+			var html = '<option value="' + data.term_id + '">' +
+						data.name +
+					'</option>';
 
 			$wmdField.val( '' ).prev().after( html );
 
