@@ -48,7 +48,6 @@ class WMD_Member_Directory {
 			WMD_VERSION
 		);
 
-		wp_enqueue_media();
 		if ( is_post_type_archive( 'member-directory' ) ) {
 			wp_enqueue_script( 'wmd-flexslider-js',
 				WMD_ASSETS . 'js/vendor/jquery.flexslider-min.js',
@@ -57,6 +56,23 @@ class WMD_Member_Directory {
 				true
 			);
 		}
+
+		// Load Select2 for just the listing manager.
+		if ( 'listing_manager' === bp_current_component() ) {
+			wp_enqueue_media();
+			wp_enqueue_style( 'wmd-select2-style',
+				'//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css',
+				null,
+				'4.0.0b3'
+			);
+			wp_enqueue_script( 'wmd-select2-js',
+				'//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js',
+				array( 'jquery' ),
+				'4.0.0b3',
+				true
+			);
+		}
+
 		wp_enqueue_script( 'wmd-js',
 			WMD_ASSETS . "js/wimp-member-directory{$min}.js",
 			array(),
