@@ -100,12 +100,12 @@ class WMD_Member_Directory {
 			wp_send_json_error( 'Name cannot be empty! Please try again.' );
 		}
 
-		$term = ucwords( strtolower( sanitize_text_field( $_POST['data']['term'] ) ) );
-		$tax  = strtolower( sanitize_text_field( $_POST['data']['tax'] ) );
+		$term = sanitize_text_field( $_POST['data']['term'] );
+		$tax  = sanitize_text_field( $_POST['data']['tax'] );
 		$already_exists = term_exists( $term, $tax );
 
 		if ( 0 !== $already_exists && null !== $already_exists ) {
-			wp_send_json_error( ucfirst( str_replace( 'wmd-', '', esc_html( $tax ) ) ) . ' option already exists! Please enter a new option.' );
+			wp_send_json_error( str_replace( 'wmd-', '', esc_html( $tax ) ) . ' option already exists! Please enter a new option.' );
 		}
 
 		$term_obj = wp_insert_term( $term, $tax );
