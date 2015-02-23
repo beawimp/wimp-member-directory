@@ -21,7 +21,8 @@ class WMD_Post_Types {
 			'has_archive'       => true,
 			'query_var'         => true,
 			'rewrite'           => array(
-				'slug' => 'member-directory',
+				'slug'       => 'member-directory',
+				'with_front' => false,
 			),
 			'labels'            => array(
 				'name'               => __( 'Member Directories', 'wimp' ),
