@@ -17,7 +17,11 @@ get_header(); ?>
 					<section
 						id="member-<?php echo esc_attr( $listing->member_id ); ?>"
 						class="wimp-member-listing member-<?php echo esc_attr( $listing->member_id ); ?>">
-
+						<?php
+						if ( $listing->member_id === get_current_user_id() ) {
+							echo '<span class="edit-link" style="z-index:999999;"><a class="post-edit-link" href="' . bp_loggedin_user_domain() . 'listing_manager/">Edit Listing</a></span>';
+						}
+						?>
 						<header class="listing-header">
 							<div class="listing-name">
 								<?php if ( ! empty( $listing->logo_id ) ) : ?>
