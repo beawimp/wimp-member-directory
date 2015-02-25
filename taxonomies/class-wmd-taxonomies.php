@@ -388,6 +388,7 @@ function wmd_edit_meta_field( $term ) {
 		</th>
 		<td>
 			<select name="term_status" id="status">
+				<option value="">-- Set Status --</option>
 				<option value="true"<?php selected( $term_meta, 'true' ); ?>>Allowed</option>
 				<option value="false"<?php selected( $term_meta, 'false' ); ?>>Disallowed</option>
 				<option value="review"<?php selected( $term_meta, 'review' ); ?>>In Review</option>
