@@ -161,32 +161,19 @@ var WMD;
 					var el = inputs[ i ];
 
 					if ( el.hasAttribute( 'data-save' ) ) {
-						if ( WMD.isInt( el.id ) ) {
-							// This is a checkbox. If it is not checked, skip it.
-							if ( ! el.checked ) {
-								continue;
-							}
+						var portfolio = el.name.match( /wmd\[(.*)\]\[[0-9]{1,10}\]/ );
 
-							var type = el.name.match( /wmd\[(.*)\]\[[0-9]{1,10}\]/ );
-
-							data[ type[1] ][ count ] = el.value;
-
-							// Reset the count for each new type handled
-							if ( lastType && type[1] !== lastType ) {
-								count = 1;
-							} else {
-								count ++;
-							}
-							lastType = type[1];
+						if ( null !== portfolio ) {
+							var attachmentID = el.getAttribute( 'data-id' );
+							data['portfolio'][ attachmentID ] = el.value;
+						} else if ( 'industry' === el.id ) {
+							data[el.id] = $( '#industry' ).select2( 'val' );
+						} else if ( 'techonologies' === el.id ) {
+							data[ el.id ] = $( '#techonologies' ).select2( 'val' );
+						} else if ( 'services' === el.id ) {
+							data[ el.id ] = $( '#services' ).select2( 'val' );
 						} else {
-							var portfolio = el.name.match( /wmd\[(.*)\]\[[0-9]{1,10}\]/ );
-
-							if ( null !== portfolio ) {
-								var attachmentID = el.getAttribute( 'data-id' );
-								data['portfolio'][ attachmentID ] = el.value;
-							} else {
-								data[ el.id ] = el.value;
-							}
+							data[ el.id ] = el.value;
 						}
 					}
 				}
