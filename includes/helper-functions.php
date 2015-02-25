@@ -77,9 +77,9 @@ function wmd_get_listing( $_post = null, $output = OBJECT ) {
 		'high_price'        => get_the_terms( $post->ID, WMD_Taxonomies::PRICE_HIGH ),
 		'state'             => get_the_terms( $post->ID, WMD_Taxonomies::STATE ),
 		'city'              => get_the_terms( $post->ID, WMD_Taxonomies::CITY ),
-		'industries'        => get_the_terms( $post->ID, WMD_Taxonomies::INDUSTRY ),
-		'technologies'      => get_the_terms( $post->ID, WMD_Taxonomies::TECHNOLOGY ),
-		'types'             => get_the_terms( $post->ID, WMD_Taxonomies::TYPE ),
+		'industries'        => wmd_get_terms( WMD_Taxonomies::INDUSTRY, $post->ID ),
+		'technologies'      => wmd_get_terms( WMD_Taxonomies::TECHNOLOGY, $post->ID ),
+		'types'             => wmd_get_terms( WMD_Taxonomies::TYPE, $post->ID ),
 		'member_level'      => get_the_terms( $post->ID, WMD_Taxonomies::LEVEL ),
 		'post_date'         => $post->post_date,
 		'post_date_gmt'     => $post->post_date_gmt,
@@ -94,6 +94,45 @@ function wmd_get_listing( $_post = null, $output = OBJECT ) {
 	}
 
 	return (object) $data;
+}
+
+/**
+ * Fetches terms and handles returning only publicly available terms
+ *
+ * If no post id is passed, we'll fetch all terms for that taxonomy.
+ * If a post id is passed, we'll fetch all terms set for that post.
+ *
+ * @param      $tax
+ * @param null $post_id
+ *
+ * @return array|bool|WP_Error
+ */
+function wmd_get_terms( $tax, $post_id = null ) {
+	if ( empty( $tax ) ) {
+		return false;
+	}
+
+	if ( empty( $post_id ) ) {
+		$terms = get_terms( $tax, array(
+			'hide_empty' => false,
+		) );
+	} else {
+		$terms = get_the_terms( $post_id, $tax );
+	}
+
+	if ( is_array( $terms ) ) {
+		foreach ( $terms as $id => $t ) {
+			$status = get_option( 'taxonomy_status_' . absint( $t->term_id ) );
+
+			if ( 'review' === $status && is_single() || 'false' === $status ) {
+				unset( $terms[ $id ] );
+			} elseif ( 'review' === $status && 'listing_manager' === bp_current_component() ) {
+				$terms[ $id ]->name = $terms[ $id ]->name . '*';
+			}
+		}
+	}
+
+	return $terms;
 }
 
 /**
@@ -458,5 +497,7 @@ function wmd_in_array_r( $needle, $haystack, $strict = false ) {
  * @return void
  */
 function wmd_selected( $current, $checked ) {
-	echo ( wmd_in_array_r( $current, $checked ) ? ' selected="selected"' : '' );
+	if ( is_array( $checked ) ) {
+		echo ( wmd_in_array_r( $current, $checked ) ? ' selected="selected"' : '' );
+	}
 }
