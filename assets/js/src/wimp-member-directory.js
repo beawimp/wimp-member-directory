@@ -224,13 +224,22 @@ var WMD;
 		},
 
 		ajaxTaxSuccess : function( data ) {
-			var html = '<option value="' + data.term_id + '">' +
+			var html = '<option value="' + data.term_id + '" selected="selected">' +
 						data.name +
-					'</option>';
+					'*</option>',
+				$select = $wmdField.prev().prev(),
+				selectedItems = $select.select2( 'val' ),
+				message = data.name + ' has been created and is being reviewed*. ' +
+					'Your option will display on your listing soon.';
 
-			$wmdField.val( '' ).prev().after( html );
+			// Add our HTML to the select element
+			$wmdField.val( '' ).prev().prev().append( html );
 
-			WMD.listingTaxNotification( 'success', '' );
+			// Add our values to select2
+			selectedItems.push( data.term_id );
+			$select.select2( 'val', selectedItems );
+
+			WMD.listingTaxNotification( 'success', message );
 		},
 
 		ajaxCitySuccess : function( data ) {
@@ -268,10 +277,6 @@ var WMD;
 			$( document.getElementsByClassName( 'wmd-notification' ) ).fadeOut().remove();
 
 			$wmdField.next().after( html ).next().fadeIn();
-
-			if ( 'success' === type ) {
-				$( document.getElementsByClassName( 'wmd-success' ) ).fadeOut().remove();
-			}
 		},
 
 		isInt : function( value ) {
