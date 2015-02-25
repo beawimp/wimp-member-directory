@@ -171,9 +171,7 @@ function wmd_get_listing_form( $data ) {
 		<div>
 			<label for="industry">Industries</label>
 			<?php
-			$industries = get_terms( WMD_Taxonomies::INDUSTRY, array(
-				'hide_empty' => false,
-			) );
+			$industries = wmd_get_terms( WMD_Taxonomies::INDUSTRY );
 			?>
 			<select multiple="multiple" class="industry-selection" name="wmd[industry][]" id="industry" data-save>
 				<?php foreach ( $industries as $industry ) : ?>
@@ -189,9 +187,7 @@ function wmd_get_listing_form( $data ) {
 		<div>
 			<label for="technologies">Technologies</label>
 			<?php
-			$technologies = get_terms( WMD_Taxonomies::TECHNOLOGY, array(
-				'hide_empty' => false,
-			) );
+			$technologies = wmd_get_terms( WMD_Taxonomies::TECHNOLOGY );
 			?>
 			<select multiple="multiple" class="tech-selection" name="wmd[tech][]" id="techonologies" data-save>
 				<?php foreach ( $technologies as $tech ) : ?>
@@ -207,9 +203,7 @@ function wmd_get_listing_form( $data ) {
 		<div>
 			<label for="services">Services</label>
 			<?php
-			$types = get_terms( WMD_Taxonomies::TYPE, array(
-				'hide_empty' => false,
-			) );
+			$types = wmd_get_terms( WMD_Taxonomies::TYPE );
 			?>
 			<select multiple="multiple" class="services-selection" name="wmd[types][]" id="services" data-save>
 				<?php foreach ( $types as $type ) : ?>
