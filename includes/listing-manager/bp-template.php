@@ -183,10 +183,8 @@ function wmd_get_listing_form( $data ) {
 					</option>
 				<?php endforeach; unset( $industries ); ?>
 			</select>
-			<?php if ( is_super_admin() ) : ?>
-				<input type="text" name="wmd[industry][new]" placeholder="Add New Industry" data-type="<?php echo esc_attr( WMD_Taxonomies::INDUSTRY ); ?>" class="add-new" />
-				<button class="button add-new-tax">Add New</button>
-			<?php endif; ?>
+			<input type="text" name="wmd[industry][new]" placeholder="Add New Industry" data-type="<?php echo esc_attr( WMD_Taxonomies::INDUSTRY ); ?>" class="add-new" />
+			<button class="button add-new-tax">Add New</button>
 		</div>
 		<div>
 			<label for="technologies">Technologies</label>
@@ -203,10 +201,8 @@ function wmd_get_listing_form( $data ) {
 					</option>
 				<?php endforeach; unset( $technologies ); ?>
 			</select>
-			<?php if ( is_super_admin() ) : ?>
-				<input type="text" name="wmd[tech][new]" placeholder="Add New Technology" data-type="<?php echo esc_attr( WMD_Taxonomies::TECHNOLOGY ); ?>" class="add-new" />
-				<button class="button add-new-tax">Add New</button>
-			<?php endif; ?>
+			<input type="text" name="wmd[tech][new]" placeholder="Add New Technology" data-type="<?php echo esc_attr( WMD_Taxonomies::TECHNOLOGY ); ?>" class="add-new" />
+			<button class="button add-new-tax">Add New</button>
 		</div>
 		<div>
 			<label for="services">Services</label>
@@ -223,10 +219,8 @@ function wmd_get_listing_form( $data ) {
 					</option>
 				<?php endforeach; unset( $type ); ?>
 			</select>
-			<?php if ( is_super_admin() ) : ?>
-				<input type="text" name="wmd[type][new]" placeholder="Add New Service" data-type="<?php echo esc_attr( WMD_Taxonomies::TYPE ); ?>" class="add-new" />
-				<button class="button add-new-tax">Add New</button>
-			<?php endif; ?>
+			<input type="text" name="wmd[type][new]" placeholder="Add New Service" data-type="<?php echo esc_attr( WMD_Taxonomies::TYPE ); ?>" class="add-new" />
+			<button class="button add-new-tax">Add New</button>
 		</div>
 		<div>
 			<input type="submit" value="Save Listing" id="submit-listing" />
