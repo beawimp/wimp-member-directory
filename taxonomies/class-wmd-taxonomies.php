@@ -354,3 +354,139 @@ class WMD_Taxonomies {
 
 	}
 }
+
+/**
+ * Adds a status dropdown to the term creation window in the admin area
+ */
+function wmd_term_meta() {
+	?>
+	<div class="form-field">
+		<label for="status"><?php esc_html_e( 'Status', 'wmd' ); ?></label>
+		<select name="term_status" id="status">
+			<option value="true">Allowed</option>
+			<option value="false">Disallowed</option>
+			<option value="review">In Review</option>
+		</select>
+		<p class="description"><?php esc_html_e( 'The status of the term. It is either `In Review`, `Allowed` or `Disallowed`','wmd' ); ?></p>
+	</div>
+	<?php
+}
+add_action( 'wmd-industry_add_form_fields', 'wmd_term_meta', 10, 2 );
+add_action( 'wmd-technology_add_form_fields', 'wmd_term_meta', 10, 2 );
+add_action( 'wmd-type_add_form_fields', 'wmd_term_meta', 10, 2 );
+
+/**
+ * Adds a field to the edit screen of an already created term
+ *
+ * @param $term
+ */
+function wmd_edit_meta_field( $term ) {
+	$term_meta = get_option( 'taxonomy_status_' . absint( $term->term_id ) ); ?>
+	<tr class="form-field">
+		<th scope="row" valign="top">
+			<label for="status"><?php esc_html_e( 'status', 'wmd' ); ?></label>
+		</th>
+		<td>
+			<select name="term_status" id="status">
+				<option value="true"<?php selected( $term_meta, 'true' ); ?>>Allowed</option>
+				<option value="false"<?php selected( $term_meta, 'false' ); ?>>Disallowed</option>
+				<option value="review"<?php selected( $term_meta, 'review' ); ?>>In Review</option>
+			</select>
+			<p class="description"><?php esc_html_e( 'The status of the term. It is either `In Review`, `Allowed` or `Disallowed`','wmd' ); ?></p>
+		</td>
+	</tr>
+	<?php
+}
+add_action( 'wmd-industry_edit_form_fields', 'wmd_edit_meta_field', 10, 2 );
+add_action( 'wmd-technology_edit_form_fields', 'wmd_edit_meta_field', 10, 2 );
+add_action( 'wmd-type_edit_form_fields', 'wmd_edit_meta_field', 10, 2 );
+
+/**
+ * Saves term meta
+ *
+ * @param $term_id
+ */
+function save_taxonomy_custom_meta( $term_id ) {
+	if ( ! isset( $_POST['term_status'] ) ) {
+		return;
+	}
+
+	$allowed = array(
+		'true',
+		'false',
+		'review',
+	);
+
+	// Make sure we are passing a value we actually...... allow.
+	// If it isn't, we'll default to 'review'
+	if ( ! in_array( $_POST['term_status'], $allowed ) ) {
+		$value = 'review';
+	} else {
+		$value = $_POST['term_status'];
+	}
+
+	update_option( 'taxonomy_status_' . absint( $term_id ), sanitize_text_field( $value ) );
+}
+add_action( 'edited_wmd-industry', 'save_taxonomy_custom_meta', 10, 2 );
+add_action( 'create_wmd-industry', 'save_taxonomy_custom_meta', 10, 2 );
+add_action( 'edited_wmd-technology', 'save_taxonomy_custom_meta', 10, 2 );
+add_action( 'create_wmd-technology', 'save_taxonomy_custom_meta', 10, 2 );
+add_action( 'edited_wmd-type', 'save_taxonomy_custom_meta', 10, 2 );
+add_action( 'create_wmd-type', 'save_taxonomy_custom_meta', 10, 2 );
+
+/**
+ * @param $theme_columns
+ *
+ * @return array
+ */
+function wmd_theme_columns( $theme_columns ) {
+	$new_columns = array(
+		'cb'          => '<input type="checkbox" />',
+		'name'        => esc_html__( 'Name', 'wmd' ),
+		'status'      => esc_html__( 'Status', 'wmd' ),
+		'slug'        => esc_html__( 'Slug', 'wmd' ),
+		'posts'       => esc_html__( 'Posts', 'wmd' )
+	);
+
+	return $new_columns;
+}
+add_filter( 'manage_edit-wmd-industry_columns', 'wmd_theme_columns' );
+add_filter( 'manage_edit-wmd-technology_columns', 'wmd_theme_columns' );
+add_filter( 'manage_edit-wmd-type_columns', 'wmd_theme_columns' );
+
+/**
+ * Add custom column to taxonomy list table
+ *
+ * @param $content
+ * @param $column_name
+ * @param $term_id
+ *
+ * @return string
+ */
+function wmd_column_content( $content, $column_name, $term_id ) {
+	switch ( $column_name ) {
+		case 'status':
+			$status = get_option( 'taxonomy_status_' . absint( $term_id ) );
+
+			if ( false === $status ) {
+				$status = 'Not Set';
+			} elseif ( 'true' === $status ) {
+				$status = 'Allowed';
+			} elseif ( 'false' === $status ) {
+				$status = 'Disallowed';
+			} else {
+				$status = 'In Review';
+			}
+
+			$content .= sanitize_text_field( $status );
+			break;
+
+		default:
+			break;
+	}
+
+	return $content;
+}
+add_filter( 'manage_wmd-industry_custom_column', 'wmd_column_content', 10, 3 );
+add_filter( 'manage_wmd-technology_custom_column', 'wmd_column_content', 10, 3 );
+add_filter( 'manage_wmd-type_custom_column', 'wmd_column_content', 10, 3 );
