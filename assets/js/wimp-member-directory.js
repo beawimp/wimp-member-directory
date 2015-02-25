@@ -170,11 +170,11 @@ var WMD;
 							var attachmentID = el.getAttribute( 'data-id' );
 							data['portfolio'][ attachmentID ] = el.value;
 						} else if ( 'industry' === el.id ) {
-							data[el.id] = $( '#industry' ).select2( 'val' );
+							data['industry'] = $( '#industry' ).select2( 'val' );
 						} else if ( 'techonologies' === el.id ) {
-							data[ el.id ] = $( '#techonologies' ).select2( 'val' );
+							data['tech'] = $( '#techonologies' ).select2( 'val' );
 						} else if ( 'services' === el.id ) {
-							data[ el.id ] = $( '#services' ).select2( 'val' );
+							data['type'] = $( '#services' ).select2( 'val' );
 						} else {
 							data[ el.id ] = el.value;
 						}
