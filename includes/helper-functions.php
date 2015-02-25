@@ -458,5 +458,7 @@ function wmd_in_array_r( $needle, $haystack, $strict = false ) {
  * @return void
  */
 function wmd_selected( $current, $checked ) {
-	echo ( wmd_in_array_r( $current, $checked ) ? ' selected="selected"' : '' );
+	if ( is_array( $checked ) ) {
+		echo ( wmd_in_array_r( $current, $checked ) ? ' selected="selected"' : '' );
+	}
 }
