@@ -130,6 +130,9 @@ class WMD_Member_Directory {
 			wp_send_json_error( 'Cannot create new option. ' . esc_html( $term_obj->get_error_message() . '.' ) );
 		}
 
+		// Set the status as 'In Review'
+		update_option( 'taxonomy_status_' . absint( $term_obj['term_id'] ), 'review' );
+
 		// Get the term object and return the term_id and term name
 		$term_obj = get_term( $term_obj['term_id'], $tax );
 		$term_obj->taxonomy = str_replace( 'wmd-', '', $tax );
