@@ -501,3 +501,24 @@ function wmd_selected( $current, $checked ) {
 		echo ( wmd_in_array_r( $current, $checked ) ? ' selected="selected"' : '' );
 	}
 }
+
+function wmd_filter_options() { ?>
+	<section id="filter-results">
+		<p>Filter By:</p>
+		<div id="industry" class="filter">
+			Industry
+		</div>
+		<div id="technology" class="filter">
+			Technology
+		</div>
+		<div id="services" class="filter">
+			Services
+		</div>
+	</section>
+
+	<?php if ( WMD_Member_Directory::$invalid_filter ) : ?>
+		<section class="filter-notification">
+			<p>Oops! The filter options used are not valid! Please try a different filter option</p>
+		</section>
+	<?php endif;
+}
