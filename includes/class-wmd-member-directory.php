@@ -55,7 +55,7 @@ class WMD_Member_Directory {
 			WMD_VERSION
 		);
 
-		if ( is_post_type_archive( 'member-directory' ) ) {
+		if ( is_post_type_archive( 'member-directory' ) ||  self::is_wmd_tax() && is_tax() ) {
 			wp_enqueue_script( 'wmd-flexslider-js',
 				WMD_ASSETS . 'js/vendor/jquery.flexslider-min.js',
 				array( 'jquery' ),
@@ -360,10 +360,21 @@ class WMD_Member_Directory {
 	public static function member_directory_templates( $template ) {
 		if ( get_query_var( 'member-directory' ) && is_single() ) {
 			$template = self::locate_template( 'single-member-directory.php', true );
-		} elseif ( is_post_type_archive( 'member-directory' ) ) {
+		} elseif ( is_post_type_archive( 'member-directory' ) || self::is_wmd_tax() && is_tax() ) {
 			$template = self::locate_template( 'archive-member-directory.php', true );
 		}
+
 		return $template;
+	}
+
+	public static function is_wmd_tax() {
+		if ( get_query_var( WMD_Taxonomies::INDUSTRY ) ||
+		     get_query_var( WMD_Taxonomies::TECHNOLOGY ) ||
+			 get_query_var( WMD_Taxonomies::TYPE ) ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
