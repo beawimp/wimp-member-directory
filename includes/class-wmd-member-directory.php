@@ -18,12 +18,19 @@ class WMD_Member_Directory {
 	public static $template_dir = 'member-directory';
 
 	/**
+	 * Allows us to say if there is an invalid filter set or not.
+	 * This is built so we can serve back some notification to users in the front-end
+	 */
+	public static $invalid_filter = false;
+
+	/**
 	 * Run our actions
 	 */
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_resources' ) );
 		add_action( 'wp_ajax_wmd_save_listing_tax', array( __CLASS__, 'save_taxonomy_ajax' ) );
 		add_action( 'wp_ajax_wmd_save_listing_post', array( __CLASS__, 'save_listing' ) );
+		add_action( 'pre_get_posts', array( __CLASS__, 'post_query' ) );
 
 		add_filter( 'template_include',  array( __CLASS__, 'member_directory_templates' ) );
 		add_filter( 'cmb_meta_boxes',     array( __CLASS__, 'add_meta_boxes' ) );
@@ -48,7 +55,7 @@ class WMD_Member_Directory {
 			WMD_VERSION
 		);
 
-		if ( is_post_type_archive( 'member-directory' ) ) {
+		if ( is_post_type_archive( 'member-directory' ) ||  self::is_wmd_tax() && is_tax() ) {
 			wp_enqueue_script( 'wmd-flexslider-js',
 				WMD_ASSETS . 'js/vendor/jquery.flexslider-min.js',
 				array( 'jquery' ),
@@ -167,6 +174,64 @@ class WMD_Member_Directory {
 		} else {
 			wp_send_json_error( 'An error occurred! Please try again.' );
 		}
+	}
+
+	public static function post_query( $query ) {
+		// If we are viewing the member listing archive page in the front-end
+		if ( ! is_admin() && $query->is_main_query() && $query->is_post_type_archive( 'member-directory' ) ) {
+			// If we are filtering a listing
+			if ( isset( $_GET['filter'], $_GET['tax'], $_GET['terms'] ) && 'true' === $_GET['filter'] ) {
+				$valid = self::validate_taxonomy( $_GET['tax'], $_GET['terms'] );
+
+				// Allow us to present some notification the filter isn't valid to the front-end
+				if ( ! $valid ) {
+					self::$invalid_filter = true;
+				}
+
+				// All is well, set the tax query.
+				$tax_query = array(
+					array(
+						'taxonomy' => $_GET['tax'],
+						'field'    => 'slug',
+						'terms'    => explode( ',', $_GET['terms'] ),
+					),
+				);
+				$query->set( 'tax_query', $tax_query );
+			}
+		}
+	}
+
+	/**
+	 * Allows us to validate the content being requested for filtering listings.
+	 *
+	 * @param string $tax
+	 * @param string $terms comma separated list if more than one term
+	 *
+	 * @return bool
+	 */
+	protected static function validate_taxonomy( $tax, $terms ) {
+		$allowed_tax = array(
+			'wmd-industry',
+			'wmd-technology',
+			'wmd-type',
+		);
+
+		// Return early if we don't have a valid taxonomy
+		if ( ! taxonomy_exists( $tax ) || ! in_array( $tax, $allowed_tax ) ) {
+			return false;
+		}
+
+		// Return early if one of the terms doesn't exist
+		$terms = explode( ',', $terms );
+		foreach( (array) $terms as $term ) {
+			// break out the loop if term doesn't exist.
+			if ( ! term_exists( $term ) ) {
+				$in_valid = false;
+				break;
+			}
+		}
+
+		return ! isset( $in_valid );
 	}
 
 	protected static function update_listing( $post_id = null, $data ) {
@@ -295,10 +360,21 @@ class WMD_Member_Directory {
 	public static function member_directory_templates( $template ) {
 		if ( get_query_var( 'member-directory' ) && is_single() ) {
 			$template = self::locate_template( 'single-member-directory.php', true );
-		} elseif ( is_post_type_archive( 'member-directory' ) ) {
+		} elseif ( is_post_type_archive( 'member-directory' ) || self::is_wmd_tax() && is_tax() ) {
 			$template = self::locate_template( 'archive-member-directory.php', true );
 		}
+
 		return $template;
+	}
+
+	public static function is_wmd_tax() {
+		if ( get_query_var( WMD_Taxonomies::INDUSTRY ) ||
+		     get_query_var( WMD_Taxonomies::TECHNOLOGY ) ||
+			 get_query_var( WMD_Taxonomies::TYPE ) ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**

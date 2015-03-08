@@ -11,12 +11,27 @@ get_header(); ?>
 
 	<section class="main-body" class="site-content" role="main">
 
+		<header class="page-header">
+			<?php if ( is_tax() ) : ?>
+				<p class="alignright button" style="padding:5px;">
+					<a href="<?php echo esc_url( home_url( '/member-directory/' ) ); ?>">
+						&#8592; Back to All Listings
+					</a>
+				</p>
+			<?php endif; ?>
+
+			<h1 class="page-title">Member Directory: Find A WIMP</h1>
+
+			<?php if ( is_tax() ) : ?>
+				<h3 class="page-title">Viewing Listings Labeled as:
+					<span style="font-weight: 400"><?php echo esc_html( single_term_title() ); ?></span>
+				</h3>
+			<?php endif; ?>
+
+			<?php wmd_filter_options(); ?>
+		</header><!-- .page-header -->
+
 		<?php if ( have_posts() ) : ?>
-
-			<header class="page-header">
-				<h1 class="page-title">Member Directory: Find A WIMP</h1>
-			</header><!-- .page-header -->
-
 			<?php while ( have_posts() ) : the_post(); ?>
 				<?php $listing = wmd_get_listing(); ?>
 				<section
@@ -77,7 +92,10 @@ get_header(); ?>
 				</section>
 
 			<?php endwhile; ?>
-
+		<?php else: ?>
+			<h3>No Listings Found!</h3>
+			<p>Looks like we couldn't find the listings you were looking for. Go back to the
+			<a href="<?php echo esc_url( home_url( '/member-directory/' ) ); ?>">Member Listings</a></p>
 		<?php endif; ?>
 
 	</section><!-- #primary -->

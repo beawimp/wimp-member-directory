@@ -501,3 +501,70 @@ function wmd_selected( $current, $checked ) {
 		echo ( wmd_in_array_r( $current, $checked ) ? ' selected="selected"' : '' );
 	}
 }
+
+function wmd_filter_options() { ?>
+	<section id="filter-results" class="clearfix">
+		<p class="alignleft">Filter By:</p>
+		<nav class="filter-wrapper">
+			<ul class="clearfix">
+				<li id="services" class="filter">
+					<a href="#" class="dropdown">Services</a>
+					<ul class="subnav">
+						<?php
+						$terms = get_terms( WMD_Taxonomies::TYPE, array(
+							'hide_empty' => false,
+						) );
+
+						foreach ( (array) $terms as $term ) : ?>
+							<li>
+								<a href="<?php echo esc_url( get_term_link( $term, WMD_Taxonomies::TYPE ) ); ?>">
+									<?php echo esc_html( $term->name ); ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+				<li id="technology" class="filter">
+					<a href="#" class="dropdown">Technology</a>
+					<ul class="subnav">
+						<?php
+						$terms = get_terms( WMD_Taxonomies::TECHNOLOGY, array(
+							'hide_empty' => false,
+						) );
+
+						foreach ( (array) $terms as $term ) : ?>
+							<li>
+								<a href="<?php echo esc_url( get_term_link( $term, WMD_Taxonomies::TECHNOLOGY ) ); ?>">
+									<?php echo esc_html( $term->name ); ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+				<li id="industry" class="filter">
+					<a href="#" class="dropdown">Industry</a>
+					<ul class="subnav">
+						<?php
+						$terms = get_terms( WMD_Taxonomies::INDUSTRY, array(
+							'hide_empty' => false,
+						) );
+
+						foreach ( (array) $terms as $term ) : ?>
+							<li>
+								<a href="<?php echo esc_url( get_term_link( $term, WMD_Taxonomies::INDUSTRY ) ); ?>">
+									<?php echo esc_html( $term->name ); ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	</section>
+
+	<?php if ( WMD_Member_Directory::$invalid_filter ) : ?>
+		<section class="filter-notification">
+			<p>Oops! The filter options used are not valid! Please try a different filter option</p>
+		</section>
+	<?php endif;
+}
