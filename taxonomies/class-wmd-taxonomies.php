@@ -202,6 +202,7 @@ class WMD_Taxonomies {
 			'query_var'         => true,
 			'rewrite'           => array(
 				'slug' => 'industry',
+				'with_front' => false,
 			),
 			'capabilities'      => array(
 				'manage_terms'  => 'edit_posts',
@@ -244,6 +245,7 @@ class WMD_Taxonomies {
 			'query_var'         => true,
 			'rewrite'           => array(
 				'slug' => 'technology',
+				'with_front' => false,
 			),
 			'capabilities'      => array(
 				'manage_terms'  => 'edit_posts',
@@ -285,7 +287,8 @@ class WMD_Taxonomies {
 			'show_admin_column' => true,
 			'query_var'         => true,
 			'rewrite'           => array(
-				'slug' => 'type',
+				'slug' => 'services',
+				'with_front' => false,
 			),
 			'capabilities'      => array(
 				'manage_terms'  => 'edit_posts',
@@ -294,21 +297,21 @@ class WMD_Taxonomies {
 				'assign_terms'  => 'edit_posts'
 			),
 			'labels'            => array(
-				'name'                       => __( 'Types', 'wmd' ),
-				'singular_name'              => _x( 'Type', 'taxonomy general name', 'wmd' ),
-				'search_items'               => __( 'Search Types', 'wmd' ),
-				'popular_items'              => __( 'Popular Types', 'wmd' ),
-				'all_items'                  => __( 'All Types', 'wmd' ),
-				'parent_item'                => __( 'Parent Type', 'wmd' ),
-				'parent_item_colon'          => __( 'Parent Type:', 'wmd' ),
-				'edit_item'                  => __( 'Edit Type', 'wmd' ),
-				'update_item'                => __( 'Update Type', 'wmd' ),
-				'add_new_item'               => __( 'New Type', 'wmd' ),
-				'new_item_name'              => __( 'New Type', 'wmd' ),
-				'separate_items_with_commas' => __( 'Types separated by comma', 'wmd' ),
-				'add_or_remove_items'        => __( 'Add or remove Types', 'wmd' ),
-				'choose_from_most_used'      => __( 'Choose from the most used Types', 'wmd' ),
-				'menu_name'                  => __( 'Types', 'wmd' ),
+				'name'                       => __( 'Services', 'wmd' ),
+				'singular_name'              => _x( 'Serivce', 'taxonomy general name', 'wmd' ),
+				'search_items'               => __( 'Search Services', 'wmd' ),
+				'popular_items'              => __( 'Popular Services', 'wmd' ),
+				'all_items'                  => __( 'All Services', 'wmd' ),
+				'parent_item'                => __( 'Parent Service', 'wmd' ),
+				'parent_item_colon'          => __( 'Parent Service:', 'wmd' ),
+				'edit_item'                  => __( 'Edit Service', 'wmd' ),
+				'update_item'                => __( 'Update Service', 'wmd' ),
+				'add_new_item'               => __( 'New Service', 'wmd' ),
+				'new_item_name'              => __( 'New Service', 'wmd' ),
+				'separate_items_with_commas' => __( 'Services separated by comma', 'wmd' ),
+				'add_or_remove_items'        => __( 'Add or remove Services', 'wmd' ),
+				'choose_from_most_used'      => __( 'Choose from the most used Services', 'wmd' ),
+				'menu_name'                  => __( 'Services', 'wmd' ),
 			),
 		) );
 	}
