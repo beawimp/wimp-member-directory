@@ -234,12 +234,15 @@ var WMD;
 		},
 
 		ajaxCitySuccess : function( data ) {
-			console.log(data);
 			var html = '<option value="' + data.term_id + '" selected="selected">' +
 					data.name +
 				'</option>';
 
-			$wmdField.val( '' ).prev().append( html );
+			// Add our HTML to the select field
+			$wmdField.val( '' ).prev().prev().append( html );
+
+			// Add our values to select2
+			$wmdField.prev().prev().select2( 'val', data.term_id );
 		},
 
 
