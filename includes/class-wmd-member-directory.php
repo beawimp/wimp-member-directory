@@ -199,6 +199,13 @@ class WMD_Member_Directory {
 				$query->set( 'tax_query', $tax_query );
 			}
 		}
+
+		// Only load images owned by the current user
+		if ( 'attachment' === $query->query['post_type'] && 'listing_manager' === bp_current_component() ) {
+			global $current_user;
+
+			$query->set( 'author', $current_user->ID );
+		}
 	}
 
 	/**
