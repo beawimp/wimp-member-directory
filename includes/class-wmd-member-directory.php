@@ -32,8 +32,8 @@ class WMD_Member_Directory {
 		add_action( 'wp_ajax_wmd_save_listing_post', array( __CLASS__, 'save_listing' ) );
 		add_action( 'pre_get_posts', array( __CLASS__, 'post_query' ) );
 
-		add_filter( 'template_include',  array( __CLASS__, 'member_directory_templates' ) );
-		add_filter( 'cmb_meta_boxes',     array( __CLASS__, 'add_meta_boxes' ) );
+		add_filter( 'template_include', array( __CLASS__, 'member_directory_templates' ) );
+		add_filter( 'cmb_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
 	}
 
 	/**
@@ -198,6 +198,13 @@ class WMD_Member_Directory {
 				);
 				$query->set( 'tax_query', $tax_query );
 			}
+		}
+
+		// Only load images owned by the current user
+		if ( 'attachment' === $query->query['post_type'] && 'listing_manager' === bp_current_component() ) {
+			global $current_user;
+
+			$query->set( 'author', $current_user->ID );
 		}
 	}
 
