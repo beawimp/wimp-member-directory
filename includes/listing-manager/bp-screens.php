@@ -22,7 +22,7 @@ function bp_wimp_listing_screen_content() {
 		// Fetch the currently viewed user ID and fetch the listing based on that.
 		$data = wmd_get_listing_by_user_id( bp_displayed_user_id() );
 
-		if ( ! empty( $data ) ) {
+		if ( ! empty( $data ) && 'publish' === get_post_status( $data->ID ) ) {
 			echo '<p><a href="' . esc_url( get_permalink( $data->ID ) ) . '" class="button">View Your Listing</a></p>';
 		}
 
