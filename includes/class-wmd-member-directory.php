@@ -201,7 +201,7 @@ class WMD_Member_Directory {
 		}
 
 		// Only load images owned by the current user
-		if ( 'attachment' === $query->query['post_type'] && 'listing_manager' === bp_current_component() ) {
+		if ( isset( $query->query['post_type'] ) && 'attachment' === $query->query['post_type'] && 'listing_manager' === bp_current_component() ) {
 			global $current_user;
 
 			$query->set( 'author', $current_user->ID );

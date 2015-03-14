@@ -152,7 +152,7 @@ function wmd_format_prices( $low, $high ) {
 	}
 
 	$output  = '$' . number_format( intval( array_shift( $low )->name ) );
-	$output .= '-$' . number_format( intval( array_shift( $high )->name ) );
+	$output .= ' - $' . number_format( intval( array_shift( $high )->name ) );
 
 	echo esc_html( $output );
 }

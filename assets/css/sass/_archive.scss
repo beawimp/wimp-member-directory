@@ -2,10 +2,11 @@
 	@include rem-fallback( 'font-size', divide-by-base( 15 ) );
 	font-family: $base-font;
 	background: $white;
-	border: 1px solid #828588;
-	padding:13px;
+//	border: 1px solid #828588; // Leaving for new site redesign
+	padding:13px 13px 29px 13px;
 	color:#242628;
 	margin-bottom:13px;
+	border-bottom: 1px solid #ddd;
 }
 
 .listing-header {
@@ -19,8 +20,6 @@
 	.member-meta {
 		@include reset-url();
 		text-align: right;
-		position:relative;
-		top:28px;
 
 		.wmd-cost {
 			@include rem-fallback( 'font-size', divide-by-base( 15 ) );
