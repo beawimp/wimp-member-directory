@@ -23,6 +23,7 @@ function wmd_get_listing_by_user_id( $user_id = null ) {
 		'no_found_rows' => true,
 		'update_post_meta_cache' => false,
 		'update_post_term_cache' => false,
+		'post_status' => 'any',
 	);
 	$listing_query = new WP_Query( $args );
 

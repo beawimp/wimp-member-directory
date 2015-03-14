@@ -21,7 +21,8 @@ var WMD;
 		tinymce  = window.tinymce,
 		postSave = false,
 		wmdFrame,
-		$wmdField;
+		$wmdField,
+		listingLive = false;
 
 	WMD = {
 		init : function() {
@@ -144,14 +145,12 @@ var WMD;
 				var $SELF    = $( this ),
 					nonce    = $( document.getElementById( 'wmd-listing-nonce' ) ).val(),
 					inputs   = this.elements,
-					count    = 1,
 					data     = {
 						industry: {},
 						tech: {},
 						type: {},
 						portfolio: {}
-					},
-					lastType;
+					};
 
 				// Store that we are currently saving the listing
 				tinyMCE.triggerSave();
@@ -175,6 +174,11 @@ var WMD;
 							data['tech'] = $( '#techonologies' ).select2( 'val' );
 						} else if ( 'services' === el.id ) {
 							data['type'] = $( '#services' ).select2( 'val' );
+						} else if ( 'publish' === el.id ) {
+							if ( el.checked ) {
+								data['publish'] = 'publish';
+								listingLive = true;
+							}
 						} else {
 							data[ el.id ] = el.value;
 						}
@@ -243,9 +247,12 @@ var WMD;
 
 
 		postNotifications : function( type, message ) {
-			var html = '<div class="wmd-notification wmd-' + type + '">' + message +
-				' <a href="/membership-account/view-my-listing/">View Your Listing.</a></div',
+			var html = '<div class="wmd-notification wmd-' + type + '">' + message,
 				$wrapper = $( document.getElementById( 'wmd-notifications' ) );
+
+			if ( listingLive ) {
+				html += ' <a href="/membership-account/view-my-listing/">View Your Listing.</a></div>';
+			}
 
 			$wrapper.empty().html( html );
 

@@ -257,7 +257,7 @@ class WMD_Member_Directory {
 			'post_title'     => sanitize_text_field( $data['title'] ),
 			'post_content'   => wp_kses_post( $data['content'] ),
 			'post_type'      => 'member-directory',
-			'post_status'    => 'publish',
+			'post_status'    => ( isset( $data['publish'] ) && 'publish' === $data['publish'] ) ? 'publish' : 'draft',
 			'comment_status' => false,
 			'ping_status'    => false,
 		);

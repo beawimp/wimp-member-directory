@@ -66,6 +66,9 @@ function wmd_get_listing_form( $data ) {
 		'types'        => array(),
 	);
 	$data = wp_parse_args( $data, $defaults );
+
+	// Check if the post is published or a draft
+	$post_status = get_post_status( $data['ID'] );
 	?>
 	<form action="<?php echo esc_url( home_url() . $_SERVER['REQUEST_URI'] ); ?>" method="post" id="wmd-listings" class="standard-form base" xmlns="http://www.w3.org/1999/html">
 		<?php wp_nonce_field( 'create-edit-listing', 'wmd-listing-nonce', true ); ?>
@@ -215,6 +218,9 @@ function wmd_get_listing_form( $data ) {
 			</select>
 			<input type="text" name="wmd[type][new]" placeholder="Add New Service" data-type="<?php echo esc_attr( WMD_Taxonomies::TYPE ); ?>" class="add-new" />
 			<button class="button add-new-tax">Add New</button>
+		</div>
+		<div style="margin-top:20px">
+			<input type="checkbox" name="publish" id="publish" value="publish"<?php checked( 'publish', $post_status ); ?> data-save /> <label for="publish" style="display:inline-block;cursor:pointer"><strong>Publish Listing</strong></label>
 		</div>
 		<div>
 			<input type="submit" value="Save Listing" id="submit-listing" />
