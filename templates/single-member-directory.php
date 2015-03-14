@@ -9,6 +9,12 @@
 
 get_header(); ?>
 
+	<div class="full-banner">
+		<a href="<?php echo esc_url( home_url( '/member-directory/' ) ); ?>">
+			&#8592; View All Listings
+		</a>
+	</div>
+
 	<div id="primary" class="content-area">
 		<div id="content" class="site-content" role="main">
 
