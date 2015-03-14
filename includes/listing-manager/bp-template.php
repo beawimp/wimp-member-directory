@@ -172,7 +172,7 @@ function wmd_get_listing_form( $data ) {
 			<?php unset( $cities, $city, $state, $states, $current ); ?>
 		</div>
 		<div>
-			<label for="industry">Industries</label>
+			<label for="industry">Industries You Serve</label>
 			<?php
 			$industries = wmd_get_terms( WMD_Taxonomies::INDUSTRY );
 			?>
@@ -188,7 +188,7 @@ function wmd_get_listing_form( $data ) {
 			<button class="button add-new-tax">Add New</button>
 		</div>
 		<div>
-			<label for="technologies">Technologies</label>
+			<label for="technologies">Technologies You Use</label>
 			<?php
 			$technologies = wmd_get_terms( WMD_Taxonomies::TECHNOLOGY );
 			?>
@@ -204,7 +204,7 @@ function wmd_get_listing_form( $data ) {
 			<button class="button add-new-tax">Add New</button>
 		</div>
 		<div>
-			<label for="services">Services</label>
+			<label for="services">Services You Provide</label>
 			<?php
 			$types = wmd_get_terms( WMD_Taxonomies::TYPE );
 			?>
