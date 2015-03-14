@@ -40,7 +40,7 @@ get_header(); ?>
 								<h2><?php echo esc_html( $listing->title ); ?></h2>
 								<p class="prices"><?php wmd_format_prices( $listing->low_price, $listing->high_price ); ?></p>
 								<p class="location">Located in: <?php echo esc_html( array_shift( $listing->state )->name . ', ' . array_shift( $listing->city )->name ); ?></p>
-								<?php echo $listing->content; ?>
+								<?php echo wp_kses_post( $listing->content ); ?>
 
 								<p><?php wmd_format_terms( $listing, 'types' ); ?><br />
 								<?php wmd_format_terms( $listing, 'technologies' ); ?><br />
@@ -51,7 +51,7 @@ get_header(); ?>
 						</header>
 
 						<section class="listing-cta">
-							<a href="<?php the_permalink(); ?>">View Details</a>
+							<a href="<?php echo esc_url( bp_core_get_user_domain( $listing->member_id ) ); ?>">WIMP Profile</a>
 							<a href="<?php echo esc_url( $listing->url ); ?>">Visit Website</a>
 						</section>
 
