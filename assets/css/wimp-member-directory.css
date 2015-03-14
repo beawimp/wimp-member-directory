@@ -269,10 +269,10 @@
   font-size: 1.5rem;
   font-family: "Duru Sans", sans-serif;
   background: #fff;
-  border: 1px solid #828588;
-  padding: 13px;
+  padding: 13px 13px 29px 13px;
   color: #242628;
-  margin-bottom: 13px; }
+  margin-bottom: 13px;
+  border-bottom: 1px solid #ddd; }
 
 .listing-header {
   margin-bottom: 7px; }
@@ -284,9 +284,7 @@
     float: left;
     width: 50%; }
   .listing-header .member-meta {
-    text-align: right;
-    position: relative;
-    top: 28px; }
+    text-align: right; }
     .listing-header .member-meta ul {
       list-style: none;
       margin: 0;
@@ -345,38 +343,34 @@
   .listing-cta a:last-child {
     margin-left: 2.07824%; }
 
-.wimp-member-listing {
+.single .wimp-member-listing {
   border: none;
   padding: 13px 0; }
-
-.listing-header .listing-name {
+.single .listing-header .listing-name {
   text-align: center; }
-.listing-header .member-meta {
+.single .listing-header .member-meta {
   text-align: left;
   padding: 0 20px;
   top: 0;
   color: #594f4a; }
-  .listing-header .member-meta p {
+  .single .listing-header .member-meta p {
     font-size: 22.4px;
     font-size: 1.4rem; }
-
-.member-avatar {
+.single .member-avatar {
   float: left;
   width: 20%; }
-  .member-avatar img {
+  .single .member-avatar img {
     border-radius: 37px; }
-
-.member-profile {
+.single .member-profile {
   float: left;
   width: 77.2973%;
   margin-left: 2.7027%; }
-
-#portfolio-list {
+.single #portfolio-list {
   padding: 0;
   margin: 0; }
-  #portfolio-list li {
+  .single #portfolio-list li {
     list-style: none; }
-    #portfolio-list li p {
+    .single #portfolio-list li p {
       font-size: 22.4px;
       font-size: 1.4rem;
       margin: 10px 0;
