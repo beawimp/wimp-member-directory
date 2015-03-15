@@ -45,7 +45,7 @@ get_header(); ?>
 							<div class="member-meta">
 								<h2><?php echo esc_html( $listing->title ); ?></h2>
 								<p class="prices"><?php wmd_format_prices( $listing->low_price, $listing->high_price ); ?></p>
-								<p class="location">Located in: <?php echo esc_html( array_shift( $listing->state )->name . ', ' . array_shift( $listing->city )->name ); ?></p>
+								<p class="location">Located in: <?php wmd_format_location( $listing->state, $listing->city ); ?></p>
 								<?php echo wp_kses_post( $listing->content ); ?>
 
 								<p><?php wmd_format_terms( $listing, 'types' ); ?><br />

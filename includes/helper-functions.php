@@ -165,9 +165,12 @@ function wmd_format_prices( $low, $high ) {
  * @return bool
  */
 function wmd_format_location( $state, $city ) {
-	if ( ! empty( $state ) || ! empty( $state ) ) {
+	if ( empty( $state ) || empty( $state ) ) {
 		return false;
 	}
+
+	$city = array_shift( $city )->name;
+	$state = array_shift( $state )->name;
 
 	echo esc_html( $city . ', ' . wmd_format_state( $state, 'abbr' ) );
 }

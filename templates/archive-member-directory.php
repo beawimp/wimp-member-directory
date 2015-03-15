@@ -58,7 +58,7 @@ get_header(); ?>
 							<ul>
 								<li><?php echo esc_html( $listing->title ); ?></li>
 								<li class="wmd-cost"><?php wmd_format_prices( $listing->low_price, $listing->high_price ); ?></li>
-								<li><?php echo esc_html( array_shift( $listing->state )->name . ', ' . array_shift( $listing->city )->name ); ?></li>
+								<li><?php wmd_format_location( $listing->state, $listing->city ); ?></li>
 							</ul>
 						</div>
 
