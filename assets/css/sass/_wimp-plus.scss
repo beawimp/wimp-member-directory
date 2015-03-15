@@ -1,0 +1,17 @@
+.wmd-custom-style {
+	margin-bottom:20px;
+	thead {
+		tr {
+			border-bottom:1px solid #333;
+		}
+		th {
+			padding-bottom:5px;
+		}
+	}
+	tbody tr:first-child td {
+		padding:5px 0;
+	}
+}
+.invoice-nav {
+	margin-top:20px;
+}

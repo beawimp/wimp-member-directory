@@ -38,7 +38,10 @@ module.exports = function( grunt ) {
 				eqnull:  true,
 				globals: {
 					exports: true,
-					module:  false
+					module:  false,
+					jQuery:  false,
+					console: false,
+					tinyMCE: false
 				}
 			}
 		},
@@ -146,7 +149,7 @@ module.exports = function( grunt ) {
 					'!assets/css/wimp-member-directory.css',
 					'!assets/js/wimp-member-directory.js'
 				],
-				dest: 'release/<%= pkg.version %>/'
+				dest: 'release/wimp-member-directory/'
 			}
 		},
 		compress: {
@@ -156,7 +159,7 @@ module.exports = function( grunt ) {
 					archive: './release/wimp-member-directory.<%= pkg.version %>.zip'
 				},
 				expand: true,
-				cwd: 'release/<%= pkg.version %>/',
+				cwd: 'release/',
 				src: ['**/*'],
 				dest: 'wimp-member-directory/'
 			}

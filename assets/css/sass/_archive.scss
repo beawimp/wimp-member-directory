@@ -1,0 +1,76 @@
+.wimp-member-listing {
+	@include rem-fallback( 'font-size', divide-by-base( 15 ) );
+	font-family: $base-font;
+	background: $white;
+//	border: 1px solid #828588; // Leaving for new site redesign
+	padding:13px 13px 29px 13px;
+	color:#242628;
+	margin-bottom:13px;
+	border-bottom: 1px solid #ddd;
+}
+
+.listing-header {
+	@include clearfix();
+	margin-bottom:7px;
+
+	.listing-name, .member-meta {
+		@include columnize( 50 );
+	}
+
+	.member-meta {
+		@include reset-url();
+		text-align: right;
+
+		.wmd-cost {
+			@include rem-fallback( 'font-size', divide-by-base( 15 ) );
+			font-weight: bold;
+		}
+	}
+}
+
+.directory-archive-meta {
+	@include clearfix();
+	@include rem-fallback( 'font-size', divide-by-base( 12 ) );
+	color:#5e5b5b;
+
+	a {
+		color:#242628;
+	}
+
+	.column {
+		@include columnize( 50 );
+		@include reset-url();
+	}
+
+	td:first-child {
+		@include calc-value-by( 'margin-right', 5, 409, 'em' ); // 20px / 490px = 4.88998em
+		display:block;
+	}
+}
+
+.listing-cta {
+	@include clearfix();
+	a {
+		@include columnize( 47.92 );
+		@include gradient-vertical();
+		@include rem-fallback( 'font-size', divide-by-base( 14 ) );
+		margin:10px 0 0;
+		border-radius:3px;
+		padding:16px;
+		color:$white;
+		text-align:center;
+		text-shadow:1px 1px 0px rgba( 35, 31, 32, .35 );
+		text-transform: uppercase;
+
+		&:hover {
+			color:$white;
+		}
+
+		&:first-child {
+			@include calc-value-by( 'margin-right', 8.5, 409 ); // 8.5px / 409px = 2.0782396%
+		}
+		&:last-child {
+			@include calc-value-by( 'margin-left', 8.5, 409 ); // 8.5px / 409px = 2.0782396%
+		}
+	}
+}
