@@ -20,7 +20,10 @@ class WMD_Post_Types {
 			'supports'          => array( 'title', 'editor', 'author' ),
 			'has_archive'       => true,
 			'query_var'         => true,
-			'rewrite'           => true,
+			'rewrite'           => array(
+				'slug'       => 'member-directory',
+				'with_front' => false,
+			),
 			'labels'            => array(
 				'name'               => __( 'Member Directories', 'wimp' ),
 				'singular_name'      => __( 'Member Directory', 'wimp' ),

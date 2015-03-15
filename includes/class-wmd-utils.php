@@ -6,6 +6,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class WMD_Utils {
+
+	/**
+	 * Configurations that need to be run after theme setup
+	 */
+	public static function after_setup() {
+		// Defines the image size for the logo on an archive listing
+		add_image_size( 'wmd_logo', 531, 95 );
+
+		// Set the image size for the logo on single listing
+		add_image_size( 'wmd_logo_single', 483, 373 );
+
+		// Sets the image size for portfolio images with cropping set
+		add_image_size( 'wmd_portfolio_gallery', 697, 358, true );
+
+		// Remove the login redirect forced by PMPro
+		remove_filter( 'login_redirect', 'pmpro_login_redirect', 10, 3 );
+	}
+
 	/**
 	 * Default initialization for the plugin:
 	 * - Registers the default textdomain.
@@ -47,5 +65,15 @@ class WMD_Utils {
 		if ( ! class_exists( 'cmb_Meta_Box' ) ) {
 			require_once( 'lib/cmb/init.php' );
 		}
+	}
+
+	/**
+	 * Override the the redirect when PMPro detects we don't have a valid user.
+	 * Let's push them to the sign up page instead of the lousy membership signup page.
+	 *
+	 * @return string
+	 */
+	public static function pmpro_no_user_redirect() {
+		return esc_url_raw( home_url( '/members/sign-up/' ) );
 	}
 }
