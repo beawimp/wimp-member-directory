@@ -133,6 +133,8 @@ var WMD;
 					data.isCity = true;
 				}
 
+				$SELF.parent().find( '.loading' ).slideDown();
+
 				WMD.ajax( 'wmd_save_listing_tax', nonce, data );
 			});
 		},
@@ -201,6 +203,7 @@ var WMD;
 		},
 
 		ajaxSuccess : function( data ) {
+			$( document.getElementById( 'wmd-listings' ) ).find( '.loading' ).fadeOut();
 			// Check if we are processing a taxonomy ajax request
 			if ( ! postSave ) {
 				var id = $wmdField.next().attr( 'id' );

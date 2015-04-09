@@ -168,6 +168,8 @@ function wmd_get_listing_form( $data ) {
 				</select>
 				<input type="text" name="wmd[city][new]" placeholder="Add New City" data-type="<?php echo esc_attr( WMD_Taxonomies::CITY ); ?>" class="add-new" />
 				<button class="button add-new-tax" id="add-city">Add New</button>
+				<div class="loading">
+					<img src="<?php echo esc_url( WMD_URL . 'images/loading.gif' ); ?>" alt="" /> Saving...</div>
 			</div>
 			<?php unset( $cities, $city, $state, $states, $current ); ?>
 		</div>
@@ -186,6 +188,7 @@ function wmd_get_listing_form( $data ) {
 			</select>
 			<input type="text" name="wmd[industry][new]" placeholder="Add New Industry" data-type="<?php echo esc_attr( WMD_Taxonomies::INDUSTRY ); ?>" class="add-new" />
 			<button class="button add-new-tax">Add New</button>
+			<div class="loading"><img src="<?php echo esc_url( WMD_URL . 'images/loading.gif' ); ?>" alt="" /> Saving...</div>
 		</div>
 		<div>
 			<label for="technologies">Technologies You Use</label>
@@ -202,6 +205,7 @@ function wmd_get_listing_form( $data ) {
 			</select>
 			<input type="text" name="wmd[tech][new]" placeholder="Add New Technology" data-type="<?php echo esc_attr( WMD_Taxonomies::TECHNOLOGY ); ?>" class="add-new" />
 			<button class="button add-new-tax">Add New</button>
+			<div class="loading"><img src="<?php echo esc_url( WMD_URL . 'images/loading.gif' ); ?>" alt="" /> Saving...</div>
 		</div>
 		<div>
 			<label for="services">Services You Provide</label>
@@ -218,6 +222,7 @@ function wmd_get_listing_form( $data ) {
 			</select>
 			<input type="text" name="wmd[type][new]" placeholder="Add New Service" data-type="<?php echo esc_attr( WMD_Taxonomies::TYPE ); ?>" class="add-new" />
 			<button class="button add-new-tax">Add New</button>
+			<div class="loading"><img src="<?php echo esc_url( WMD_URL . 'images/loading.gif' ); ?>" alt="" /> Saving...</div>
 		</div>
 		<div style="margin-top:20px">
 			<input type="checkbox" name="publish" id="publish" value="publish"<?php checked( 'publish', $post_status ); ?> data-save /> <label for="publish" style="display:inline-block;cursor:pointer"><strong>Publish Listing</strong></label>

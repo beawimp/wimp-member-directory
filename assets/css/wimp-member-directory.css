@@ -449,6 +449,13 @@
     color: #3c763d;
     background-color: #dff0d8;
     border-color: #3c763d; }
+#buddypress #wmd-listings .loading {
+  display: none;
+  font-size: 12px;
+  padding-top: 2px; }
+  #buddypress #wmd-listings .loading img {
+    width: 15px;
+    height: 15px; }
 
 #filter-results {
   background-color: #d3d9db; }
