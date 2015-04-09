@@ -121,7 +121,7 @@ class WMD_Member_Directory {
 			} elseif ( 'review' === $status ) {
 				wp_send_json_error( str_replace( 'wmd-', '', esc_html( $tax ) ) . ' is currently under review! Please enter a new option.' );
 			} else {
-				$message  = 'The Term ' . sanitize_text_field( $tax ) . ' - ' . absint( $already_exists ) . ' exists, but status doesn\'t seem to be set!';
+				$message  = 'The Term ' . sanitize_text_field( $term ) . ' - ' . absint( $already_exists ) . ' exists, but status doesn\'t seem to be set!';
 				wp_mail( 'cole@beawimp.org', 'Listing Manager Term Creation Error', $message );
 
 				wp_send_json_error( 'An error occured and our site administrators have been notified. Please try another option.' );
@@ -131,7 +131,7 @@ class WMD_Member_Directory {
 		$term_obj = wp_insert_term( $term, $tax );
 
 		if ( is_wp_error( $term_obj ) ) {
-			$message  = 'The Term ' . sanitize_text_field( $tax ) . ' could not be set!';
+			$message  = 'The Term ' . sanitize_text_field( $term ) . ' could not be set!';
 			wp_mail( 'cole@beawimp.org', 'Listing Manager Term Creation Error', $message );
 
 			wp_send_json_error( 'Cannot create new option. ' . esc_html( $term_obj->get_error_message() . '.' ) );
