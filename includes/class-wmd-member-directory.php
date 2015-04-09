@@ -324,7 +324,7 @@ class WMD_Member_Directory {
 				// For phase 1 we will not have different levels.
 				wp_set_object_terms( $post_id, 'large', $tax );
 			} elseif ( 'price-low' === $key || 'price-high' === $key ) {
-				wp_set_object_terms( $post_id, self::sanitize_array( $data[ $key ] ), $tax );
+				wp_set_object_terms( $post_id, self::sanitize_array( $data[ $key ], 'price' ), $tax );
 			} elseif ( 'state' === $key || 'city' === $key ) {
 				wp_set_object_terms( $post_id, absint( $data[ $key ] ), $tax );
 			} else {
@@ -352,6 +352,11 @@ class WMD_Member_Directory {
 					break;
 				case 'int':
 					$clean[ sanitize_key( $key ) ] = absint( $val );
+					break;
+				case 'price':
+					$allowed = '0123456789,.';
+					$pattern = '/[^' . preg_quote( $allowed, '/' ) . ']/';
+					$clean[ sanitize_key( $key ) ] = preg_replace( $pattern, '', sanitize_text_field( $val ) );
 					break;
 				default:
 					$clean[ sanitize_key( $key ) ] = sanitize_text_field( $val );

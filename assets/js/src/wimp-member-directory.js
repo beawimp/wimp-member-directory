@@ -104,6 +104,8 @@ var WMD;
 					}).val( attachment.url );
 
 					$el.parent().after( tmpl );
+
+					WMD.uploadPortfolio();
 				} else {
 					$val1.val( attachment.url );
 				}

@@ -18,12 +18,12 @@ function wmd_get_listing_by_user_id( $user_id = null ) {
 	}
 
 	$args = array(
-		'post_type' => 'member-directory',
-		'author' => (int) $user_id,
-		'no_found_rows' => true,
+		'post_type'              => 'member-directory',
+		'author'                 => (int) $user_id,
+		'no_found_rows'          => true,
 		'update_post_meta_cache' => false,
 		'update_post_term_cache' => false,
-		'post_status' => 'any',
+		'post_status'            => 'any',
 	);
 	$listing_query = new WP_Query( $args );
 
