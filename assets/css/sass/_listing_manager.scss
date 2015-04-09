@@ -3,6 +3,9 @@
 }
 
 #buddypress #wmd-listings {
+	input[type="text"], input[type="url"] {
+		outline: none;
+	}
 	.select2-container {
 		width:88% !important;
 		margin-bottom:10px;
@@ -63,6 +66,9 @@
 	.two-column-form {
 		.select2-container {
 			width:43.4% !important;
+		}
+		input[type="text"].price {
+			width:41.5%;
 		}
 	}
 	div > label:first-child {

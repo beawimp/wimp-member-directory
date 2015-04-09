@@ -379,6 +379,8 @@
 #buddypress div.item-list-tabs ul li a {
   padding: 5px 9px; }
 
+#buddypress #wmd-listings input[type="text"], #buddypress #wmd-listings input[type="url"] {
+  outline: none; }
 #buddypress #wmd-listings .select2-container {
   width: 88% !important;
   margin-bottom: 10px; }
@@ -424,6 +426,8 @@
   font-size: 15px; }
 #buddypress #wmd-listings .two-column-form .select2-container {
   width: 43.4% !important; }
+#buddypress #wmd-listings .two-column-form input[type="text"].price {
+  width: 41.5%; }
 #buddypress #wmd-listings div > label:first-child {
   font-size: 16px;
   margin-top: 30px; }
