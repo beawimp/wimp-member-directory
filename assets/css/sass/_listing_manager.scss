@@ -76,11 +76,17 @@
 		margin-top:30px;
 	}
 
+	#submit-container {
+		position:relative;
+	}
 	#submit-listing {
 		margin-top:30px;
 	}
 	#saving-listing {
 		display:none;
+		position:absolute;
+		top:33px;
+		left:109px;
 	}
 	.wmd-notification {
 		display:none;

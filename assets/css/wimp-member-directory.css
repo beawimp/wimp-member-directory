@@ -431,10 +431,15 @@
 #buddypress #wmd-listings div > label:first-child {
   font-size: 16px;
   margin-top: 30px; }
+#buddypress #wmd-listings #submit-container {
+  position: relative; }
 #buddypress #wmd-listings #submit-listing {
   margin-top: 30px; }
 #buddypress #wmd-listings #saving-listing {
-  display: none; }
+  display: none;
+  position: absolute;
+  top: 33px;
+  left: 109px; }
 #buddypress #wmd-listings .wmd-notification {
   display: none;
   padding: 4px;

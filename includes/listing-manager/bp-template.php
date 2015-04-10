@@ -227,7 +227,7 @@ function wmd_get_listing_form( $data ) {
 		<div style="margin-top:20px">
 			<input type="checkbox" name="publish" id="publish" value="publish"<?php checked( 'publish', $post_status ); ?> data-save /> <label for="publish" style="display:inline-block;cursor:pointer"><strong>Publish Listing</strong></label>
 		</div>
-		<div>
+		<div id="submit-container">
 			<input type="submit" value="Save Listing" id="submit-listing" />
 			<div id="saving-listing">
 				<img src="<?php echo esc_url( WMD_URL . 'images/loading.gif' ); ?>" alt="Saving Listing..." width="20" height="20" /> Saving...

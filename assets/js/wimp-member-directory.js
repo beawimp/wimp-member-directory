@@ -156,6 +156,9 @@ var WMD;
 						portfolio: {}
 					};
 
+				// Display our saving notice
+				$( document.getElementById( 'saving-listing' ) ).fadeIn();
+
 				// Store that we are currently saving the listing
 				tinyMCE.triggerSave();
 				postSave = true;
@@ -257,6 +260,8 @@ var WMD;
 		postNotifications : function( type, message ) {
 			var html = '<div class="wmd-notification wmd-' + type + '">' + message,
 				$wrapper = $( document.getElementById( 'wmd-notifications' ) );
+
+			$( document.getElementById( 'saving-listing' ) ).fadeOut();
 
 			if ( listingLive ) {
 				html += ' <a href="/membership-account/view-my-listing/">View Your Listing.</a></div>';
