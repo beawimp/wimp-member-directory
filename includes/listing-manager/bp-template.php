@@ -128,11 +128,11 @@ function wmd_get_listing_form( $data ) {
 			<label>Price Range</label>
 			<div class="two-column-form">
 				<?php
-				$price_low = ( isset( $data['low_price'][0]->slug ) ) ? $data['low_price'][0]->slug : '';
-				$price_high = ( isset( $data['high_price'][0]->slug ) ) ? $data['high_price'][0]->slug : '';
+				$price_low = ( isset( $data['low_price'][0]->slug ) ) ? number_format( $data['low_price'][0]->slug ) : '';
+				$price_high = ( isset( $data['high_price'][0]->slug ) ) ? number_format( $data['high_price'][0]->slug ) : '';
 				?>
-				$<input type="text" name="wmd[low_price]" id="price-low" class="price-low price" value="<?php echo number_format( esc_attr( $price_low ) ); ?>" placeholder="0" data-save /> to
-				$<input type="text" name="wmd[high_price]" id="price-high" class="price-high price" value="<?php echo number_format( esc_attr( $price_high ) ); ?>" placeholder="0" data-save />
+				$<input type="text" name="wmd[low_price]" id="price-low" class="price-low price" value="<?php echo esc_attr( $price_low ); ?>" placeholder="0" data-save /> to
+				$<input type="text" name="wmd[high_price]" id="price-high" class="price-high price" value="<?php echo esc_attr( $price_high ); ?>" placeholder="0" data-save />
 			</div>
 			<?php unset( $price_low, $price_high ); ?>
 		</div>
