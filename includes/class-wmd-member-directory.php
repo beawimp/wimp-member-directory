@@ -31,6 +31,7 @@ class WMD_Member_Directory {
 		add_action( 'wp_ajax_wmd_save_listing_tax', array( __CLASS__, 'save_taxonomy_ajax' ) );
 		add_action( 'wp_ajax_wmd_save_listing_post', array( __CLASS__, 'save_listing' ) );
 		add_action( 'pre_get_posts', array( __CLASS__, 'post_query' ) );
+		add_action( 'wimp_logged_in_notice', array( __CLASS__, 'wimp_plus_signup_toolbar' ) );
 
 		add_filter( 'template_include', array( __CLASS__, 'member_directory_templates' ) );
 		add_filter( 'cmb_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
@@ -495,6 +496,20 @@ class WMD_Member_Directory {
 		$message .= 'Data: ' . sanitize_text_field( $data );
 
 		wp_mail( 'cole@beawimp.org', 'WIMP Error Logged', $message );
+	}
+
+	/**
+	 * Adds a promo link to non-WIMP+ members in the toolbar
+	 */
+	public function wimp_plus_signup_toolbar() {
+		if ( wmd_is_wimp_plus_member() ) {
+			$string = '';
+		} else {
+			$string = '<p class="wmd-wimp-plus-notice"><a href="%s">Get more out of WIMP! Signup for WIMP+</a></p>';
+			$string = sprintf( $string, esc_url( wmd_get_membership_url() ) );
+		}
+
+		echo $string;
 	}
 }
 $wmd_member_directory = new WMD_Member_Directory();
