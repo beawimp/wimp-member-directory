@@ -44,8 +44,32 @@
 		border:1px solid #E5E5E5;
 	}
 
-	.portfolio-wrapper {
+	.portfolio-items {
+		@include clearfix();
+	}
+	.portfolio-item {
+		position: relative;
 		margin-bottom:10px;
+		float:left;
+		margin-right:10px;
+		margin-bottom:10px;
+		.upload-portfolio, .wmd-control, .change-portfolio {
+			cursor: pointer;
+		}
+		.wmd-control {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			opacity:.2;
+			background-color:#fff;
+			width:21px;
+			height:21px;
+			border-radius:4px;
+			transition: all .3s;
+			&:hover {
+				opacity: .8;
+			}
+		}
 	}
 	.description p {
 		@include rem-fallback( 'font-size', divide-by-base( 12 ) );

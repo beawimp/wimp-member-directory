@@ -409,8 +409,30 @@
   height: 200px; }
 #buddypress #wmd-listings #wp-content-editor-container {
   border: 1px solid #E5E5E5; }
-#buddypress #wmd-listings .portfolio-wrapper {
+#buddypress #wmd-listings .portfolio-items:after {
+  content: "";
+  display: table;
+  clear: both; }
+#buddypress #wmd-listings .portfolio-item {
+  position: relative;
+  margin-bottom: 10px;
+  float: left;
+  margin-right: 10px;
   margin-bottom: 10px; }
+  #buddypress #wmd-listings .portfolio-item .upload-portfolio, #buddypress #wmd-listings .portfolio-item .wmd-control, #buddypress #wmd-listings .portfolio-item .change-portfolio {
+    cursor: pointer; }
+  #buddypress #wmd-listings .portfolio-item .wmd-control {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: .2;
+    background-color: #fff;
+    width: 21px;
+    height: 21px;
+    border-radius: 4px;
+    transition: all .3s; }
+    #buddypress #wmd-listings .portfolio-item .wmd-control:hover {
+      opacity: .8; }
 #buddypress #wmd-listings .description p {
   font-size: 19.2px;
   font-size: 1.2rem;
