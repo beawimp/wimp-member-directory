@@ -103,19 +103,23 @@ function wmd_get_listing_form( $data ) {
 			<div class="description">
 				<p>Pro Tip: Any captions you add to images will display on your listing!</p>
 			</div>
-			<div class="media-upload">
+			<div class="media-upload portfolio-items">
 				<?php
 				if ( ! empty( $data['portfolio'] ) ) :
 					foreach ( $data['portfolio'] as $id => $image ) : ?>
-						<div class="portfolio-wrapper">
-							<input type="text" name="wmd[portfolio][<?php echo esc_attr( $id ); ?>]" value="<?php echo esc_attr( $image ); ?>" data-id="<?php echo esc_attr( $id ); ?>" data-type="portfolio" data-save />
-							<input type="button" value="Add Image" class="wmd-media-btn button upload-portfolio" />
+						<div class="portfolio-item">
+							<div class="wmd-media-btn change-portfolio">
+								<span class="wmd-control dashicons dashicons-trash"></span>
+								<img src="<?php echo wp_get_attachment_image_src( $id )[0]; ?>" width="150" height="150">
+							</div>
+							<input type="hidden" name="wmd[portfolio][<?php echo esc_attr( $id ); ?>]" value="<?php echo esc_attr( $image ); ?>" data-id="<?php echo esc_attr( $id ); ?>" data-type="portfolio" data-save />
 						</div>
 					<?php endforeach;
 				endif; ?>
-				<div class="portfolio-wrapper">
-					<input type="text" name="wmd[portfolio][0]" value="" data-id="0" data-type="portfolio" data-save />
-					<input type="button" value="Add Image" class="wmd-media-btn button upload-portfolio" />
+				<div class="portfolio-item upload-btn">
+					<div class="wmd-media-btn upload-portfolio">
+						<img src="<?php echo esc_url( WMD_URL . '/images/add-new-image-x2.jpg' ); ?>" width="150" height="150" alt="Add New Portfolio Image">
+					</div>
 				</div>
 			</div>
 			<?php unset( $id, $image ); ?>
@@ -128,11 +132,11 @@ function wmd_get_listing_form( $data ) {
 			<label>Price Range</label>
 			<div class="two-column-form">
 				<?php
-				$price_low = ( isset( $data['low_price'][0]->slug ) ) ? $data['low_price'][0]->slug : '';
-				$price_high = ( isset( $data['high_price'][0]->slug ) ) ? $data['high_price'][0]->slug : '';
+				$price_low = ( isset( $data['low_price'][0]->slug ) ) ? number_format( $data['low_price'][0]->slug ) : '';
+				$price_high = ( isset( $data['high_price'][0]->slug ) ) ? number_format( $data['high_price'][0]->slug ) : '';
 				?>
-				$<input type="text" name="wmd[low_price]" id="price-low" class="price-low price" value="<?php echo number_format( esc_attr( $price_low ) ); ?>" placeholder="0" data-save /> to
-				$<input type="text" name="wmd[high_price]" id="price-high" class="price-high price" value="<?php echo number_format( esc_attr( $price_high ) ); ?>" placeholder="0" data-save />
+				$<input type="text" name="wmd[low_price]" id="price-low" class="price-low price" value="<?php echo esc_attr( $price_low ); ?>" placeholder="0" data-save /> to
+				$<input type="text" name="wmd[high_price]" id="price-high" class="price-high price" value="<?php echo esc_attr( $price_high ); ?>" placeholder="0" data-save />
 			</div>
 			<?php unset( $price_low, $price_high ); ?>
 		</div>
@@ -227,7 +231,7 @@ function wmd_get_listing_form( $data ) {
 		<div style="margin-top:20px">
 			<input type="checkbox" name="publish" id="publish" value="publish"<?php checked( 'publish', $post_status ); ?> data-save /> <label for="publish" style="display:inline-block;cursor:pointer"><strong>Publish Listing</strong></label>
 		</div>
-		<div>
+		<div id="submit-container">
 			<input type="submit" value="Save Listing" id="submit-listing" />
 			<div id="saving-listing">
 				<img src="<?php echo esc_url( WMD_URL . 'images/loading.gif' ); ?>" alt="Saving Listing..." width="20" height="20" /> Saving...
@@ -236,9 +240,12 @@ function wmd_get_listing_form( $data ) {
 		</div>
 	</form>
 	<script type="text/template" id="portfolio-tmpl">
-		<div class="portfolio-wrapper">
-			<input type="text" name="wmd[portfolio][0]" value="" data-id="0" data-type="portfolio" data-save />
-			<input type="button" value="Add Image" class="wmd-media-btn button upload-portfolio" />
+		<div class="portfolio-item">
+			<div class="wmd-media-btn change-portfolio">
+				<span class="wmd-control dashicons dashicons-trash"></span>
+				<img src="<%- data.thumb %>" width="150" height="150" alt="<%- data.alt %>">
+			</div>
+			<input type="hidden" name="<%- data.name %>" data-id="<%- data.id %>" data-type="portfolio" value="<%- data.url %>" data-save />
 		</div>
 	</script>
 	<?php

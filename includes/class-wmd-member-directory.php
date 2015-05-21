@@ -31,6 +31,7 @@ class WMD_Member_Directory {
 		add_action( 'wp_ajax_wmd_save_listing_tax', array( __CLASS__, 'save_taxonomy_ajax' ) );
 		add_action( 'wp_ajax_wmd_save_listing_post', array( __CLASS__, 'save_listing' ) );
 		add_action( 'pre_get_posts', array( __CLASS__, 'post_query' ) );
+		add_action( 'wimp_logged_in_notice', array( __CLASS__, 'wimp_plus_signup_toolbar' ) );
 
 		add_filter( 'template_include', array( __CLASS__, 'member_directory_templates' ) );
 		add_filter( 'cmb_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
@@ -121,8 +122,7 @@ class WMD_Member_Directory {
 			} elseif ( 'review' === $status ) {
 				wp_send_json_error( str_replace( 'wmd-', '', esc_html( $tax ) ) . ' is currently under review! Please enter a new option.' );
 			} else {
-				$message  = 'The Term ' . sanitize_text_field( $term ) . ' - ' . absint( $already_exists ) . ' exists, but status doesn\'t seem to be set!';
-				wp_mail( 'cole@beawimp.org', 'Listing Manager Term Creation Error', $message );
+				self::notify( 'Term exists with no status', 'The term being set was found but doesn\'t have a status', json_encode( array( $term, $tax, 'term_id' => $already_exists ) ) );
 
 				wp_send_json_error( 'An error occured and our site administrators have been notified. Please try another option.' );
 			}
@@ -131,8 +131,7 @@ class WMD_Member_Directory {
 		$term_obj = wp_insert_term( $term, $tax );
 
 		if ( is_wp_error( $term_obj ) ) {
-			$message  = 'The Term ' . sanitize_text_field( $term ) . ' could not be set!';
-			wp_mail( 'cole@beawimp.org', 'Listing Manager Term Creation Error', $message );
+			self::notify( 'Term could not be set', 'wp_insert_term failed', json_encode( array( $term, $tax, $term_obj ) ) );
 
 			wp_send_json_error( 'Cannot create new option. ' . esc_html( $term_obj->get_error_message() . '.' ) );
 		}
@@ -149,14 +148,17 @@ class WMD_Member_Directory {
 
 	public static function save_listing() {
 		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'create-edit-listing' ) ) {
+			self::notify( 'Could not save listing', 'Nonce check failed', json_encode( $_POST ) );
 			wp_send_json_error( 'Cannot validate request.' );
 		}
 
 		if ( ! wmd_is_wimp_plus_member() ) {
+			self::notify( 'Could not save listing', 'User is not a WIMP+ member', 'User ID: ' . get_current_user_id() );
 			wp_send_json_error( 'You do not have sufficient permissions to complete this request.' );
 		}
 
 		if ( ! isset( $_POST['data'] ) || empty( $_POST['data'] ) ) {
+			self::notify( 'Could not save listing', 'No data found to process', json_encode( $_POST ) );
 			wp_send_json_error( 'No data found!' );
 		}
 
@@ -172,6 +174,7 @@ class WMD_Member_Directory {
 		if ( $status ) {
 			wp_send_json_success( 'Member Listing Saved!' );
 		} else {
+			self::notify( 'Could not save listing', 'Update Listing returned false', json_encode( $post_id, $_POST['data'] ) );
 			wp_send_json_error( 'An error occurred! Please try again.' );
 		}
 	}
@@ -271,6 +274,7 @@ class WMD_Member_Directory {
 
 		// Make sure we have a post actually saved.
 		if ( 0 === $post_id ) {
+			self::notify( 'Could not save listing', 'The post ID from wp_update or wp_insert returned 0', json_encode( $post_data ) );
 			return false;
 		}
 
@@ -476,6 +480,36 @@ class WMD_Member_Directory {
 		);
 
 		return $meta_boxes;
+	}
+
+	/**
+	 * Allows us to send an email notification so we can get warnings and all the details of when something happened
+	 *
+	 * @param $action
+	 * @param $description
+	 * @param $data
+	 */
+	protected function notify( $action, $description, $data ) {
+		$message  = '<h2>WIMP Notification</h2>' . "\n";
+		$message .= 'Action: ' . sanitize_text_field( $action ) . "\n";
+		$message .= 'Details: ' . sanitize_text_field( $description ) . "\n";
+		$message .= 'Data: ' . sanitize_text_field( $data );
+
+		wp_mail( 'cole@beawimp.org', 'WIMP Error Logged', $message );
+	}
+
+	/**
+	 * Adds a promo link to non-WIMP+ members in the toolbar
+	 */
+	public function wimp_plus_signup_toolbar() {
+		if ( wmd_is_wimp_plus_member() ) {
+			$string = '';
+		} else {
+			$string = '<p class="wmd-wimp-plus-notice"><a href="%s">Get more out of WIMP! Signup for WIMP+</a></p>';
+			$string = sprintf( $string, esc_url( wmd_get_membership_url() ) );
+		}
+
+		echo $string;
 	}
 }
 $wmd_member_directory = new WMD_Member_Directory();

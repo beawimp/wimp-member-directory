@@ -1,4 +1,4 @@
-/* global: jQuery, console, tinyMCE */
+/* global: jQuery, _, console, tinyMCE */
 
 /**
  * WIMP Member Directory
@@ -10,7 +10,7 @@
 
 var WMD;
 
-( function( window, $, undefined ) {
+( function( window, $, _, undefined ) {
 	'use strict';
 
 	var document = window.document,
@@ -25,6 +25,8 @@ var WMD;
 		init : function() {
 			WMD.uploadLogo();
 			WMD.uploadPortfolio();
+			WMD.deletePortfolio();
+			WMD.changePortfolio();
 			WMD.editListing();
 			WMD.saveListing();
 
@@ -57,14 +59,30 @@ var WMD;
 		},
 
 		uploadPortfolio : function() {
-			$( document.getElementsByClassName( 'upload-portfolio' ) ).click( function( e ) {
+			$( document.getElementsByClassName( 'upload-portfolio' ) ).on( 'click', function( e ) {
 				e.preventDefault();
 
-				WMD.media( $( e.target ) );
+				WMD.media( $( e.target ), 'upload' );
 			});
 		},
 
-		media : function( $el ) {
+		deletePortfolio : function() {
+			$( document.getElementsByClassName( 'wmd-control' ) ).on( 'click', function( e ) {
+				e.preventDefault();
+
+				$( e.target ).parents( '.portfolio-item' ).remove();
+			});
+		},
+
+		changePortfolio : function() {
+			$( document.getElementsByClassName( 'change-portfolio' ) ).on( 'click', function( e ) {
+				e.preventDefault();
+
+				WMD.media( $( e.target ), 'update' );
+			});
+		},
+
+		media : function( $el, type ) {
 			// If the frame already exists, reopen it.
 			if ( typeof( wmdFrame ) !== 'undefined' ) {
 				wmdFrame.close();
@@ -84,30 +102,36 @@ var WMD;
 
 			// Callback for the selected image
 			wmdFrame.on( 'select', function() {
-				var attachment = wmdFrame.state().get( 'selection' ).first().toJSON(),
-					$val1 = $el.prev(),
-					id = $val1.attr( 'id' );
 
-				if ( 'logo-id' === id ) {
-					var $val2 = $val1.prev();
+				var attachment = wmdFrame.state().get( 'selection' ).first().toJSON();
 
-					$val1.val( attachment.id );
-					$val2.val( attachment.url );
-				} else if ( 'portfolio' === $val1.attr( 'data-type' ) ) {
-					var attachmentID = attachment.id,
-						name = 'wmd[portfolio][' + attachmentID + ']',
-						tmpl = $( document.getElementById( 'portfolio-tmpl' ) ).html();
+				if ( 'upload' === type ) {
+					_.templateSettings.variable = 'data';
 
-					$val1.attr({
-						'name' : name,
-						'data-id' : attachmentID
-					}).val( attachment.url );
+					var tmpl = _.template( $( document.getElementById( 'portfolio-tmpl' ) ).html() ),
+						data = {
+							url   : attachment.sizes.full.url,
+							thumb : attachment.sizes.thumbnail.url,
+							id    : attachment.id,
+							alt   : attachment.title,
+							name  : 'wmd[portfolio][' + attachment.id + ']'
+						};
 
-					$el.parent().after( tmpl );
+					$( document.getElementsByClassName( 'portfolio-items' ) )
+						.find( '.upload-btn' )
+						.before( tmpl( data ) );
+				} else if ( 'update' === type ) {
+					// Update the image we clicked with the new image selected
+					$el.attr( 'src' , attachment.sizes.thumbnail.url );
 
-					WMD.uploadPortfolio();
-				} else {
-					$val1.val( attachment.url );
+					var id = attachment.id;
+
+					// Update the hidden form field
+					$el.parent().next().attr({
+						'value' : attachment.sizes.full.url,
+						'name' : 'wmd[portfolio][' + id + ']',
+						'data-id' : id
+					});
 				}
 			});
 
@@ -153,11 +177,19 @@ var WMD;
 						portfolio: {}
 					};
 
+				// Check we have entered a title
+				if ( '' !== $( document.getElementById( 'title' ) ).val() ) {
+					return WMD.postNotifications( 'error', 'A title is required!' );
+				}
+
+				// Display our saving notice
+				$( document.getElementById( 'saving-listing' ) ).fadeIn();
+
 				// Store that we are currently saving the listing
 				tinyMCE.triggerSave();
 				postSave = true;
 
-				data['content'] = tinyMCE.get( 'content' ).getContent();
+				data['content'] = tinyMCE.activeEditor.getContent();
 				data['id']      = $SELF.find( '#id' ).val();
 
 				for ( var i = 0; i < inputs.length; i++ ) {
@@ -255,6 +287,8 @@ var WMD;
 			var html = '<div class="wmd-notification wmd-' + type + '">' + message,
 				$wrapper = $( document.getElementById( 'wmd-notifications' ) );
 
+			$( document.getElementById( 'saving-listing' ) ).fadeOut();
+
 			if ( listingLive ) {
 				html += ' <a href="/membership-account/view-my-listing/">View Your Listing.</a></div>';
 			}
@@ -302,4 +336,4 @@ var WMD;
 
 	// Fire events on document ready
 	$( document ).ready( WMD.init );
-} )( this, jQuery );
+} )( this, jQuery, _ );

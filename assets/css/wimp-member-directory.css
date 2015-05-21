@@ -377,7 +377,7 @@
       color: #594f4a; }
 
 #buddypress div.item-list-tabs ul li a {
-  padding: 5px 9px; }
+  padding: 5px; }
 
 #buddypress #wmd-listings input[type="text"], #buddypress #wmd-listings input[type="url"] {
   outline: none; }
@@ -409,8 +409,30 @@
   height: 200px; }
 #buddypress #wmd-listings #wp-content-editor-container {
   border: 1px solid #E5E5E5; }
-#buddypress #wmd-listings .portfolio-wrapper {
+#buddypress #wmd-listings .portfolio-items:after {
+  content: "";
+  display: table;
+  clear: both; }
+#buddypress #wmd-listings .portfolio-item {
+  position: relative;
+  margin-bottom: 10px;
+  float: left;
+  margin-right: 10px;
   margin-bottom: 10px; }
+  #buddypress #wmd-listings .portfolio-item .upload-portfolio, #buddypress #wmd-listings .portfolio-item .wmd-control, #buddypress #wmd-listings .portfolio-item .change-portfolio {
+    cursor: pointer; }
+  #buddypress #wmd-listings .portfolio-item .wmd-control {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: .2;
+    background-color: #fff;
+    width: 21px;
+    height: 21px;
+    border-radius: 4px;
+    transition: all .3s; }
+    #buddypress #wmd-listings .portfolio-item .wmd-control:hover {
+      opacity: .8; }
 #buddypress #wmd-listings .description p {
   font-size: 19.2px;
   font-size: 1.2rem;
@@ -431,10 +453,15 @@
 #buddypress #wmd-listings div > label:first-child {
   font-size: 16px;
   margin-top: 30px; }
+#buddypress #wmd-listings #submit-container {
+  position: relative; }
 #buddypress #wmd-listings #submit-listing {
   margin-top: 30px; }
 #buddypress #wmd-listings #saving-listing {
-  display: none; }
+  display: none;
+  position: absolute;
+  top: 33px;
+  left: 109px; }
 #buddypress #wmd-listings .wmd-notification {
   display: none;
   padding: 4px;

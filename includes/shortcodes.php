@@ -8,11 +8,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WMD_Shortcodes {
 
 	public function __construct() {
-		add_shortcode( 'member-directory', array( __CLASS__, 'get_member_directory' ) );
+		add_shortcode( 'wimp-signup-url', array( __CLASS__, 'signup_url' ) );
 	}
 
-	public static function get_member_directory() {
-		echo 'asdfdsf';
+	public static function signup_url( $attrs, $content = null ) {
+		$atts = shortcode_atts( array(
+			'class' => '',
+		), $attrs );
+
+		if ( wmd_is_wimp_plus_member() ) {
+			$url = wmd_get_membership_url();
+		} else {
+			$url = home_url( '/members/sign-up' );
+		}
+
+		if ( ! empty( $atts['class'] ) ) {
+			$classes = ' class="' . esc_attr( $atts['class'] ) . '"';
+		} else {
+			$classes = '';
+		}
+
+		return sprintf( '<a href="%s"%s>%s</a>', esc_url( $url ), $classes, esc_html( $content ) );
 	}
 }
 new WMD_Shortcodes();
