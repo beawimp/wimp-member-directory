@@ -81,7 +81,7 @@ add_action( 'after_setup_theme',     array( 'WMD_Utils',      'after_setup',    
  */
 function wmd_bp_membership_component_init() {
 	// Because our loader file uses BP_Component, it requires BP 1.5 or greater.
-	if ( version_compare( BP_VERSION, '1.3', '>' ) ) {
+	if ( version_compare( BP_VERSION, '1.3', '>' )  ) {
 		require( WMD_INCLUDES . '/membership/bp-membership-loader.php' );
 		require( WMD_INCLUDES . '/membership/bp-membership-shortcodes.php' );
 		require( WMD_INCLUDES . '/listing-manager/bp-listing-manager-loader.php' );
